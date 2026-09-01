@@ -1,0 +1,19 @@
+{
+  "name": "syncore-control-plane",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "KIRANA Agent Financial Control Plane (Zone 1) — frozen architecture v1.0, Phase 0 + Gate G1a.",
+  "engines": {
+    "node": ">=22.6"
+  },
+  "scripts": {
+    "test": "node --test",
+    "demo": "node src/demo.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "typescript": "^5.5.4"
+  }
+}

@@ -1,0 +1,12 @@
+%% Product discovery flow
+flowchart TD
+    Q[SearchQuery per item] --> R[Registry.healthy_adapters]
+    R --> S1[adapter.search_products]
+    R --> S2[adapter.search_products]
+    S1 --> M[Merge offers by item]
+    S2 --> M
+    M --> V[quality.validate_offer]
+    V -->|ok| K[Clean offers + confidence]
+    V -->|hard fail| X[Reject + count]
+    K --> RANK[RankingEngine.rank]
+    X -.-> LOG[log rejected]

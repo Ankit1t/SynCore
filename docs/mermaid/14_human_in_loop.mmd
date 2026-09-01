@@ -1,0 +1,18 @@
+%% Human-in-the-loop checkpoints
+flowchart TD
+    E[Agent reaches decision point] --> C{Checkpoint needed?}
+    C -- Budget exceeded --> H1[BUDGET_EXCEEDED]
+    C -- Unknown vendor --> H2[UNKNOWN_VENDOR]
+    C -- High value / category --> H3[HIGH_RISK_TRANSACTION]
+    C -- Provider needs auth --> H4[PAYMENT_AUTHENTICATION_REQUIRED]
+    C -- Ambiguous product --> H5[AMBIGUOUS_PRODUCT]
+    C -- Substitution --> H6[SUBSTITUTION_REQUIRES_APPROVAL]
+    H1 --> P[Present: what / why / amount / vendor / risk / action]
+    H2 --> P
+    H3 --> P
+    H4 --> P
+    H5 --> P
+    H6 --> P
+    P --> U{User approves?}
+    U -- yes --> RES[Resume run]
+    U -- no --> CAN[CANCELLED]

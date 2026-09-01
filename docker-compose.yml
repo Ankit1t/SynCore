@@ -1,0 +1,64 @@
+# Local development / demo stack for Syncore.
+#
+#   docker compose up --build            # api + web only (SQLite, zero infra)
+#   docker compose --profile full up     # + Postgres + Redis (production-like)
+#
+# The API defaults to SQLite so the base stack needs no database container.
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      ENVIRONMENT: local
+      # Base stack uses SQLite inside the container. Switch to Postgres by
+      # uncommenting the next line and starting the `full` profile.
+      # DATABASE_URL: postgresql+psycopg://syncore:syncore@postgres:5432/syncore
+      # REDIS_URL: redis://redis:6379/0
+      MARKETPLACE_MODE: mock
+      BROWSER_MODE: mock
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/health/live').status==200 else 1)"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    environment:
+      # In the container network the API is reachable as http://api:8000
+      NEXT_PUBLIC_API_BASE: http://api:8000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+
+  postgres:
+    image: postgres:16-alpine
+    profiles: ["full"]
+    environment:
+      POSTGRES_USER: syncore
+      POSTGRES_PASSWORD: syncore
+      POSTGRES_DB: syncore
+    ports:
+      - "5432:5432"
+    volumes:
+      - syncore_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U syncore"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    profiles: ["full"]
+    ports:
+      - "6379:6379"
+
+volumes:
+  syncore_pg:

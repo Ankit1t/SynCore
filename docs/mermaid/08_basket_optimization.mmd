@@ -1,0 +1,14 @@
+%% Basket optimization (basket-level economics)
+flowchart TD
+    RB[Ranked offers per item] --> PM[Per marketplace: pick best offer per item]
+    PM --> PR["Price basket: items + estimate_fees(subtotal)"]
+    PR --> CH{Choose best per objective}
+    CH --> BUD{Within hard budget?}
+    BUD -- yes --> OK[Basket ready]
+    BUD -- no --> RE[Re-optimize CHEAPEST across all marketplaces]
+    RE --> BUD2{Fits budget?}
+    BUD2 -- yes --> OK
+    BUD2 -- no --> DROP[Drop optional items]
+    DROP --> BUD3{Fits budget?}
+    BUD3 -- yes --> OK
+    BUD3 -- no --> REV[within_budget=false -> USER_REVIEW_REQUIRED]

@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  background-color: #0b1020;
+  color: #e8ecf6;
+}
+
+.card {
+  background-color: #131a2e;
+  border: 1px solid #26304d;
+  border-radius: 14px;
+}
+
+.timeline::-webkit-scrollbar {
+  width: 8px;
+}
+.timeline::-webkit-scrollbar-thumb {
+  background: #26304d;
+  border-radius: 8px;
+}
+
+/* Loading spinners for the composer button and active timeline step. */
+.spinner,
+.spinner-sm {
+  border-radius: 9999px;
+  border-style: solid;
+  border-color: currentColor;
+  border-top-color: transparent;
+  animation: syncore-spin 0.7s linear infinite;
+}
+.spinner {
+  width: 14px;
+  height: 14px;
+  border-width: 2px;
+}
+.spinner-sm {
+  width: 14px;
+  height: 14px;
+  border-width: 2px;
+  color: #5b8cff;
+}
+
+@keyframes syncore-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner,
+  .spinner-sm {
+    animation-duration: 1.6s;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

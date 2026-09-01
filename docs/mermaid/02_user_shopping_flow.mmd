@@ -1,0 +1,16 @@
+%% User shopping flow
+sequenceDiagram
+    actor U as User
+    participant UI as Web UI
+    participant API as API
+    participant AG as Orchestrator
+    U->>UI: "₹500 ke andar 1kg aloo, 100g mirch, 2 Maggi"
+    UI->>API: GET /shopping-requests/stream/live?text=...
+    API->>AG: parse + run (SSE)
+    AG-->>UI: step: INTENT_PARSED
+    AG-->>UI: step: SEARCHING / RANKING / OPTIMIZING
+    AG-->>UI: step: BASKET_READY (₹89.24, within budget)
+    AG-->>UI: step: CART_VERIFIED / CHECKOUT_READY
+    AG-->>UI: step: PAYMENT_PROCESSING / ORDER_PLACED
+    AG-->>UI: final: COMPLETED (Order ORD-XXXX)
+    UI-->>U: Basket + order summary

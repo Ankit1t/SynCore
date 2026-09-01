@@ -1,0 +1,11 @@
+%% Authorization
+flowchart TD
+    REQ[Authenticated request] --> ROLE{Role?}
+    ROLE -- ADMIN --> ADM[Admin endpoints allowed]
+    ROLE -- USER --> OWN{Owns resource? user_id match}
+    OWN -- no --> DENY[403 / 404]
+    OWN -- yes --> ACT{Action type}
+    ACT -- read/write own data --> ALLOW[Allow]
+    ACT -- spend money --> POL{Payment policy}
+    POL -- within limits + trusted --> ALLOW
+    POL -- else --> HITL[Human checkpoint]

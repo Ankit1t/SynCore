@@ -1,0 +1,12 @@
+%% Cart building with state verification
+flowchart TD
+    B[Basket items] --> L[For each item]
+    L --> ADD["add_to_cart(sku, packs)"]
+    ADD --> RE[Re-read cart]
+    RE --> CK{sku present AND qty increased by packs?}
+    CK -- no --> ERR[CartVerificationError]
+    CK -- yes --> NX[Next item]
+    NX --> VC["verify_cart(expected sku:qty)"]
+    VC --> OK{All match, no extras?}
+    OK -- no --> ERR
+    OK -- yes --> DONE[Cart verified]

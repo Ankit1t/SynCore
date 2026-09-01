@@ -1,0 +1,9 @@
+%% Checkout + price-change protection
+flowchart TD
+    V[Cart verified] --> CO[adapter.get_checkout]
+    CO --> FT[Authoritative final_total]
+    FT --> DR[Compute drift vs search estimate]
+    DR --> BG{check_budget on final_total}
+    BG -- over hard --> STOP[USER_REVIEW_REQUIRED, stop before pay]
+    BG -- ok --> GUARD[Final transaction guard]
+    GUARD --> PAY[Payment]

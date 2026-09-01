@@ -1,0 +1,13 @@
+%% Failure recovery
+flowchart TD
+    F{Failure type}
+    F -- Product unavailable --> R1[Search replacement / substitution]
+    F -- Price changed --> R2[Recompute budget on real total]
+    F -- Cart expired --> R3[Rebuild cart idempotently]
+    F -- Browser crashed --> R4[Restore session if safe else fail]
+    F -- Payment timeout --> R5[Check status BEFORE retry]
+    F -- Duplicate risk --> R6[Reconcile via idempotency store]
+    F -- Scraper failure --> R7[Fallback source / partial result]
+    F -- LLM timeout/malformed --> R8[Deterministic fallback]
+    R5 --> SAFE[[Never blind-retry financial ops]]
+    R6 --> SAFE

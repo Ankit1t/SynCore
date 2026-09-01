@@ -1,0 +1,15 @@
+%% Event-driven architecture
+flowchart LR
+    ORC[Orchestrator] -->|publish| BUS[(Event Bus)]
+    BUS --> SSE[SSE stream -> UI]
+    BUS --> AUD[Audit logger]
+    BUS --> MET[Metrics / analytics]
+    BUS --> REC[Reconciliation - future]
+    subgraph Backends
+        MEM[In-memory - MVP]
+        RS[Redis Streams - future]
+        KF[Kafka - future]
+    end
+    BUS -. swap .-> MEM
+    BUS -. swap .-> RS
+    BUS -. swap .-> KF

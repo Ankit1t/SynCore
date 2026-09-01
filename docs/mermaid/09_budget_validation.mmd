@@ -1,0 +1,9 @@
+%% Budget validation (two gates)
+flowchart TD
+    T1[Advisory total after optimize] --> G1{check_budget}
+    G1 -- over hard --> R1[Recover / review]
+    G1 -- ok --> EXEC[Execute: build + verify cart]
+    EXEC --> T2[Authoritative checkout total]
+    T2 --> G2{check_budget again}
+    G2 -- over hard --> R2[USER_REVIEW_REQUIRED, no payment]
+    G2 -- ok --> PAY[Proceed to transaction guard + payment]

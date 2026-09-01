@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Syncore — AI Shopping Agent</title>
+  <style>
+    :root {
+      --bg:#0b1020; --panel:#131a2e; --panel2:#1b2540; --text:#e8ecf6; --muted:#8a97b8;
+      --accent:#5b8cff; --good:#37d39b; --warn:#ffb020; --bad:#ff5d5d; --line:#26304d;
+    }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif; background:var(--bg); color:var(--text); }
+    header { padding:20px 28px; border-bottom:1px solid var(--line); display:flex; align-items:center; gap:14px; }
+    header .logo { width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,#5b8cff,#37d39b); display:flex;align-items:center;justify-content:center;font-weight:800;color:#0b1020; }
+    header h1 { font-size:18px; margin:0; letter-spacing:.3px; }
+    header .sub { color:var(--muted); font-size:13px; }
+    .wrap { max-width:1100px; margin:0 auto; padding:24px 28px 60px; }
+    .composer { display:flex; gap:10px; margin-bottom:18px; }
+    .composer input { flex:1; padding:14px 16px; border-radius:12px; border:1px solid var(--line); background:var(--panel); color:var(--text); font-size:15px; }
+    .composer button { padding:0 22px; border:0; border-radius:12px; background:var(--accent); color:#fff; font-weight:700; cursor:pointer; font-size:15px; }
+    .composer button:disabled { opacity:.5; cursor:default; }
+    .grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+    @media (max-width:840px){ .grid{ grid-template-columns:1fr; } }
+    .card { background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:16px 18px; }
+    .card h2 { font-size:13px; text-transform:uppercase; letter-spacing:.8px; color:var(--muted); margin:0 0 12px; }
+    .timeline { list-style:none; margin:0; padding:0; max-height:520px; overflow:auto; }
+    .timeline li { display:flex; gap:10px; padding:8px 0; border-bottom:1px dashed var(--line); font-size:14px; }
+    .timeline li .st { color:var(--accent); font-weight:700; min-width:180px; font-size:12px; }
+    .pill { display:inline-block; padding:2px 9px; border-radius:999px; font-size:12px; font-weight:700; }
+    .pill.good{ background:rgba(55,211,155,.15); color:var(--good);} .pill.warn{ background:rgba(255,176,32,.15); color:var(--warn);} .pill.bad{ background:rgba(255,93,93,.15); color:var(--bad);}
+    table { width:100%; border-collapse:collapse; font-size:14px; }
+    td,th { text-align:left; padding:7px 6px; border-bottom:1px solid var(--line); }
+    th { color:var(--muted); font-weight:600; font-size:12px; }
+    .tot { display:flex; justify-content:space-between; padding:4px 0; font-size:14px; }
+    .tot.grand { font-size:17px; font-weight:800; border-top:1px solid var(--line); margin-top:6px; padding-top:10px; }
+    .muted { color:var(--muted); }
+    .reasons { color:var(--muted); font-size:12px; }
+    .examples { margin-top:8px; }
+    .examples button { background:var(--panel2); border:1px solid var(--line); color:var(--muted); border-radius:999px; padding:6px 12px; margin:0 6px 6px 0; cursor:pointer; font-size:12px; }
+    .empty { color:var(--muted); font-size:14px; padding:14px 0; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">S</div>
+    <div>
+      <h1>Syncore</h1>
+      <div class="sub">Your autonomous shopping agent</div>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="composer">
+      <input id="q" aria-label="Instruction for your shopping agent"
+             placeholder="Tell your agent what to buy — it will handle the rest." />
+      <button id="go" aria-label="Let the agent handle your instruction">Let Agent Handle It →</button>
+    </div>
+    <div class="examples" id="examples">
+      <button data-q="Order groceries for dinner under ₹500">Order groceries for dinner under ₹500</button>
+      <button data-q="Get my weekly groceries within ₹1,500">Get my weekly groceries within ₹1,500</button>
+      <button data-q="Buy ingredients for tonight's dinner">Buy ingredients for tonight&apos;s dinner</button>
+      <button data-q="Order 2 packs of Maggi and 1 kg of rice under ₹100">Order 2 packs of Maggi and 1 kg of rice under ₹100</button>
+    </div>
+
+    <div class="grid" style="margin-top:18px;">
+      <div class="card">
+        <h2>Agent Activity <span id="state" class="pill"></span></h2>
+        <ul class="timeline" id="timeline"><li class="empty">Your agent&apos;s activity will appear here. Submit an instruction to watch it work.</li></ul>
+      </div>
+      <div class="card">
+        <h2>Optimized Basket</h2>
+        <div id="basket"><div class="empty">Your recommended basket will appear here.</div></div>
+        <div id="order" style="margin-top:14px;"></div>
+      </div>
+    </div>
+  </div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const stateColors = { COMPLETED:'good', USER_REVIEW_REQUIRED:'warn', PAYMENT_AUTH_REQUIRED:'warn', FAILED:'bad', CANCELLED:'bad', ERROR:'bad' };
+const STATE_LABELS = {
+  REQUEST_RECEIVED:'Received your request', INTENT_PARSED:'Understanding your request',
+  PLAN_CREATED:'Planning your order', SEARCHING:'Finding products', DISCOVERING_PRODUCTS:'Finding products',
+  NORMALIZING:'Comparing options', RANKING:'Comparing prices', OPTIMIZING:'Optimizing your basket',
+  BASKET_READY:'Basket ready', USER_REVIEW_REQUIRED:'Needs your review',
+  BROWSER_SESSION_STARTED:'Opening a secure shopping session', CART_BUILDING:'Building your cart',
+  CART_VERIFIED:'Cart verified', CHECKOUT_READY:'Preparing checkout', PAYMENT_PENDING:'Preparing payment',
+  PAYMENT_AUTH_REQUIRED:'Awaiting your authorization', PAYMENT_PROCESSING:'Placing the order',
+  ORDER_PLACED:'Order placed', ORDER_VERIFICATION:'Confirming your order', COMPLETED:'Completed',
+  FAILED:"Couldn't complete", CANCELLED:'Cancelled', ERROR:'Something went wrong'
+};
+const label = (s) => STATE_LABELS[s] || s.toLowerCase().replace(/_/g,' ').replace(/\b\w/g, c => c.toUpperCase());
+
+function setState(s){
+  const el = $('state'); el.textContent = label(s);
+  el.className = 'pill ' + (stateColors[s] || 'good');
+}
+function addStep(step){
+  const tl = $('timeline');
+  if (tl.querySelector('.empty')) tl.innerHTML = '';
+  const li = document.createElement('li');
+  li.innerHTML = `<span class="st">${label(step.state)}</span><span>${step.message}</span>`;
+  tl.appendChild(li); tl.scrollTop = tl.scrollHeight;
+  setState(step.state);
+}
+function money(n){ return '₹' + (Math.round(n*100)/100).toLocaleString('en-IN'); }
+
+function renderBasket(b){
+  if(!b){ $('basket').innerHTML = '<div class="empty">No basket produced.</div>'; return; }
+  let rows = b.items.map(i => `<tr>
+      <td>${i.title}<div class="reasons">${(i.reasons||[]).join(' · ')}</div></td>
+      <td>x${i.packs}</td><td>${money(i.line_total)}</td></tr>`).join('');
+  const budgetPill = b.within_budget ? '<span class="pill good">Within budget</span>' : '<span class="pill bad">Over budget</span>';
+  $('basket').innerHTML = `
+    <div class="muted" style="margin-bottom:8px;">From ${b.marketplace} ${budgetPill}</div>
+    <table><thead><tr><th>Item</th><th>Qty</th><th>Amount</th></tr></thead><tbody>${rows}</tbody></table>
+    <div style="margin-top:10px;">
+      <div class="tot"><span class="muted">Subtotal</span><span>${money(b.items_subtotal)}</span></div>
+      <div class="tot"><span class="muted">Delivery</span><span>${b.delivery_fee ? money(b.delivery_fee) : 'Free'}</span></div>
+      <div class="tot"><span class="muted">Platform fee</span><span>${money(b.platform_fee)}</span></div>
+      <div class="tot"><span class="muted">Discount</span><span>-${money(b.discount)}</span></div>
+      <div class="tot grand"><span>Total</span><span>${money(b.total)}</span></div>
+    </div>
+    <div style="margin-top:8px;color:${b.within_budget ? 'var(--good)' : 'var(--bad)'};font-size:13px;">${b.within_budget ? '✓ Within your budget' : 'This basket is over your budget.'}</div>`;
+}
+function renderOrder(o){
+  if(!o){ $('order').innerHTML=''; return; }
+  const cls = o.status==='CONFIRMED' ? 'good' : (o.status==='FAILED'?'bad':'warn');
+  $('order').innerHTML = `<div class="card" style="background:var(--panel2);">
+    <h2>Order</h2>
+    <div><span class="pill ${cls}">${o.status}</span> &nbsp; <b>${o.external_order_id || '-'}</b></div>
+    <div class="muted" style="margin-top:6px;">${o.vendor} · ${money(o.total)} · ETA ~${o.delivery_eta_minutes} min</div>
+  </div>`;
+}
+
+function run(){
+  const q = $('q').value.trim(); if(!q) return;
+  $('go').disabled = true; $('go').textContent = 'Agent is working…';
+  $('timeline').innerHTML = ''; $('basket').innerHTML = '<div class="empty">Finding the best options…</div>'; $('order').innerHTML='';
+  const es = new EventSource('/api/v1/shopping-requests/stream/live?text=' + encodeURIComponent(q));
+  let settled = false;
+  const finish = () => { settled = true; es.close(); $('go').disabled = false; $('go').textContent = 'Let Agent Handle It →'; };
+  es.addEventListener('step', e => addStep(JSON.parse(e.data)));
+  es.addEventListener('final', e => {
+    if (settled) return;
+    const run = JSON.parse(e.data);
+    renderBasket(run.basket); renderOrder(run.order); setState(run.state);
+    finish();
+  });
+  es.addEventListener('failure', e => {
+    if (settled) return;
+    let msg = 'Something went wrong. Please try again.';
+    try { msg = JSON.parse(e.data).message || msg; } catch(_) {}
+    setState('ERROR');
+    addStep({state:'ERROR', message: msg});
+    $('basket').innerHTML = '<div class="empty">' + msg + '</div>';
+    finish();
+  });
+  es.addEventListener('error', () => {
+    if (settled) return;
+    setState('ERROR');
+    addStep({state:'ERROR', message:'Lost connection to the API. Is the backend running on :8000?'});
+    finish();
+  });
+}
+$('go').addEventListener('click', run);
+$('q').addEventListener('keydown', e => { if(e.key==='Enter') run(); });
+$('examples').addEventListener('click', e => { if(e.target.dataset.q){ $('q').value = e.target.dataset.q; run(); }});
+</script>
+</body>
+</html>

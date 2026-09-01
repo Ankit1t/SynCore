@@ -1,0 +1,15 @@
+%% Payment flow
+stateDiagram-v2
+    [*] --> CREATED
+    CREATED --> guard: run_transaction_guard
+    guard --> FAILED: guard rejects
+    guard --> policy: guard passes
+    policy --> REQUIRES_USER_ACTION: over limit / untrusted / high-value
+    policy --> AUTHORIZED: AUTO (trusted, within limit)
+    AUTHORIZED --> PROCESSING: capture
+    PROCESSING --> SUCCEEDED
+    PROCESSING --> FAILED
+    REQUIRES_USER_ACTION --> [*]
+    SUCCEEDED --> [*]
+    FAILED --> [*]
+    note right of CREATED : idempotency key checked first;\nrepeat returns prior intent, no new charge

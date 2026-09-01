@@ -1,0 +1,10 @@
+%% Order verification
+flowchart TD
+    PS[Payment SUCCEEDED] --> PO[adapter.place_order with payment_reference]
+    PO -->|exception| UNC[PAYMENT_SUCCESS_ORDER_UNCONFIRMED]
+    PO -->|ok| V[Verify: total matches, items present, external id]
+    V -->|issues| UNC
+    V -->|clean| CONF[CONFIRMED]
+    UNC --> REC[RECOVERY / reconciliation]
+    CONF --> DONE[COMPLETED]
+    REC --> DONE

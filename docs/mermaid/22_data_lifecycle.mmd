@@ -1,0 +1,15 @@
+%% Data lifecycle
+flowchart LR
+    RT[raw text] --> SR[shopping_requests]
+    SR --> AR[agent_runs]
+    AR --> AS[agent_steps]
+    AR --> AD[agent_decisions]
+    AR --> BK[basket JSON on run]
+    AR --> OR[orders]
+    OR --> PI[payment_intents]
+    PI --> PAt[payment_attempts]
+    AR --> AE[audit_events immutable]
+    subgraph Discovery
+        OFF[Offer + lineage: source, extracted_at, parser_version]
+    end
+    OFF --> AR

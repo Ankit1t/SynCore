@@ -1,0 +1,13 @@
+%% Authentication (production design)
+sequenceDiagram
+    actor U as User
+    participant UI as Web
+    participant API as API
+    participant IdP as Identity Provider
+    U->>UI: login
+    UI->>IdP: credentials / OIDC (MFA at IdP)
+    IdP-->>UI: token (short-lived) + refresh
+    UI->>API: request + Bearer token / secure cookie
+    API->>API: validate token, resolve principal
+    API-->>UI: response (scoped to user)
+    note over API: Syncore never bypasses MFA/OTP/CAPTCHA;\nsecrets never reach the LLM

@@ -1,0 +1,12 @@
+%% AI tool execution (controlled)
+flowchart TD
+    LLM[LLM proposes tool call] --> AUTHZ{Tool authorized?}
+    AUTHZ -- no --> BLOCK[Reject + audit]
+    AUTHZ -- yes --> VAL{Args valid vs schema?}
+    VAL -- no --> BLOCK
+    VAL -- yes --> TO[Apply timeout + retry policy]
+    TO --> RUN[Execute deterministic tool]
+    RUN --> RES[Structured result]
+    RES --> AUD[Audit event]
+    AUD --> LLM
+    note1[[LLM has no arbitrary shell/network/DB access]]

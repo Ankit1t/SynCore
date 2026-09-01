@@ -1,0 +1,13 @@
+%% Scraper failure handling
+flowchart TD
+    S[Search across sources] --> A{Source A}
+    A -- ok --> RA[offers A]
+    A -- fail/timeout --> CBA[Circuit breaker A opens]
+    S --> B{Source B}
+    B -- ok --> RB[offers B]
+    CBA --> P[Partial results]
+    RA --> P
+    RB --> P
+    P --> AGENT[Agent proceeds with partial data]
+    AGENT --> INFORM[Inform user of degraded coverage]
+    CBA -. never .-x CRASH[Crash whole SaaS]

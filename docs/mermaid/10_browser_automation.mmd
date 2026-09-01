@@ -1,0 +1,13 @@
+%% Browser automation abstraction
+flowchart TD
+    EX[BrowserExecutor interface] --> MK[MockBrowserExecutor]
+    EX --> PW[PlaywrightExecutor - integration boundary]
+    MK --> AD[Marketplace adapter]
+    subgraph High-level actions
+        A1[start_session] --> A2[search]
+        A2 --> A3[add_to_cart + verify state]
+        A3 --> A4[open_cart / verify_cart]
+        A4 --> A5[open_checkout]
+    end
+    MK --> A1
+    A5 --> C[CheckoutSession]

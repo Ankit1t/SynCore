@@ -1,0 +1,15 @@
+{
+  "name": "openfoodfacts",
+  "kind": "catalog_metadata",
+  "status": "REAL_NO_CREDENTIALS",
+  "base_url": "https://world.openfoodfacts.org/api/v2",
+  "auth": "none",
+  "docs": "https://openfoodfacts.github.io/openfoodfacts-server/api/",
+  "rate_limits": "search endpoint is aggressively rate-limited (HTTP 503); product-by-barcode is reliable",
+  "endpoints": {
+    "product": "/product/{barcode}.json?fields=code,product_name,brands,quantity,categories_tags",
+    "search": "/search?search_terms={q}&fields=...&page_size={n}"
+  },
+  "capabilities": { "search": true, "product": true, "price": false, "availability": false },
+  "notes": "Provides real product metadata (name/brand/quantity/category). No retail price/cart/checkout/order."
+}

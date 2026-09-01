@@ -1,0 +1,15 @@
+%% Product ranking (weighted, explainable)
+flowchart LR
+    O[Offer] --> S1[semantic x0.30]
+    O --> S2[lexical x0.20]
+    O --> S3[quantity x0.15]
+    O --> S4[category x0.15]
+    O --> S5[brand x0.10]
+    O --> S6[quality x0.10]
+    S1 --> SUM((score))
+    S2 --> SUM
+    S3 --> SUM
+    S4 --> SUM
+    S5 --> SUM
+    S6 --> SUM
+    SUM --> R[RankedOffer + reasons + breakdown]

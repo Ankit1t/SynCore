@@ -1,0 +1,12 @@
+%% Product normalization
+flowchart TD
+    T["Raw title e.g. 'Fresh Aloo 1 Kilogram'"] --> C[canonicalize_name via lexicon]
+    C --> CN["canonical_name = potato"]
+    T --> Q[parse_quantity]
+    Q --> QN["quantity = 1 kg"]
+    T --> B[detect_brand]
+    CN --> PR[Product]
+    QN --> PR
+    B --> PR
+    PR --> UP["unit_price = price / base_quantity"]
+    UP --> CMP["Comparable per-kg / per-piece price"]

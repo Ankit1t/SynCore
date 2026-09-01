@@ -1,0 +1,12 @@
+%% Scraping pipeline (decoupled subsystem)
+flowchart LR
+    ORCH[Scraping Orchestrator] --> REG[Source Registry]
+    REG --> AD[Source Adapter]
+    AD --> F[Fetcher: HTTP / Browser]
+    F --> P[Parser versioned]
+    P --> N[Normalizer]
+    N --> VAL[Validation / quality]
+    VAL --> EV[Product Event]
+    EV --> ST[(Product Store / Search Index)]
+    F -. timeout/error .-> CB{Circuit breaker}
+    CB -- open --> SKIP[Skip source, continue others]

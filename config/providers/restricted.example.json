@@ -1,0 +1,23 @@
+{
+  "_comment": "Credential-gated commerce providers. NO SECRETS in this file — only placeholders and the exact requirement. Real keys live in environment/secret manager.",
+  "providers": {
+    "amazon": {
+      "status": "ACCESS_RESTRICTED",
+      "requires": "Amazon SP-API (seller) or PA-API (affiliate) partner credentials",
+      "docs": "https://developer-docs.amazon.com/sp-api/",
+      "auth": "LWA OAuth2 + AWS SigV4",
+      "env": ["AMAZON_SPAPI_CLIENT_ID", "AMAZON_SPAPI_CLIENT_SECRET", "AMAZON_SPAPI_REFRESH_TOKEN"],
+      "capabilities": { "search": true, "product": true, "price": true, "cart": true, "checkout": true, "order": true, "payment": false }
+    },
+    "flipkart": {
+      "status": "ACCESS_RESTRICTED",
+      "requires": "Flipkart Marketplace/Affiliate API credentials",
+      "docs": "https://affiliate.flipkart.com/api-docs/",
+      "auth": "Affiliate ID + token",
+      "env": ["FLIPKART_AFFILIATE_ID", "FLIPKART_AFFILIATE_TOKEN"]
+    },
+    "zepto":     { "status": "ACCESS_RESTRICTED", "requires": "Zepto partner API agreement", "env": ["ZEPTO_API_KEY"] },
+    "bigbasket": { "status": "ACCESS_RESTRICTED", "requires": "BigBasket partner API agreement", "env": ["BIGBASKET_API_KEY"] },
+    "blinkit":   { "status": "ACCESS_RESTRICTED", "requires": "Blinkit/Zomato partner API agreement", "env": ["BLINKIT_API_KEY"] }
+  }
+}

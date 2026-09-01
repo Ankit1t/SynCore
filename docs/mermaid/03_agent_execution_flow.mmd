@@ -1,0 +1,18 @@
+%% Agent execution flow (high level)
+flowchart LR
+    A[Parse intent] --> B[Build plan]
+    B --> C[Search adapters]
+    C --> D[Validate + normalize]
+    D --> E[Rank per item]
+    E --> F[Optimize basket]
+    F --> G{Within hard budget?}
+    G -- no --> H[USER_REVIEW_REQUIRED]
+    G -- yes --> I[Build cart + verify]
+    I --> J[Extract checkout total]
+    J --> K{Budget re-guard}
+    K -- fail --> H
+    K -- pass --> L{Payment policy}
+    L -- require user --> M[PAYMENT_AUTH_REQUIRED]
+    L -- auto --> N[Authorize + capture]
+    N --> O[Place + verify order]
+    O --> P[COMPLETED]

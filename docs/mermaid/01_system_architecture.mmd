@@ -1,0 +1,30 @@
+%% Syncore system architecture
+flowchart TD
+    UI["Web Client (Next.js) / Static demo UI"] --> GW["API Gateway (FastAPI)"]
+    GW --> ORC["Agent Orchestrator (state machine)"]
+
+    ORC --> INT["Intent Engine"]
+    ORC --> SR["Search / Ranking"]
+    ORC --> POL["Policy / Budget Engine"]
+    ORC --> REG["Marketplace Registry"]
+    ORC --> NORM["Product Normalization"]
+    ORC --> OPT["Basket Optimizer"]
+    ORC --> BR["Browser Executor"]
+    ORC --> PAY["Payment Orchestrator"]
+    ORC --> ORD["Order Manager"]
+
+    REG --> A1["MockMarketplace: mock-bazaar"]
+    REG --> A2["MockMarketplace: mock-fresh"]
+    REG --> A3["Live adapter (integration boundary)"]
+
+    PAY --> PP["PaymentProvider (mock / real)"]
+    ORC --> BUS["Event Bus"]
+    ORC --> DB[("PostgreSQL / SQLite")]
+    BUS --> AUD["Audit Log"]
+    ORC --> LLM["LLM Provider (deterministic / OpenAI)"]
+
+    subgraph Deterministic core
+        POL
+        OPT
+        PAY
+    end

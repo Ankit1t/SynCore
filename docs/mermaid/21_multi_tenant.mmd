@@ -1,0 +1,19 @@
+%% Multi-tenant isolation
+flowchart TD
+    subgraph Tenant A
+        UA[User A] --> RA[Requests A]
+        RA --> RNA[Runs A]
+        RNA --> OA[Orders A]
+        UA --> BA[Isolated browser context A]
+        UA --> PA[Payment methods A]
+    end
+    subgraph Tenant B
+        UB[User B] --> RB[Requests B]
+        RB --> RNB[Runs B]
+        RNB --> OB[Orders B]
+        UB --> BB[Isolated browser context B]
+        UB --> PB[Payment methods B]
+    end
+    RA -. user_id scope .-> DB[(Shared DB, row-scoped)]
+    RB -. user_id scope .-> DB
+    BA -. never shared .-x BB

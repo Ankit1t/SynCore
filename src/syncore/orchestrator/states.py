@@ -1,0 +1,53 @@
+"""State machine definition and transition validation.
+
+Making transitions explicit prevents illegal jumps and makes agent execution
+auditable and resumable (spec section 7).
+"""
+
+from __future__ import annotations
+
+from ..domain.enums import AgentState
+
+S = AgentState
+
+# Allowed transitions. Terminal states have no outgoing edges (except to
+# RECOVERY/CANCELLED which any state may enter).
+TRANSITIONS: dict[AgentState, set[AgentState]] = {
+    S.REQUEST_RECEIVED: {S.INTENT_PARSED},
+    S.INTENT_PARSED: {S.PLAN_CREATED},
+    S.PLAN_CREATED: {S.SEARCHING},
+    S.SEARCHING: {S.DISCOVERING_PRODUCTS},
+    S.DISCOVERING_PRODUCTS: {S.EXTRACTING_PRODUCTS, S.NORMALIZING},
+    S.EXTRACTING_PRODUCTS: {S.NORMALIZING},
+    S.NORMALIZING: {S.RANKING},
+    S.RANKING: {S.OPTIMIZING},
+    S.OPTIMIZING: {S.BASKET_READY},
+    S.BASKET_READY: {S.USER_REVIEW_REQUIRED, S.BROWSER_SESSION_STARTED, S.COMPLETED},
+    S.USER_REVIEW_REQUIRED: {S.BROWSER_SESSION_STARTED, S.CANCELLED, S.OPTIMIZING},
+    S.BROWSER_SESSION_STARTED: {S.SEARCH_EXECUTION, S.CART_BUILDING},
+    S.SEARCH_EXECUTION: {S.PRODUCT_SELECTED, S.CART_BUILDING},
+    S.PRODUCT_SELECTED: {S.CART_BUILDING},
+    S.CART_BUILDING: {S.CART_VERIFIED},
+    S.CART_VERIFIED: {S.CHECKOUT_READY},
+    S.CHECKOUT_READY: {S.PAYMENT_PENDING, S.USER_REVIEW_REQUIRED},
+    S.PAYMENT_PENDING: {S.PAYMENT_AUTH_REQUIRED, S.PAYMENT_PROCESSING, S.FAILED},
+    S.PAYMENT_AUTH_REQUIRED: {S.PAYMENT_PROCESSING, S.CANCELLED},
+    S.PAYMENT_PROCESSING: {S.ORDER_PLACED, S.FAILED},
+    S.ORDER_PLACED: {S.ORDER_VERIFICATION},
+    S.ORDER_VERIFICATION: {S.COMPLETED, S.RECOVERY},
+    S.COMPLETED: set(),
+    S.FAILED: {S.RECOVERY},
+    S.RECOVERY: {S.OPTIMIZING, S.CART_BUILDING, S.PAYMENT_PENDING, S.FAILED, S.CANCELLED},
+    S.CANCELLED: set(),
+}
+
+# Any state may transition into RECOVERY/CANCELLED (failure handling).
+_ALWAYS_ALLOWED = {S.RECOVERY, S.CANCELLED, S.FAILED}
+
+TERMINAL = {S.COMPLETED, S.CANCELLED}
+
+
+def can_transition(src: AgentState, dst: AgentState) -> bool:
+    if dst in _ALWAYS_ALLOWED:
+        return True
+    return dst in TRANSITIONS.get(src, set())
