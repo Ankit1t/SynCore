@@ -17,7 +17,7 @@ export default function OrdersPage() {
   }, []);
 
   return (
-    <div>
+    <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6 lg:px-8">
       <h2 className="mb-4 text-lg font-semibold">Orders</h2>
       {error && (
         <p role="alert" className="rounded-lg border border-bad/40 bg-bad/10 p-3 text-sm text-bad">
@@ -26,7 +26,7 @@ export default function OrdersPage() {
       )}
       {orders.length === 0 && !error && (
         <div className="py-6 text-center">
-          <p className="text-sm font-medium text-white/90">No orders yet.</p>
+          <p className="text-sm font-medium text-primary">No orders yet.</p>
           <p className="mt-1 text-xs text-muted">Orders your agent completes will appear here.</p>
         </div>
       )}

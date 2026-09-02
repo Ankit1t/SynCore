@@ -11,7 +11,7 @@ export default function PreferencesPage() {
   }, []);
 
   return (
-    <div className="max-w-2xl">
+    <div className="mx-auto max-w-2xl px-4 py-6 sm:px-6 lg:px-8">
       <h2 className="mb-4 text-lg font-semibold">Preferences</h2>
       <p className="mb-4 text-sm text-muted">
         Your shopping preferences — preferred brands, minimum rating, substitution rules and
