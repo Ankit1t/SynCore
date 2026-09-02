@@ -32,7 +32,7 @@ logger = get_logger("syncore.llm.http")
 PRESETS: dict[str, tuple[str, str, bool]] = {
     # (gemini has its own native provider; kept here only for completeness)
     "gemini": ("https://generativelanguage.googleapis.com/v1beta/openai", "gemini-2.0-flash", True),
-    "groq": ("https://api.groq.com/openai/v1", "llama-3.3-70b-versatile", True),        # FREE tier, fast
+    "groq": ("https://api.groq.com/openai/v1", "openai/gpt-oss-120b", True),            # FREE tier, fast, strong JSON
     "zai": ("https://api.z.ai/api/paas/v4", "glm-4.5-flash", True),                     # FREE model (GLM flash)
     "zhipu": ("https://open.bigmodel.cn/api/paas/v4", "glm-4-flash", True),             # FREE model (China)
     "deepseek": ("https://api.deepseek.com/v1", "deepseek-chat", True),                 # cheap, NOT free
@@ -81,7 +81,7 @@ class HttpLLMProvider:
                     logger.warning("%s %s (attempt %d/%d), retrying in %.1fs",
                                    self.name, resp.status_code, attempt, self._MAX_ATTEMPTS, wait)
                     if attempt < self._MAX_ATTEMPTS:
-                        time.sleep(min(wait, 8.0))
+                        time.sleep(min(wait, 15.0))
                         continue
                 resp.raise_for_status()
                 data = resp.json()
