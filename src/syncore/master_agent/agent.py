@@ -28,16 +28,27 @@ _WEIGHT_UNITS = {"kg", "l"}
 _COUNT_UNITS = {"pack", "piece", "loaf", "dozen"}
 
 # ---------------------------------------------------------------- budget ----
+# A money number may carry thousands separators, e.g. "1,000" or the Indian
+# "1,00,000". Capture the digits+commas, then strip commas before float().
+_NUM = r"\d[\d,]*(?:\.\d+)?"
 _BUDGET_PATTERNS = [
-    re.compile(r"(?:₹|rs\.?|inr|rupees?)\s*(\d+(?:\.\d+)?)", re.I),
-    re.compile(r"(\d+(?:\.\d+)?)\s*(?:rupees?|rs\.?|inr|₹)", re.I),
+    re.compile(r"(?:₹|rs\.?|inr|rupees?)\s*(" + _NUM + r")", re.I),
+    re.compile(r"(" + _NUM + r")\s*(?:rupees?|rs\.?|inr|₹)", re.I),
     re.compile(
         r"(?:under|below|within|max(?:imum)?|upto|up\s*to|budget(?:\s+of)?|less\s+than)\s*"
-        r"(?:₹|rs\.?|inr)?\s*(\d+(?:\.\d+)?)",
+        r"(?:₹|rs\.?|inr)?\s*(" + _NUM + r")",
         re.I,
     ),
-    re.compile(r"(\d+(?:\.\d+)?)\s*(?:ke\s+andar|andar|tak|ka\b|ke\b)", re.I),
+    re.compile(r"(" + _NUM + r")\s*(?:ke\s+andar|andar|tak|ka\b|ke\b)", re.I),
 ]
+
+
+def _parse_money(raw: str) -> float | None:
+    """'1,000' -> 1000.0, '1,00,000' -> 100000.0. None if not a number."""
+    try:
+        return float(raw.replace(",", ""))
+    except (ValueError, AttributeError):
+        return None
 
 
 def _extract_budget(text: str) -> tuple[float | None, str]:
@@ -45,7 +56,9 @@ def _extract_budget(text: str) -> tuple[float | None, str]:
     for pat in _BUDGET_PATTERNS:
         m = pat.search(text)
         if m:
-            budget = float(m.group(1))
+            budget = _parse_money(m.group(1))
+            if budget is None:
+                continue
             cleaned = text[: m.start()] + " " + text[m.end() :]
             return budget, cleaned
     return None, text
