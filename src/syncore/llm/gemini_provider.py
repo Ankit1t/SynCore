@@ -35,6 +35,18 @@ class GeminiNativeProvider:
         self._base = (base_url or _BASE).rstrip("/")
         self._fallback = DeterministicProvider()
 
+    # Transient conditions worth retrying: rate limits and server hiccups.
+    _RETRY_STATUS = {429, 500, 502, 503, 504}
+    _MAX_ATTEMPTS = 3
+
+    def _post_once(self, body: dict, timeout: int) -> httpx.Response:
+        return httpx.post(
+            f"{self._base}/models/{self._model}:generateContent",
+            headers={"X-goog-api-key": self._key, "Content-Type": "application/json"},
+            json=body,
+            timeout=timeout,
+        )
+
     def generate(self, prompt: str, *, system: str | None = None, max_tokens: int = 2048) -> LLMResult:
         body: dict = {
             "contents": [{"role": "user", "parts": [{"text": prompt}]}],
@@ -46,20 +58,47 @@ class GeminiNativeProvider:
             body["systemInstruction"] = {"parts": [{"text": system}]}
 
         start = time.perf_counter()
-        resp = httpx.post(
-            f"{self._base}/models/{self._model}:generateContent",
-            headers={"X-goog-api-key": self._key, "Content-Type": "application/json"},
-            json=body,
-            timeout=45,
-        )
-        resp.raise_for_status()
-        data = resp.json()
+        data: dict = {}
         text = ""
-        for cand in data.get("candidates", []) or []:
-            parts = (cand.get("content") or {}).get("parts") or []
-            text = "".join(p.get("text", "") for p in parts).strip()
-            if text:
-                break
+        last_err: Exception | None = None
+
+        # Retry transient failures (rate limits, 5xx, timeouts) and empty
+        # responses with exponential backoff. The LLM only aids understanding,
+        # so on total failure the caller still falls back to deterministic.
+        for attempt in range(1, self._MAX_ATTEMPTS + 1):
+            try:
+                resp = self._post_once(body, timeout=45)
+                if resp.status_code in self._RETRY_STATUS:
+                    retry_after = resp.headers.get("Retry-After")
+                    wait = float(retry_after) if (retry_after or "").isdigit() else 2.0 * attempt
+                    logger.warning("gemini %s (attempt %d/%d), retrying in %.1fs",
+                                   resp.status_code, attempt, self._MAX_ATTEMPTS, wait)
+                    if attempt < self._MAX_ATTEMPTS:
+                        time.sleep(min(wait, 8.0))
+                        continue
+                resp.raise_for_status()
+                data = resp.json()
+                text = ""
+                for cand in data.get("candidates", []) or []:
+                    parts = (cand.get("content") or {}).get("parts") or []
+                    text = "".join(p.get("text", "") for p in parts).strip()
+                    if text:
+                        break
+                if text:
+                    break  # success
+                # Empty text (e.g. thinking consumed the budget) — retry.
+                logger.warning("gemini returned empty text (attempt %d/%d)", attempt, self._MAX_ATTEMPTS)
+                if attempt < self._MAX_ATTEMPTS:
+                    time.sleep(1.0 * attempt)
+            except (httpx.TimeoutException, httpx.TransportError) as exc:
+                last_err = exc
+                logger.warning("gemini network error %s (attempt %d/%d)",
+                               type(exc).__name__, attempt, self._MAX_ATTEMPTS)
+                if attempt < self._MAX_ATTEMPTS:
+                    time.sleep(1.5 * attempt)
+
+        if not text and last_err is not None and not data:
+            raise last_err  # surfaces to caller's try/except -> deterministic fallback
 
         usage_meta = data.get("usageMetadata", {}) or {}
         usage = LLMUsage(
