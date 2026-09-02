@@ -40,7 +40,18 @@ def _prompt(text: str) -> str:
         "}\n\n"
         "Include EVERY item the user mentions, including non-grocery items "
         "(electronics, ice cream, household, etc.). If a quantity/unit is not "
-        "stated, use null. Never add items the user did not ask for."
+        "stated, use null.\n\n"
+        "If the user describes a MEAL, OCCASION, or a vague CATEGORY instead of "
+        "naming exact products (e.g. \"food for dinner\", \"party snacks\", "
+        "\"something to cook\", \"breakfast items\", \"stuff for a road trip\"), "
+        "infer 3-6 concrete, realistic products that together satisfy it. Pick "
+        "sensible staples for that meal/occasion in the Indian context (e.g. "
+        "dinner -> rice, dal, a vegetable, roti/atta). If a budget is given, "
+        "keep the inferred selection reasonable for it.\n\n"
+        "Only return an empty items list when the request names nothing that "
+        "could be turned into products at all (e.g. \"buy me something\", "
+        "\"order anything\"). Otherwise always return at least one item. Never "
+        "invent items that contradict what the user asked for."
     )
 
 
