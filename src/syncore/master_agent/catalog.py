@@ -74,7 +74,7 @@ EST_PRICE: dict[str, tuple[float, str]] = {
     "potato": (40, "kg"), "onion": (35, "kg"), "tomato": (30, "kg"),
     "green chilli": (40, "kg"), "milk": (32, "l"), "flour": (45, "kg"),
     "rice": (60, "kg"), "sugar": (45, "kg"), "salt": (25, "kg"), "oil": (140, "l"),
-    "biscuits": (25, "pack"), "chips": (25, "pack"), "maggi": (14, "pack"),
+    "biscuits": (20, "pack"), "chips": (15, "pack"), "maggi": (14, "pack"),
     "eggs": (7, "piece"), "lentils": (120, "kg"), "tea": (250, "kg"),
     "curd": (30, "pack"), "bread": (40, "loaf"), "ghee": (600, "kg"),
     "butter": (55, "pack"), "paneer": (90, "pack"),

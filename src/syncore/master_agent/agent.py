@@ -26,10 +26,6 @@ from .catalog import (
 _ALIASES_BY_LEN = sorted(ALIASES, key=len, reverse=True)
 _WEIGHT_UNITS = {"kg", "l"}
 _COUNT_UNITS = {"pack", "piece", "loaf", "dozen"}
-# Budget-fill: only scale cheap, count-based consumables (chips/biscuits/small
-# icecream), and never buy an absurd pile of any single item.
-_SMALL_GOOD_MAX_PRICE = 40.0
-_MAX_FILL_QTY = 12
 
 # ---------------------------------------------------------------- budget ----
 # A money number may carry thousands separators, e.g. "1,000" or the Indian
@@ -43,7 +39,7 @@ _BUDGET_PATTERNS = [
         r"(?:₹|rs\.?|inr)?\s*(" + _NUM + r")",
         re.I,
     ),
-    re.compile(r"(" + _NUM + r")\s*(?:ke\s+andar|andar|tak|ka\b|ke\b|ki\b|rupees?\s+ka)", re.I),
+    re.compile(r"(" + _NUM + r")\s*(?:ke\s+andar|andar|tak|ka\b|ke\b)", re.I),
 ]
 
 
@@ -179,8 +175,6 @@ def understand(text: str, provider: Any = None) -> tuple[float | None, list[dict
                     "unit": unit,
                     "confidence": 0.9,
                     "est_price_inr": it.get("unit_price_inr"),
-                    # explicit only if the LLM extracted a concrete number.
-                    "qty_explicit": qty is not None,
                 })
             if items:
                 # Money is deterministic: trust our budget regex first (it
@@ -214,7 +208,6 @@ def _understand(text: str) -> tuple[float | None, list[dict[str, Any]]]:
             "quantity": qty,
             "unit": unit,
             "confidence": confidence,
-            "qty_explicit": explicit,
         })
         seen.add(canonical)
     return budget, items
@@ -354,37 +347,6 @@ def decide(user_request: str, available_offers: Any = "NONE", *, provider: Any =
             lines.remove(victim)
             dropped_items.append(f"{victim['satisfies']}: dropped (least essential, over budget)")
             total = _total(lines)
-
-    # ----- BUDGET FILL (use spare budget on vague, cheap goods) -----
-    # If the user gave a budget but left the quantity vague ("some/bhoot chips")
-    # for small consumables (cheap, sold by count), buy more to make good use of
-    # the budget instead of leaving most of it unspent. Never scales explicit
-    # quantities, weight-based staples (kg/l), or pricey items (electronics).
-    elif budget is not None and total < budget:
-        scalable = [
-            i for i, (ln, it) in enumerate(zip(lines, items))
-            if not it.get("qty_explicit")
-            and ln["unit"] not in _WEIGHT_UNITS
-            and 0 < ln["unit_price"] <= _SMALL_GOOD_MAX_PRICE
-        ]
-        if scalable:
-            while True:
-                spare = round(budget - _total(lines), 2)
-                # cheapest scalable line that can take one more unit and stays capped
-                cands = [
-                    i for i in scalable
-                    if lines[i]["quantity"] < _MAX_FILL_QTY
-                    and lines[i]["unit_price"] <= spare
-                ]
-                if not cands:
-                    break
-                i = min(cands, key=lambda k: lines[k]["unit_price"])
-                lines[i]["quantity"] += 1
-                lines[i]["line_total"] = round(lines[i]["quantity"] * lines[i]["unit_price"], 2)
-            for i in scalable:
-                if lines[i]["quantity"] > 1:
-                    quantity_changes.append(
-                        f"{lines[i]['satisfies']}: qty {lines[i]['quantity']} to use your ₹{budget:g} budget")
 
     total = _total(lines)
     within = budget is None or total <= budget
