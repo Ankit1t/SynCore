@@ -1,0 +1,33 @@
+# Render Blueprint for the Syncore backend (FastAPI).
+# Deploy: push to GitHub -> Render.com -> New + -> Blueprint -> pick this repo.
+# Set LLM_API_KEY in the dashboard (marked sync:false = secret, not committed).
+services:
+  - type: web
+    name: syncore-api
+    runtime: python
+    plan: free
+    buildCommand: pip install -e .
+    startCommand: uvicorn syncore.api.app:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health/live
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.7"
+      - key: ENVIRONMENT
+        value: production
+      - key: MARKETPLACE_MODE
+        value: mock
+      - key: BROWSER_MODE
+        value: mock
+      - key: CORS_ORIGINS
+        value: "*"
+      # --- LLM (any-item). Set the secret key in the dashboard. ---
+      - key: LLM_PROVIDER
+        value: gemini
+      - key: LLM_MODEL
+        value: gemini-3.5-flash
+      - key: LLM_API_KEY
+        sync: false
+      # For persistent data, add a free Postgres (Render/Neon) and set:
+      # - key: DATABASE_URL
+      #   value: postgresql+psycopg://...   (then build with pip install -e ".[postgres]")

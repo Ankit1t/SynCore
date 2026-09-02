@@ -32,6 +32,11 @@ const STATE_LABEL: Record<string, string> = {
   RECOVERY: "Recovering",
   CANCELLED: "Cancelled",
   ERROR: "Something went wrong",
+  // Master-agent next actions
+  PROCEED_TO_CHECKOUT: "Ready to checkout",
+  ASK_USER: "Needs your review",
+  RETRY_SEARCH: "No suitable products found",
+  READY: "Ready",
 };
 
 export function stateLabel(state: string): string {

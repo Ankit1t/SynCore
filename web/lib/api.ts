@@ -122,3 +122,59 @@ export function streamAgentRun(
 
   return () => finish();
 }
+
+// --- Master Agent (any-item, LLM-powered) — /api/v1/agent/decide -----------
+
+export interface DecideItem {
+  raw: string;
+  canonical: string;
+  quantity: number | null;
+  unit: string | null;
+  confidence: number;
+}
+
+export interface DecideLine {
+  offer_id: string;
+  product_name: string;
+  satisfies: string;
+  quantity: number;
+  unit: string;
+  unit_price: number;
+  line_total: number;
+  estimated: boolean;
+  reason: string;
+}
+
+export interface DecideOption {
+  option: string;
+  action: string;
+  resulting_total: number;
+}
+
+export interface DecideResponse {
+  understanding: { budget_inr: number | null; items: DecideItem[]; notes: string };
+  basket: { lines: DecideLine[]; total: number };
+  budget_check: { within_budget: boolean; remaining_inr: number | null; over_by_inr: number | null };
+  decisions: {
+    substitutions: string[];
+    quantity_changes: string[];
+    dropped_items: string[];
+    created_products: string[];
+  };
+  next_action: "PROCEED_TO_CHECKOUT" | "ASK_USER" | "RETRY_SEARCH" | string;
+  options_for_user: DecideOption[];
+  message_to_user: string;
+}
+
+export async function askAgent(text: string): Promise<DecideResponse> {
+  const res = await fetch("/api/v1/agent/decide", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ user_request: text, available_offers: "NONE" }),
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    throw new Error(`agent request failed (${res.status})`);
+  }
+  return res.json();
+}

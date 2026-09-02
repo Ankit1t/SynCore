@@ -109,8 +109,68 @@ def _match_canonical(fragment: str) -> str | None:
     return None
 
 
+def _slug(name: str) -> str:
+    return re.sub(r"\s+", " ", name.strip().lower())[:40] or "item"
+
+
+def _normalize_llm_unit(unit: str | None, quantity: float | None, canonical: str) -> tuple[float | None, str]:
+    """Map an LLM unit to our canonical units, converting g->kg and ml->l."""
+    u = _UNIT_MAP.get((unit or "").lower(), (unit or "").lower())
+    if u == "g":
+        return (round(quantity / 1000, 4) if quantity is not None else None), "kg"
+    if u == "ml":
+        return (round(quantity / 1000, 4) if quantity is not None else None), "l"
+    if u == "dozen":
+        return (quantity * 12 if quantity is not None else None), "piece"
+    if u in {"kg", "l", "piece", "pack", "loaf"}:
+        return quantity, u
+    return quantity, DEFAULT_UNIT.get(canonical, "unit")
+
+
 # --------------------------------------------------------------- understand -
 _SPLIT_RE = re.compile(r"\s*(?:,|\+|&|\band\b|\baur\b|\bplus\b|\n)\s*", re.I)
+
+
+def understand(text: str, provider: Any = None) -> tuple[float | None, list[dict[str, Any]]]:
+    """LLM-first understanding (handles ANY item); deterministic fallback.
+
+    When a real LLM is configured, items are not limited to the grocery lexicon
+    — electronics, ice cream, anything gets parsed and priced. If the LLM is
+    unavailable or returns nothing usable, we fall back to the deterministic
+    grocery parser so the system always works.
+    """
+    from ..llm.provider import get_provider
+    from .llm_extract import extract_intent
+
+    provider = provider or get_provider()
+    if getattr(provider, "name", "deterministic") != "deterministic":
+        parsed = extract_intent(text, provider)
+        if parsed and parsed.get("items"):
+            items: list[dict[str, Any]] = []
+            seen: set[str] = set()
+            for it in parsed["items"]:
+                name = it["name"]
+                canonical = _match_canonical(name.lower()) or _slug(name)
+                if canonical in seen:
+                    continue
+                seen.add(canonical)
+                qty, unit = _normalize_llm_unit(it.get("unit"), it.get("quantity"), canonical)
+                items.append({
+                    "raw": name[:60],
+                    "canonical": canonical,
+                    "quantity": qty,
+                    "unit": unit,
+                    "confidence": 0.9,
+                    "est_price_inr": it.get("unit_price_inr"),
+                })
+            if items:
+                # Money is deterministic: trust our budget regex first (it
+                # reliably catches "under 3000", "₹3000", "3000 ka", ...), and
+                # only fall back to the LLM's budget if the regex found none.
+                det_budget, _ = _extract_budget(text)
+                budget = det_budget if det_budget is not None else parsed.get("budget_inr")
+                return budget, items
+    return _understand(text)
 
 
 def _understand(text: str) -> tuple[float | None, list[dict[str, Any]]]:
@@ -195,7 +255,15 @@ def _build_line(item: dict[str, Any], offers: list[dict[str, Any]], gen_counter:
         }
 
     # No matching offer -> CREATE a realistic product (estimated).
-    price, gunit = EST_PRICE.get(canonical, (30.0, DEFAULT_UNIT.get(canonical, "unit")))
+    # Known grocery items use the built-in price table; anything else (from the
+    # LLM: electronics, ice cream, ...) uses the LLM's estimated price.
+    known = EST_PRICE.get(canonical)
+    if known is not None:
+        price, gunit = known
+    else:
+        est = item.get("est_price_inr")
+        price = float(est) if est else 30.0
+        gunit = item.get("unit") or DEFAULT_UNIT.get(canonical, "unit")
     if gunit in _COUNT_UNITS:
         qty = max(1, math.ceil(need_qty))
     else:
@@ -213,19 +281,23 @@ def _total(lines: list[dict[str, Any]]) -> float:
 
 
 # --------------------------------------------------------------- decide -----
-def decide(user_request: str, available_offers: Any = "NONE") -> dict[str, Any]:
-    budget, items = _understand(user_request or "")
+def decide(user_request: str, available_offers: Any = "NONE", *, provider: Any = None) -> dict[str, Any]:
+    budget, items = understand(user_request or "", provider)
 
     # Rule 6: nothing identifiable.
     if not items:
         return {
-            "understanding": {"budget_inr": budget, "items": [], "notes": "no grocery item recognized"},
+            "understanding": {"budget_inr": budget, "items": [], "notes": "no item recognized"},
             "basket": {"lines": [], "total": 0},
             "budget_check": {"within_budget": True, "remaining_inr": budget, "over_by_inr": None},
             "decisions": {"substitutions": [], "quantity_changes": [], "dropped_items": [], "created_products": []},
             "next_action": "ASK_USER",
             "options_for_user": [],
-            "message_to_user": "Samajh nahi paaya kya chahiye. Kripya item batao — jaise '1kg aloo, 2 maggi, doodh'.",
+            "message_to_user": (
+                "I couldn't identify anything to order. Try naming items, e.g. "
+                "\"1 kg potatoes, 2 packs of Maggi, 1 L milk\". Tip: connect a real LLM "
+                "(Gemini/Groq/Ollama) to order any product, not just groceries."
+            ),
         }
 
     offers = _normalize_offers(available_offers)
@@ -333,18 +405,18 @@ def _notes(items: list[dict[str, Any]], offers: list[dict[str, Any]], available:
 
 def _message(items, lines, total, budget, within, over_by, created, dropped, next_action) -> str:
     if budget is None:
-        head = f"Basket ready, total ₹{total:g} (koi budget nahi diya)."
+        head = f"Basket ready — total ₹{total:g}."
     elif within:
-        head = f"Ho gaya! Total ₹{total:g}, budget ₹{budget:g} ke andar."
+        head = f"Done — total ₹{total:g}, within your ₹{budget:g} budget."
     else:
-        head = f"Total ₹{total:g}, budget ₹{budget:g} se ₹{over_by:g} zyada — options neeche."
+        head = f"Total ₹{total:g} is ₹{over_by:g} over your ₹{budget:g} budget — see the options below."
     extras = []
     if created:
-        extras.append("kuch items ka market price estimate kiya")
+        extras.append("used market estimates for some items")
     if dropped:
-        extras.append(f"{len(dropped)} item hataya budget ke liye")
+        extras.append(f"removed {len(dropped)} item(s) to fit the budget")
     if next_action == "PROCEED_TO_CHECKOUT":
-        extras.append("cart banane ke liye ready")
+        extras.append("ready to build your cart")
     tail = ("; " + ", ".join(extras)) if extras else ""
     return (head + tail)[:240]
 

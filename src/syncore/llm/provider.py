@@ -123,13 +123,25 @@ def _tokenize(text: str) -> list[str]:
 
 
 def get_provider() -> LLMProvider:
-    """Factory honoring LLM_PROVIDER. Falls back to deterministic if unset."""
+    """Factory honoring LLM_PROVIDER. Falls back to deterministic if a real
+    provider isn't configured/available (never crashes the request)."""
     settings = get_settings()
-    if settings.llm_provider == "openai" and settings.llm_api_key:
-        try:
-            from .openai_provider import OpenAIProvider
+    prov = (settings.llm_provider or "deterministic").lower()
+    if prov == "deterministic":
+        return DeterministicProvider()
+    try:
+        if prov == "gemini":
+            # Native Gemini API (reliable across keys); not the OpenAI shim.
+            from .gemini_provider import build_gemini_provider
 
-            return OpenAIProvider()
-        except Exception as exc:  # pragma: no cover - optional dependency path
-            logger.warning("OpenAI provider unavailable (%s); using deterministic", exc)
+            provider = build_gemini_provider()
+        else:
+            # groq / ollama / openrouter / openai -> OpenAI-compatible endpoint.
+            from .http_provider import build_http_provider
+
+            provider = build_http_provider()
+        if provider is not None:
+            return provider
+    except Exception as exc:  # pragma: no cover - defensive
+        logger.warning("LLM provider unavailable (%s); using deterministic", exc)
     return DeterministicProvider()

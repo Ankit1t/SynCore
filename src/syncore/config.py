@@ -50,6 +50,10 @@ class Settings(BaseSettings):
     environment: Literal["local", "staging", "production"] = "local"
     log_level: str = "INFO"
     log_json: bool = False
+    # CORS: comma-separated allowlist of origins, or "*" for any. The frontend
+    # normally proxies same-origin (Vercel/Next rewrites) so this rarely matters,
+    # but it makes direct browser->API calls work if you use them.
+    cors_origins: str = "*"
 
     # --- Persistence ---
     # SQLite by default for zero-setup local runs. Set DATABASE_URL to a
@@ -60,10 +64,15 @@ class Settings(BaseSettings):
     redis_url: str | None = None
 
     # --- LLM ---
-    # "deterministic" uses the built-in rule-based provider (no API key needed).
-    llm_provider: Literal["deterministic", "openai"] = "deterministic"
-    llm_model: str = "gpt-4o-mini"
+    # "deterministic" = built-in rule-based provider (no key, offline).
+    # Real providers (all OpenAI-compatible, most have a FREE tier):
+    #   gemini | groq | ollama | openrouter | openai
+    # Set LLM_PROVIDER + LLM_API_KEY (ollama needs no key). Model/base URL have
+    # per-provider defaults but can be overridden via LLM_MODEL / LLM_BASE_URL.
+    llm_provider: str = "deterministic"
+    llm_model: str = ""  # empty -> use the provider's default model
     llm_api_key: str | None = None
+    llm_base_url: str | None = None  # empty -> use the provider's default base URL
     max_agent_steps: int = 50
     max_agent_runtime_seconds: int = 120
 
