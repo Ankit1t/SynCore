@@ -52,6 +52,10 @@ class HttpLLMProvider:
         self._key = api_key
         self._fallback = DeterministicProvider()
 
+    # Transient conditions worth retrying: rate limits and server hiccups.
+    _RETRY_STATUS = {429, 500, 502, 503, 504}
+    _MAX_ATTEMPTS = 3
+
     def generate(self, prompt: str, *, system: str | None = None, max_tokens: int = 800) -> LLMResult:
         messages = []
         if system:
@@ -63,9 +67,37 @@ class HttpLLMProvider:
         body = {"model": self._model, "messages": messages, "temperature": 0.1, "max_tokens": max_tokens}
 
         start = time.perf_counter()
-        resp = httpx.post(f"{self._base}/chat/completions", headers=headers, json=body, timeout=30)
-        resp.raise_for_status()
-        data = resp.json()
+        data: dict = {}
+        last_err: Exception | None = None
+
+        # Retry transient failures (429 rate limit, 5xx, timeouts) with backoff.
+        # On total failure the caller falls back to the deterministic parser.
+        for attempt in range(1, self._MAX_ATTEMPTS + 1):
+            try:
+                resp = httpx.post(f"{self._base}/chat/completions", headers=headers, json=body, timeout=30)
+                if resp.status_code in self._RETRY_STATUS:
+                    retry_after = resp.headers.get("Retry-After")
+                    wait = float(retry_after) if (retry_after or "").replace(".", "", 1).isdigit() else 2.0 * attempt
+                    logger.warning("%s %s (attempt %d/%d), retrying in %.1fs",
+                                   self.name, resp.status_code, attempt, self._MAX_ATTEMPTS, wait)
+                    if attempt < self._MAX_ATTEMPTS:
+                        time.sleep(min(wait, 8.0))
+                        continue
+                resp.raise_for_status()
+                data = resp.json()
+                break
+            except (httpx.TimeoutException, httpx.TransportError) as exc:
+                last_err = exc
+                logger.warning("%s network error %s (attempt %d/%d)",
+                               self.name, type(exc).__name__, attempt, self._MAX_ATTEMPTS)
+                if attempt < self._MAX_ATTEMPTS:
+                    time.sleep(1.5 * attempt)
+
+        if not data:
+            if last_err is not None:
+                raise last_err
+            raise RuntimeError(f"{self.name} request failed after {self._MAX_ATTEMPTS} attempts")
+
         text = (data["choices"][0]["message"]["content"] or "").strip()
         usage = data.get("usage", {}) or {}
         rec = LLMUsage(
