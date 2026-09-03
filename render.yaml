@@ -21,11 +21,11 @@ services:
         value: mock
       - key: CORS_ORIGINS
         value: "*"
-      # --- LLM (any-item). Set the secret key in the dashboard. ---
+      # --- LLM (any-item). Groq is the stable demo default. ---
       - key: LLM_PROVIDER
-        value: gemini
+        value: groq
       - key: LLM_MODEL
-        value: gemini-3.5-flash
+        value: openai/gpt-oss-120b
       - key: LLM_API_KEY
         sync: false
       # For persistent data, add a free Postgres (Render/Neon) and set:
