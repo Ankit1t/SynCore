@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { ShoppingCart, Tag, Info } from "lucide-react";
+import { ShoppingCart, Tag, Info, Star, Clock } from "lucide-react";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { Skeleton } from "@/components/ui/Skeleton";
 import type { DecideResponse } from "@/lib/api";
@@ -11,6 +11,16 @@ const money = (n: number) => `₹${(Math.round(n * 100) / 100).toLocaleString("e
 function qtyLabel(quantity: number, unit: string) {
   const q = Number.isInteger(quantity) ? quantity : Math.round(quantity * 100) / 100;
   return `${q} ${unit}`;
+}
+
+function formatCount(n: number): string {
+  if (n >= 1000) return `${(n / 1000).toFixed(n >= 10000 ? 0 : 1)}k`;
+  return `${n}`;
+}
+
+function discountPct(l: { mrp?: number | null; unit_price: number }): number {
+  if (!l.mrp || l.mrp <= l.unit_price) return 0;
+  return Math.round((1 - l.unit_price / l.mrp) * 100);
 }
 
 export function BasketPanel({
@@ -98,11 +108,32 @@ function FilledBasket({ result }: { result: DecideResponse }) {
                     </span>
                   )}
                 </div>
-                <span className="text-xs text-muted">{qtyLabel(l.quantity, l.unit)}</span>
+                <div className="mt-0.5 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xs text-muted">
+                  <span>{qtyLabel(l.quantity, l.unit)}</span>
+                  {!!l.rating && l.rating > 0 && (
+                    <span className="inline-flex items-center gap-0.5 text-good">
+                      <Star size={11} className="fill-current" /> {l.rating}
+                      {!!l.review_count && l.review_count > 0 && (
+                        <span className="text-muted"> ({formatCount(l.review_count)})</span>
+                      )}
+                    </span>
+                  )}
+                  {!!l.eta_minutes && l.eta_minutes > 0 && (
+                    <span className="inline-flex items-center gap-0.5">
+                      <Clock size={11} /> ~{l.eta_minutes}m
+                    </span>
+                  )}
+                </div>
               </div>
-              <span className="shrink-0 text-sm font-semibold tabular-nums">
-                {money(l.line_total)}
-              </span>
+              <div className="shrink-0 text-right">
+                <div className="text-sm font-semibold tabular-nums">{money(l.line_total)}</div>
+                {discountPct(l) > 0 && (
+                  <div className="text-[11px] leading-tight">
+                    <span className="text-muted line-through">{money((l.mrp ?? 0) * l.quantity)}</span>{" "}
+                    <span className="font-semibold text-good">{discountPct(l)}% off</span>
+                  </div>
+                )}
+              </div>
             </motion.li>
           ))}
         </AnimatePresence>
@@ -165,8 +196,8 @@ function FilledBasket({ result }: { result: DecideResponse }) {
       {hasEstimates && (
         <p className="mt-3 flex items-start gap-1.5 text-xs text-muted">
           <Info size={13} className="mt-0.5 shrink-0" />
-          Prices marked “est.” are the agent’s market estimates (no live retail price source
-          connected yet).
+          Priced items come from the curated product catalog. Lines marked “est.” aren’t in the
+          catalog yet, so the agent uses a market estimate.
         </p>
       )}
     </div>

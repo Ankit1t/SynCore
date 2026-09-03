@@ -50,6 +50,19 @@ ALIASES: dict[str, str] = {
     "ghee": "ghee", "clarified butter": "ghee",
     # a few more staples
     "butter": "butter", "makhan": "butter", "paneer": "paneer",
+    # snacks / packaged
+    "chocolate": "chocolate", "chocolates": "chocolate", "choco": "chocolate",
+    "namkeen": "namkeen", "mixture": "namkeen", "sev": "namkeen",
+    "cold drink": "cola", "cola": "cola", "coke": "cola", "pepsi": "cola", "soft drink": "cola",
+    "juice": "juice", "fruit juice": "juice",
+    "ice cream": "ice cream", "icecream": "ice cream", "ice-cream": "ice cream",
+    # personal care
+    "soap": "soap", "sabun": "soap", "shampoo": "shampoo", "toothpaste": "toothpaste",
+    "manjan": "toothpaste", "paste": "toothpaste",
+    # electronics
+    "phone charger": "phone charger", "charger": "phone charger", "mobile charger": "phone charger",
+    "bluetooth speaker": "bluetooth speaker", "speaker": "bluetooth speaker",
+    "earphones": "earphones", "earphone": "earphones", "earbuds": "earphones", "headphones": "earphones",
 }
 
 HINDI_NUMBERS: dict[str, float] = {
@@ -78,6 +91,11 @@ EST_PRICE: dict[str, tuple[float, str]] = {
     "eggs": (7, "piece"), "lentils": (120, "kg"), "tea": (250, "kg"),
     "curd": (30, "pack"), "bread": (40, "loaf"), "ghee": (600, "kg"),
     "butter": (55, "pack"), "paneer": (90, "pack"),
+    # A few stable packaged staples keep a fixed estimate. Items whose price
+    # varies a lot (electronics, ice cream, chocolate) are intentionally NOT
+    # here — they must be priced from the catalog or the LLM, never a guess.
+    "namkeen": (50, "pack"), "soap": (35, "piece"),
+    "toothpaste": (55, "piece"),
 }
 
 # higher = more essential (dropped last / never first)
@@ -86,6 +104,9 @@ ESSENTIALITY: dict[str, int] = {
     "potato": 8, "onion": 8, "tomato": 7, "lentils": 8, "eggs": 7, "ghee": 6,
     "curd": 6, "bread": 6, "tea": 6, "green chilli": 5, "butter": 5, "paneer": 5,
     "maggi": 3, "biscuits": 2, "chips": 1,
+    "soap": 5, "shampoo": 4, "toothpaste": 5, "juice": 3, "cola": 2,
+    "namkeen": 2, "chocolate": 1, "ice cream": 1,
+    "phone charger": 4, "earphones": 2, "bluetooth speaker": 1,
 }
 
 # canonical unit if the user gives none

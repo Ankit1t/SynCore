@@ -40,6 +40,11 @@ syncore-slice = "syncore.scripts.vertical_slice:main"
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.setuptools.package-data]
+# Ship the curated seed catalog (and any other data) inside the wheel so a
+# non-editable install (Docker) can still load it at runtime.
+"syncore.master_agent" = ["*.json"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 asyncio_mode = "auto"

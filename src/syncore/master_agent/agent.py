@@ -267,8 +267,12 @@ def _normalize_offers(available: Any) -> list[dict[str, Any]]:
     for o in available:
         if not isinstance(o, dict):
             continue
-        canon = o.get("canonical") or o.get("category")
-        canon = ALIASES.get(str(canon).lower()) if canon else None
+        raw = o.get("canonical") or o.get("category")
+        canon = ALIASES.get(str(raw).lower()) if raw else None
+        # Keep the offer's own canonical even if it's not in our grocery lexicon
+        # (electronics, personal care, ...), so non-grocery offers aren't dropped.
+        if canon is None and raw:
+            canon = str(raw).lower()
         if canon is None:
             name = str(o.get("product_name") or o.get("name") or o.get("title") or "").lower()
             for alias in _ALIASES_BY_LEN:
@@ -278,45 +282,75 @@ def _normalize_offers(available: Any) -> list[dict[str, Any]]:
         price = o.get("unit_price", o.get("price"))
         if canon is None or price is None:
             continue
+        variant = o.get("variant")
+        variant = [str(v).strip().lower() for v in variant] if isinstance(variant, list) else []
         out.append({
             "offer_id": str(o.get("offer_id") or o.get("id") or "offer"),
             "name": str(o.get("product_name") or o.get("name") or o.get("title") or canon),
             "canonical": canon,
+            "brand": str(o.get("brand") or "").strip(),
+            "variant": variant,
+            "size_text": str(o.get("size_text") or "").strip(),
             "unit_price": float(price),
+            "mrp": float(o["mrp"]) if o.get("mrp") is not None else None,
             "unit": str(o.get("unit") or DEFAULT_UNIT.get(canon, "unit")),
             "in_stock": bool(o.get("in_stock", True)),
             "size": float(o.get("quantity") or o.get("pack_size") or 1),
+            "rating": float(o["rating"]) if o.get("rating") is not None else 0.0,
+            "review_count": int(o.get("review_count") or 0),
+            "seller_rating": float(o["seller_rating"]) if o.get("seller_rating") is not None else 0.0,
+            "eta_minutes": int(o.get("eta_minutes") or 0),
         })
     return out
 
 
 # ------------------------------------------------------------------ build ---
+def _offer_matches_variant(offer: dict[str, Any], variants: list[str]) -> bool:
+    """True if every requested variant keyword is present in the offer."""
+    if not variants:
+        return True
+    hay = f"{offer.get('name', '')} {offer.get('size_text', '')} {' '.join(offer.get('variant', []))}".lower()
+    return all(v.lower() in hay for v in variants)
+
+
 def _build_line(item: dict[str, Any], offers: list[dict[str, Any]], gen_counter: list[int]) -> dict[str, Any]:
     canonical = item["canonical"]
     need_qty = item["quantity"] if item["quantity"] is not None else 1.0
-    unit = item["unit"] or DEFAULT_UNIT.get(canonical, "kg")
+    variants = item.get("variant_keywords") or []
 
     candidates = [o for o in offers if o["canonical"] == canonical]
     in_stock = [o for o in candidates if o["in_stock"]] or candidates
-    if in_stock:
-        offer = min(in_stock, key=lambda o: o["unit_price"])
+
+    # Variant-aware selection — never silently downgrade. If a specific variant
+    # (mega/family pack, ...) was asked, only consider offers that match it; if
+    # none match, fall through and estimate the EXACT variant instead.
+    pool = in_stock
+    if in_stock and variants:
+        pool = [o for o in in_stock if _offer_matches_variant(o, variants)]
+
+    if pool:
+        offer = min(pool, key=lambda o: o["unit_price"])
         o_unit = offer["unit"]
-        if o_unit in _COUNT_UNITS or o_unit not in _WEIGHT_UNITS:
-            qty = max(1, math.ceil(need_qty))
+        qty = max(1, math.ceil(need_qty)) if (o_unit in _COUNT_UNITS or o_unit not in _WEIGHT_UNITS) else need_qty
+        if variants:
+            reason = f"variant match: {', '.join(variants)}"
         else:
-            qty = need_qty
-        line_total = round(qty * offer["unit_price"], 2)
+            reason = "cheapest in-stock offer" if offer["in_stock"] else "only offer (out of stock)"
         return {
             "offer_id": offer["offer_id"], "product_name": offer["name"], "satisfies": canonical,
             "quantity": qty, "unit": o_unit, "unit_price": offer["unit_price"],
-            "line_total": line_total, "estimated": False,
-            "reason": "cheapest in-stock offer" if offer["in_stock"] else "only offer (out of stock)",
+            "line_total": round(qty * offer["unit_price"], 2), "estimated": False,
+            "brand": offer.get("brand") or None, "size_text": offer.get("size_text") or None,
+            "mrp": offer.get("mrp"), "rating": offer.get("rating") or 0.0,
+            "seller_rating": offer.get("seller_rating") or 0.0,
+            "review_count": offer.get("review_count") or 0,
+            "eta_minutes": offer.get("eta_minutes") or 0,
+            "reason": reason,
         }
 
-    # No matching offer -> CREATE a realistic product (estimated).
+    # No matching offer -> CREATE the exact variant as a flagged estimate.
     # Known grocery items use the built-in price table; anything else (from the
     # LLM: electronics, ice cream, ...) uses the LLM's estimated price.
-    variants = item.get("variant_keywords") or []
     known = EST_PRICE.get(canonical)
     if known is not None:
         base_price, gunit = known
@@ -328,17 +362,17 @@ def _build_line(item: dict[str, Any], offers: list[dict[str, Any]], gen_counter:
         est = item.get("est_price_inr")
         price = float(est) if est else 30.0
         gunit = item.get("unit") or DEFAULT_UNIT.get(canonical, "unit")
-    if gunit in _COUNT_UNITS:
-        qty = max(1, math.ceil(need_qty))
-    else:
-        qty = need_qty
+    qty = max(1, math.ceil(need_qty)) if gunit in _COUNT_UNITS else need_qty
     gen_counter[0] += 1
     product_name = f"{_display_name(item, canonical.title())} (market est.)"
+    downgrade_note = " (no stocked variant match)" if (variants and candidates) else ""
     return {
         "offer_id": f"generated-{gen_counter[0]}", "product_name": product_name,
         "satisfies": canonical, "quantity": qty, "unit": gunit, "unit_price": price,
         "line_total": round(qty * price, 2), "estimated": True,
-        "reason": ("created; " + (", ".join(variants) if variants else "no offer available")),
+        "brand": item.get("brand") or None, "size_text": None, "mrp": None,
+        "rating": 0.0, "seller_rating": 0.0, "review_count": 0, "eta_minutes": 0,
+        "reason": ("created; " + (", ".join(variants) if variants else "no offer available") + downgrade_note),
     }
 
 
@@ -470,6 +504,16 @@ def _build_review(
         budget=budget,
         brand_lock=brand_lock,
     )
+    # Aggregate real (non-estimated) ratings so confidence reflects the actual
+    # matched offers. If everything is a market estimate, ratings stay neutral.
+    real = [ln for ln in lines if not ln.get("estimated")]
+    if real:
+        avg_seller = round(sum(ln.get("seller_rating") or 0 for ln in real) / len(real), 2)
+        avg_prod = round(sum(ln.get("rating") or 0 for ln in real) / len(real), 2)
+        avg_reviews = int(sum(ln.get("review_count") or 0 for ln in real) / len(real))
+    else:
+        avg_seller = avg_prod = 0.0
+        avg_reviews = 0
     # cand.brand carries the full basket name so the brand-lock substring check
     # verifies the locked brand is actually reflected in what we're ordering.
     cand = Candidate(
@@ -478,6 +522,9 @@ def _build_review(
         unit_price=float(total),
         quantity_available=99,
         in_stock=bool(lines),
+        seller_rating=avg_seller,
+        product_rating=avg_prod,
+        review_count=avg_reviews,
     )
     d = score_candidate(spec, cand)
 

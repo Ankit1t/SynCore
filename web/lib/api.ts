@@ -155,6 +155,13 @@ export interface DecideLine {
   line_total: number;
   estimated: boolean;
   reason: string;
+  brand?: string | null;
+  size_text?: string | null;
+  mrp?: number | null;
+  rating?: number;
+  seller_rating?: number;
+  review_count?: number;
+  eta_minutes?: number;
 }
 
 export interface DecideOption {
