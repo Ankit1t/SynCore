@@ -131,6 +131,18 @@ export interface DecideItem {
   quantity: number | null;
   unit: string | null;
   confidence: number;
+  brand?: string | null;
+  variant_keywords?: string[];
+}
+
+export interface DecideReview {
+  verdict: "PASS" | "PASS_WITH_NOTES" | "FAIL" | string;
+  confidence: number;
+  autopilot: "AUTO_EXECUTE" | "EXECUTE_NOTIFY" | "ASK_USER" | string;
+  reasons: string[];
+  concerns: string[];
+  audit_id: string;
+  question: string;
 }
 
 export interface DecideLine {
@@ -163,6 +175,7 @@ export interface DecideResponse {
   };
   next_action: "PROCEED_TO_CHECKOUT" | "ASK_USER" | "RETRY_SEARCH" | string;
   options_for_user: DecideOption[];
+  review?: DecideReview | null;
   message_to_user: string;
 }
 

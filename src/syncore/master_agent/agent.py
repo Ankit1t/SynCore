@@ -27,6 +27,48 @@ _ALIASES_BY_LEN = sorted(ALIASES, key=len, reverse=True)
 _WEIGHT_UNITS = {"kg", "l"}
 _COUNT_UNITS = {"pack", "piece", "loaf", "dozen"}
 
+# Large-pack qualifiers. When the user asks for a mega/family/jumbo pack we must
+# price and name it as that variant — never silently downgrade to a regular
+# pack (the "Maggi bug"). Multiplier is applied to a known base estimate.
+_VARIANT_MULTIPLIERS: list[tuple[tuple[str, ...], float]] = [
+    (("mega", "jumbo", "xxl", "bumper"), 7.0),
+    (("family", "party", "value", "super saver", "combo", "bulk"), 5.0),
+]
+_VARIANT_SCAN = re.compile(
+    r"\b(mega\s*pack|mega|jumbo|family\s*pack|family|party\s*pack|party|"
+    r"value\s*pack|value|super\s*saver|combo\s*pack|combo|bulk|xxl|bumper)\b",
+    re.I,
+)
+
+
+def _extract_variant(fragment: str) -> list[str]:
+    """Pull pack/size qualifiers from a raw fragment (deterministic fallback)."""
+    out: list[str] = []
+    for m in _VARIANT_SCAN.finditer(fragment):
+        v = re.sub(r"\s+", " ", m.group(0).strip().lower())
+        if v not in out:
+            out.append(v)
+    return out[:5]
+
+
+def _variant_multiplier(variants: list[str]) -> float:
+    joined = " ".join(variants).lower()
+    mult = 1.0
+    for kws, factor in _VARIANT_MULTIPLIERS:
+        if any(k in joined for k in kws):
+            mult = max(mult, factor)
+    return mult
+
+
+def _display_name(item: dict[str, Any], base_title: str) -> str:
+    """Compose an honest product name that reflects brand + variant."""
+    brand = (item.get("brand") or "").strip()
+    variants = item.get("variant_keywords") or []
+    name = f"{brand} {base_title}".strip() if brand and brand.lower() not in base_title.lower() else base_title
+    if variants:
+        name = f"{name} — {', '.join(v.title() for v in variants)}"
+    return name
+
 # ---------------------------------------------------------------- budget ----
 # A money number may carry thousands separators, e.g. "1,000" or the Indian
 # "1,00,000". Capture the digits+commas, then strip commas before float().
@@ -175,6 +217,8 @@ def understand(text: str, provider: Any = None) -> tuple[float | None, list[dict
                     "unit": unit,
                     "confidence": 0.9,
                     "est_price_inr": it.get("unit_price_inr"),
+                    "brand": it.get("brand"),
+                    "variant_keywords": it.get("variant_keywords") or [],
                 })
             if items:
                 # Money is deterministic: trust our budget regex first (it
@@ -208,6 +252,8 @@ def _understand(text: str) -> tuple[float | None, list[dict[str, Any]]]:
             "quantity": qty,
             "unit": unit,
             "confidence": confidence,
+            "brand": None,
+            "variant_keywords": _extract_variant(raw_frag),
         })
         seen.add(canonical)
     return budget, items
@@ -270,10 +316,15 @@ def _build_line(item: dict[str, Any], offers: list[dict[str, Any]], gen_counter:
     # No matching offer -> CREATE a realistic product (estimated).
     # Known grocery items use the built-in price table; anything else (from the
     # LLM: electronics, ice cream, ...) uses the LLM's estimated price.
+    variants = item.get("variant_keywords") or []
     known = EST_PRICE.get(canonical)
     if known is not None:
-        price, gunit = known
+        base_price, gunit = known
+        # Known base prices are for a REGULAR pack; scale up for large variants
+        # so the budget math reflects the actual mega/family pack the user asked.
+        price = round(base_price * _variant_multiplier(variants), 2)
     else:
+        # LLM already prices the exact variant it extracted.
         est = item.get("est_price_inr")
         price = float(est) if est else 30.0
         gunit = item.get("unit") or DEFAULT_UNIT.get(canonical, "unit")
@@ -282,10 +333,12 @@ def _build_line(item: dict[str, Any], offers: list[dict[str, Any]], gen_counter:
     else:
         qty = need_qty
     gen_counter[0] += 1
+    product_name = f"{_display_name(item, canonical.title())} (market est.)"
     return {
-        "offer_id": f"generated-{gen_counter[0]}", "product_name": f"{canonical.title()} (market est.)",
+        "offer_id": f"generated-{gen_counter[0]}", "product_name": product_name,
         "satisfies": canonical, "quantity": qty, "unit": gunit, "unit_price": price,
-        "line_total": round(qty * price, 2), "estimated": True, "reason": "created; no offer available",
+        "line_total": round(qty * price, 2), "estimated": True,
+        "reason": ("created; " + (", ".join(variants) if variants else "no offer available")),
     }
 
 
@@ -306,6 +359,7 @@ def decide(user_request: str, available_offers: Any = "NONE", *, provider: Any =
             "decisions": {"substitutions": [], "quantity_changes": [], "dropped_items": [], "created_products": []},
             "next_action": "ASK_USER",
             "options_for_user": [],
+            "review": None,
             "message_to_user": (
                 "I couldn't identify anything to order. Try naming items, e.g. "
                 "\"1 kg potatoes, 2 packs of Maggi, 1 L milk\". Tip: connect a real LLM "
@@ -362,6 +416,7 @@ def decide(user_request: str, available_offers: Any = "NONE", *, provider: Any =
         next_action = "PROCEED_TO_CHECKOUT"
 
     message = _message(items, lines, total, budget, within, over_by, created, dropped_items, next_action)
+    review = _build_review(items, lines, total, budget, within)
 
     return {
         "understanding": {
@@ -379,7 +434,68 @@ def decide(user_request: str, available_offers: Any = "NONE", *, provider: Any =
         },
         "next_action": next_action,
         "options_for_user": options,
+        "review": review,
         "message_to_user": message,
+    }
+
+
+def _build_review(
+    items: list[dict[str, Any]],
+    lines: list[dict[str, Any]],
+    total: float,
+    budget: float | None,
+    within: bool,
+) -> dict[str, Any]:
+    """Self-review + confidence pass over the built basket.
+
+    Reuses the confidence scorer's hard rules (variant mismatch, budget breach,
+    auto-pay limit, brand lock) to produce an autonomy verdict. This is purely
+    informational — it never overrides the pipeline's next_action.
+    """
+    from .confidence import Action, Candidate, OrderSpec
+    from .confidence import decide as score_candidate
+
+    req_variants: list[str] = []
+    brand_lock: str | None = None
+    for it in items:
+        req_variants += it.get("variant_keywords") or []
+        if not brand_lock and it.get("brand"):
+            brand_lock = it["brand"]
+
+    combined_name = " | ".join(ln["product_name"] for ln in lines)
+    spec = OrderSpec(
+        item=", ".join(dict.fromkeys(ln["satisfies"] for ln in lines)) or "order",
+        variant_keywords=req_variants,
+        quantity=1,
+        budget=budget,
+        brand_lock=brand_lock,
+    )
+    # cand.brand carries the full basket name so the brand-lock substring check
+    # verifies the locked brand is actually reflected in what we're ordering.
+    cand = Candidate(
+        product_name=combined_name,
+        brand=combined_name,
+        unit_price=float(total),
+        quantity_available=99,
+        in_stock=bool(lines),
+    )
+    d = score_candidate(spec, cand)
+
+    if not within or any(("variant mismatch" in b or "brand lock" in b) for b in d.blockers):
+        verdict = "FAIL"
+    elif d.blockers or d.action is not Action.AUTO_EXECUTE:
+        verdict = "PASS_WITH_NOTES"
+    else:
+        verdict = "PASS"
+
+    return {
+        "verdict": verdict,
+        "confidence": d.score,
+        "autopilot": d.action.value,
+        "reasons": d.reasons,
+        "concerns": d.blockers,
+        "audit_id": d.audit_id,
+        "question": d.user_question,
     }
 
 

@@ -31,16 +31,27 @@ def _prompt(text: str) -> str:
         '  "items": [\n'
         "    {\n"
         '      "name": "<product name>",\n'
+        '      "brand": "<brand if the user named one (e.g. Amul, Maggi), else null>",\n'
+        '      "variant_keywords": [<size/pack qualifiers the user stated, verbatim, '
+        'e.g. "mega pack", "family pack", "jumbo", "1 litre", "500g", "combo" — empty [] if none>],\n'
         '      "quantity": <number or null>,\n'
         '      "unit": "kg" | "g" | "l" | "ml" | "piece" | "pack" | "dozen" | null,\n'
         '      "category": "<short category, e.g. grocery, dairy, snacks, electronics, frozen>",\n'
-        '      "unit_price_inr": <realistic current Indian retail price for ONE unit/kg/pack, a number>\n'
+        '      "unit_price_inr": <realistic current Indian retail price for ONE unit of the '
+        "EXACT variant asked (a mega/family pack costs more than a regular pack), a number>\n"
         "    }\n"
         "  ]\n"
         "}\n\n"
         "Include EVERY item the user mentions, including non-grocery items "
         "(electronics, ice cream, household, etc.). If a quantity/unit is not "
         "stated, use null.\n\n"
+        "VARIANT RULES (critical):\n"
+        "- Put every size/pack/flavor qualifier the user says into variant_keywords "
+        '(e.g. "mega pack of maggi" -> variant_keywords ["mega pack"]). Never drop it.\n'
+        "- Quantity binds to the variant: \"2 mega pack\" means quantity 2 of the MEGA "
+        "pack, never 2 regular packs.\n"
+        "- Price the EXACT variant, not the cheapest one. A mega/family/jumbo pack is "
+        "priced higher than a regular pack.\n\n"
         "If the user describes a MEAL, OCCASION, or a vague CATEGORY instead of "
         "naming exact products (e.g. \"food for dinner\", \"party snacks\", "
         "\"something to cook\", \"breakfast items\", \"stuff for a road trip\"), "
@@ -106,8 +117,16 @@ def extract_intent(text: str, provider: Any) -> dict[str, Any] | None:
         name = str(it.get("name") or "").strip()
         if not name:
             continue
+        raw_variants = it.get("variant_keywords")
+        variants = (
+            [str(v).strip() for v in raw_variants if str(v).strip()]
+            if isinstance(raw_variants, list)
+            else []
+        )
         items.append({
             "name": name[:80],
+            "brand": (str(it.get("brand")).strip() if it.get("brand") else None),
+            "variant_keywords": variants[:5],
             "quantity": _num(it.get("quantity")),
             "unit": (str(it.get("unit")).strip().lower() if it.get("unit") else None),
             "category": (str(it.get("category")).strip() if it.get("category") else None),

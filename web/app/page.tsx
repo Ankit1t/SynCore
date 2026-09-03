@@ -6,6 +6,7 @@ import { AlertTriangle, CheckCircle2, HelpCircle } from "lucide-react";
 import { Composer } from "@/components/dashboard/Composer";
 import { ActivityTimeline } from "@/components/dashboard/ActivityTimeline";
 import { BasketPanel } from "@/components/dashboard/BasketPanel";
+import { ReviewBadge } from "@/components/dashboard/ReviewBadge";
 import { Card } from "@/components/ui/Card";
 import { useHistory } from "@/components/history/HistoryProvider";
 import { askAgent } from "@/lib/api";
@@ -93,6 +94,7 @@ export default function ShopPage() {
       <div className="mt-6 grid grid-cols-1 gap-5 lg:grid-cols-5">
         <Card className="p-5 lg:col-span-3">
           <ActivityTimeline result={result} running={running} />
+          {result?.review && !running && <ReviewBadge review={result.review} />}
         </Card>
         <Card className="p-5 lg:col-span-2">
           <BasketPanel result={result} running={running} />
