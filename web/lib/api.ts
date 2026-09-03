@@ -186,15 +186,47 @@ export interface DecideResponse {
   message_to_user: string;
 }
 
-export async function askAgent(text: string): Promise<DecideResponse> {
-  const res = await fetch("/api/v1/agent/decide", {
+const DECIDE_PATH = "/api/v1/agent/decide";
+const LIVE_RENDER_DECIDE_URL =
+  "https://syncore-api.onrender.com/api/v1/agent/decide";
+
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+async function requestDecision(url: string, text: string): Promise<DecideResponse> {
+  const res = await fetch(url, {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify({ user_request: text, available_offers: "NONE" }),
     cache: "no-store",
   });
-  if (!res.ok) {
+  const contentType = res.headers.get("content-type") ?? "";
+  if (!res.ok || !contentType.includes("application/json")) {
     throw new Error(`agent request failed (${res.status})`);
   }
-  return res.json();
+  return res.json() as Promise<DecideResponse>;
+}
+
+export async function askAgent(text: string): Promise<DecideResponse> {
+  const isLocal =
+    typeof window !== "undefined" &&
+    (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
+
+  // Normal path: same-origin Vercel rewrite. On production, fall back directly
+  // to Render when that proxy returns a transient HTML/5xx response during a
+  // free-tier cold start. `decide` is side-effect-free, so retrying is safe.
+  const attempts = isLocal
+    ? [DECIDE_PATH]
+    : [DECIDE_PATH, LIVE_RENDER_DECIDE_URL, LIVE_RENDER_DECIDE_URL];
+  let lastError: unknown;
+
+  for (let i = 0; i < attempts.length; i += 1) {
+    if (i > 0) await wait(i * 1_500);
+    try {
+      return await requestDecision(attempts[i], text);
+    } catch (error) {
+      lastError = error;
+    }
+  }
+
+  throw lastError instanceof Error ? lastError : new Error("agent request failed");
 }
