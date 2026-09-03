@@ -427,9 +427,10 @@ def decide(user_request: str, available_offers: Any = "NONE", *, provider: Any =
                 total = _total(lines)
 
         # (c) drop least-essential items (snacks first) until within budget.
-        while total > budget and lines:
+        while total > budget and len(lines) > 1:
             victim = min(lines, key=lambda x: (essentiality(x["satisfies"]), -x["line_total"]))
-            # only auto-drop clearly non-essential items (snacks); stop otherwise.
+            # only auto-drop clearly non-essential items; never empty the basket
+            # or drop the last item — ask the user instead.
             if essentiality(victim["satisfies"]) > 3:
                 break
             lines.remove(victim)
