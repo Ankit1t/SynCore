@@ -33,6 +33,11 @@ services:
         sync: false
       - key: RAZORPAY_KEY_SECRET
         sync: false
+      # --- Live REAL product data (SerpApi Google Shopping). Optional. ---
+      # Set this to fetch real, currently-listed products with live prices.
+      # Without it, LIVE mode uses the DummyJSON demo API.
+      - key: SERPAPI_KEY
+        sync: false
       # For persistent data, add a free Postgres (Render/Neon) and set:
       # - key: DATABASE_URL
       #   value: postgresql+psycopg://...   (then build with pip install -e ".[postgres]")
