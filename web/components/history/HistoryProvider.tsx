@@ -21,7 +21,7 @@ interface HistoryContextValue {
   history: HistoryEntry[];
   selectedId: string | null;
   selected: HistoryEntry | null;
-  add: (query: string, result: DecideResponse) => void;
+  add: (query: string, result: DecideResponse) => string;
   select: (id: string) => void;
   remove: (id: string) => void;
   newChat: () => void;
@@ -57,7 +57,7 @@ export function HistoryProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const add = useCallback(
-    (query: string, result: DecideResponse) => {
+    (query: string, result: DecideResponse): string => {
       const entry: HistoryEntry = {
         id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
         query,
@@ -66,6 +66,7 @@ export function HistoryProvider({ children }: { children: React.ReactNode }) {
       };
       persist([entry, ...history].slice(0, MAX_ENTRIES));
       setSelectedId(entry.id);
+      return entry.id;
     },
     [history, persist],
   );

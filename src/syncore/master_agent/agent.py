@@ -405,8 +405,13 @@ def decide(user_request: str, available_offers: Any = "NONE", *, provider: Any =
     # anything else is treated as a caller-supplied offer list (or "NONE").
     if isinstance(available_offers, str) and available_offers.upper() == "LIVE":
         from .live_offers import fetch_offers_for_items
+        from .product_catalog import catalog_offers
 
-        offers = _normalize_offers(fetch_offers_for_items(items))
+        # Live offers first, blended with the curated catalog so the agent
+        # always has sensible generic options (e.g. a plain Type-C charger)
+        # even when the live source only lists a pricey branded one. Cheapest
+        # suitable offer wins per item.
+        offers = _normalize_offers(fetch_offers_for_items(items) + catalog_offers())
     else:
         offers = _normalize_offers(available_offers)
     gen_counter = [0]

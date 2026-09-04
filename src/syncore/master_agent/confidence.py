@@ -20,7 +20,9 @@ import uuid
 from dataclasses import dataclass, field
 from enum import Enum
 
-AUTO_PAY_LIMIT = 500.0  # above this the agent always seeks confirmation
+# The prepaid wallet is a pre-authorized spending pool, so the agent can settle
+# orders autonomously up to this per-order ceiling before it seeks confirmation.
+AUTO_PAY_LIMIT = 25000.0
 AUTO_EXECUTE_MIN = 85  # score >= 85 -> silent
 EXECUTE_NOTIFY_MIN = 60  # score 60-84 -> act + inform
 

@@ -17,6 +17,8 @@ export default function ShopPage() {
   const [running, setRunning] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [live, setLive] = useState(false);
+  // Only the freshly-created order auto-settles; revisiting history never does.
+  const [justCreatedId, setJustCreatedId] = useState<string | null>(null);
 
   // While a request is in flight we show loading states, otherwise the
   // currently selected history entry.
@@ -27,7 +29,8 @@ export default function ShopPage() {
     setRunning(true);
     try {
       const res = await askAgent(query, { live });
-      add(query, res);
+      const id = add(query, res);
+      setJustCreatedId(id);
     } catch {
       setError(friendlyError("agent request failed"));
     } finally {
@@ -130,7 +133,12 @@ export default function ShopPage() {
           {result?.review && !running && <ReviewBadge review={result.review} />}
         </Card>
         <Card className="p-5 lg:col-span-2">
-          <BasketPanel result={result} running={running} />
+          <BasketPanel
+            result={result}
+            running={running}
+            orderId={selected?.id ?? null}
+            autoPay={!!selected && selected.id === justCreatedId}
+          />
         </Card>
       </div>
     </div>

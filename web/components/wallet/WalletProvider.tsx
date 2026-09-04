@@ -19,13 +19,43 @@ interface WalletContextValue {
     note?: string,
   ) => Promise<{ paid: boolean; reason?: string; shortfall_inr?: number }>;
   topUp: (amountInr: number) => Promise<{ ok: boolean; reason?: string }>;
+  isPaid: (orderId: string) => boolean;
+  markPaid: (orderId: string) => void;
 }
 
 const WalletContext = createContext<WalletContextValue | null>(null);
 
+const PAID_KEY = "syncore-paid-orders";
+
 export function WalletProvider({ children }: { children: React.ReactNode }) {
   const [wallet, setWallet] = useState<WalletState | null>(null);
   const [loading, setLoading] = useState(false);
+  const [paidOrders, setPaidOrders] = useState<Set<string>>(new Set());
+
+  // Load paid-order ids so revisiting history never re-charges the wallet.
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(PAID_KEY);
+      if (raw) setPaidOrders(new Set(JSON.parse(raw)));
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
+  const isPaid = useCallback((orderId: string) => paidOrders.has(orderId), [paidOrders]);
+  const markPaid = useCallback((orderId: string) => {
+    setPaidOrders((prev) => {
+      if (prev.has(orderId)) return prev;
+      const next = new Set(prev);
+      next.add(orderId);
+      try {
+        localStorage.setItem(PAID_KEY, JSON.stringify([...next]));
+      } catch {
+        /* ignore */
+      }
+      return next;
+    });
+  }, []);
 
   const refresh = useCallback(async () => {
     try {
@@ -86,7 +116,9 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
   );
 
   return (
-    <WalletContext.Provider value={{ wallet, loading, refresh, payFromWallet, topUp }}>
+    <WalletContext.Provider
+      value={{ wallet, loading, refresh, payFromWallet, topUp, isPaid, markPaid }}
+    >
       {children}
     </WalletContext.Provider>
   );

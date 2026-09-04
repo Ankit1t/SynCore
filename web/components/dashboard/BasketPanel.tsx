@@ -27,9 +27,13 @@ function discountPct(l: { mrp?: number | null; unit_price: number }): number {
 export function BasketPanel({
   result,
   running,
+  orderId,
+  autoPay,
 }: {
   result: DecideResponse | null;
   running: boolean;
+  orderId: string | null;
+  autoPay: boolean;
 }) {
   return (
     <section aria-labelledby="basket-heading" className="flex h-full flex-col">
@@ -53,7 +57,7 @@ export function BasketPanel({
       ) : !result || result.basket.lines.length === 0 ? (
         <EmptyBasket />
       ) : (
-        <FilledBasket result={result} />
+        <FilledBasket result={result} orderId={orderId} autoPay={autoPay} />
       )}
     </section>
   );
@@ -76,7 +80,15 @@ function EmptyBasket() {
   );
 }
 
-function FilledBasket({ result }: { result: DecideResponse }) {
+function FilledBasket({
+  result,
+  orderId,
+  autoPay,
+}: {
+  result: DecideResponse;
+  orderId: string | null;
+  autoPay: boolean;
+}) {
   const b = result.basket;
   const bc = result.budget_check;
   const budget = result.understanding.budget_inr;
@@ -207,8 +219,8 @@ function FilledBasket({ result }: { result: DecideResponse }) {
         </p>
       )}
 
-      {result.next_action === "PROCEED_TO_CHECKOUT" && b.total > 0 && (
-        <CheckoutButton amountInr={b.total} />
+      {result.next_action === "PROCEED_TO_CHECKOUT" && b.total > 0 && orderId && (
+        <CheckoutButton amountInr={b.total} orderId={orderId} autoPay={autoPay} />
       )}
     </div>
   );
