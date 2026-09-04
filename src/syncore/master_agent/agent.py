@@ -319,6 +319,12 @@ def _build_line(item: dict[str, Any], offers: list[dict[str, Any]], gen_counter:
     variants = item.get("variant_keywords") or []
 
     candidates = [o for o in offers if o["canonical"] == canonical]
+    if not candidates:
+        # Fallback for large/generic catalogs (e.g. an imported Kaggle dataset):
+        # match offers whose product name contains a meaningful token of the item.
+        toks = [t for t in re.split(r"\W+", canonical.lower()) if len(t) > 2]
+        if toks:
+            candidates = [o for o in offers if any(t in o["name"].lower() for t in toks)]
     in_stock = [o for o in candidates if o["in_stock"]] or candidates
 
     # Variant-aware selection — never silently downgrade. If a specific variant

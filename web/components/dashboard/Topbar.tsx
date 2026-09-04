@@ -13,7 +13,7 @@ export function Topbar() {
   const { selected } = useHistory();
   const { wallet, loading, topUp } = useWallet();
   const [showTopup, setShowTopup] = useState(false);
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState("5000"); // sensible default; user can change
 
   async function addMoney() {
     const value = Number(amount);
@@ -21,7 +21,7 @@ export function Topbar() {
     const res = await topUp(value);
     if (res.ok) {
       setShowTopup(false);
-      setAmount("");
+      setAmount("5000");
     }
   }
   const budget = selected?.result.understanding.budget_inr ?? null;
