@@ -17,9 +17,13 @@ debug_artifacts/
 .env.local
 
 # Node / Next.js
+node_modules/
 web/node_modules/
 web/.next/
 web/out/
+# accidental root npm files (the real frontend lives in web/)
+/package.json
+/package-lock.json
 
 # OS / editor
 .DS_Store
