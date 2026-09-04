@@ -17,6 +17,13 @@ services:
       # REDIS_URL: redis://redis:6379/0
       MARKETPLACE_MODE: mock
       BROWSER_MODE: mock
+      # Payments. Default = mock (no real money). For live Razorpay TEST-mode
+      # checkout, export these on the host (or in a .env next to this file):
+      #   PAYMENT_PROVIDER=razorpay RAZORPAY_KEY_ID=rzp_test_... RAZORPAY_KEY_SECRET=...
+      PAYMENT_PROVIDER: ${PAYMENT_PROVIDER:-mock}
+      RAZORPAY_KEY_ID: ${RAZORPAY_KEY_ID:-}
+      RAZORPAY_KEY_SECRET: ${RAZORPAY_KEY_SECRET:-}
+      WEBHOOK_SECRET: ${WEBHOOK_SECRET:-dev-webhook-secret-change-me}
     ports:
       - "8000:8000"
     healthcheck:

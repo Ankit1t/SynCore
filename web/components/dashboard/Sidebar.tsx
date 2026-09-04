@@ -11,11 +11,13 @@ import {
   MessageSquare,
   Trash2,
   Sparkles,
+  ShieldCheck,
 } from "lucide-react";
 import { useHistory } from "@/components/history/HistoryProvider";
 
 const NAV = [
   { href: "/", label: "Shop", icon: ShoppingBag },
+  { href: "/agentguard", label: "AgentGuard", icon: ShieldCheck },
   { href: "/orders", label: "Orders", icon: Package },
   { href: "/preferences", label: "Preferences", icon: SlidersHorizontal },
 ];

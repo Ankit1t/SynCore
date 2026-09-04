@@ -348,3 +348,115 @@ export async function askAgent(
 
   throw lastError instanceof Error ? lastError : new Error("agent request failed");
 }
+
+// --- AP2 Agentic Checkout (the "one door") --------------------------------
+
+export interface AgenticConfig {
+  provider: "razorpay" | "mock" | string;
+  live_checkout: boolean;
+  key_id: string;
+  currency: string;
+}
+
+export interface PolicyCheck {
+  name: string;
+  passed: boolean;
+  outcome: string | null;
+  detail: string;
+}
+
+export interface PolicyDecisionView {
+  outcome: "ALLOW" | "DENY" | "REQUIRES_USER_AUTHORIZATION" | string;
+  rule_fired: string | null;
+  checks: PolicyCheck[];
+  reasons: string[];
+  risk?: { level: string; reasons: string[] } | null;
+}
+
+export interface Ap2Mandate {
+  mandate_type: string;
+  mandate_id: string;
+  content_digest: string;
+  [key: string]: unknown;
+}
+
+export interface Ap2Chain {
+  intent_mandate: Ap2Mandate;
+  cart_mandate: Ap2Mandate & { cart_hash: string; total_amount: string; items: unknown[] };
+  payment_mandate: (Ap2Mandate & { policy_outcome: string; amount: string }) | null;
+}
+
+export interface AgenticCheckoutResponse {
+  stage:
+    | "BASKET_NOT_PAYABLE"
+    | "GATE_EVALUATED"
+    | "BLOCKED"
+    | "SETTLED"
+    | "CHECKOUT_REQUIRED"
+    | "PENDING_RECONCILE"
+    | string;
+  reason?: string;
+  blocked_by?: string | null;
+  agent_state?: string;
+  request_id?: string;
+  intent_id?: string;
+  delegation_id?: string;
+  basket?: Basket | null;
+  cart?: Record<string, unknown>;
+  decision?: PolicyDecisionView;
+  ap2_mandates?: Ap2Chain;
+  provider?: string;
+  txn?: Record<string, unknown> | null;
+  checkout_required?: boolean;
+  checkout?: {
+    provider: string;
+    order_id: string;
+    amount: number;
+    currency: string;
+    key_id: string;
+    name: string;
+    description: string;
+    txn_id: string;
+    intent_id: string;
+  };
+}
+
+export interface AgenticConfirmResponse {
+  verified: boolean;
+  stage: string;
+  txn?: Record<string, unknown> | null;
+  receipt?: Record<string, unknown> | null;
+  order_status?: string;
+}
+
+export function getAgenticConfig(): Promise<AgenticConfig> {
+  return paymentFetch<AgenticConfig>("/api/v1/agentic/config");
+}
+
+export function agenticCheckout(body: {
+  text: string;
+  per_txn_paise?: number | null;
+  daily_paise?: number | null;
+  monthly_paise?: number | null;
+  human_present?: boolean;
+  payment_method?: string;
+}): Promise<AgenticCheckoutResponse> {
+  return paymentFetch<AgenticCheckoutResponse>("/api/v1/agentic/checkout", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(body),
+  });
+}
+
+export function agenticConfirm(body: {
+  intent_id: string;
+  razorpay_order_id: string;
+  razorpay_payment_id: string;
+  razorpay_signature: string;
+}): Promise<AgenticConfirmResponse> {
+  return paymentFetch<AgenticConfirmResponse>("/api/v1/agentic/confirm", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(body),
+  });
+}
