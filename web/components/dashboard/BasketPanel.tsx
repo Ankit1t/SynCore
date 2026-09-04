@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { ShoppingCart, Tag, Info, Star, Clock } from "lucide-react";
+import { ShoppingCart, Tag, Info, Star, Clock, Radio } from "lucide-react";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { Skeleton } from "@/components/ui/Skeleton";
 import type { DecideResponse } from "@/lib/api";
@@ -102,6 +102,11 @@ function FilledBasket({ result }: { result: DecideResponse }) {
               <div className="min-w-0">
                 <div className="flex items-center gap-2">
                   <span className="truncate text-sm font-medium">{l.product_name}</span>
+                  {l.offer_id?.startsWith("live-") && (
+                    <span className="inline-flex items-center gap-1 rounded-md bg-good/15 px-1.5 py-0.5 text-[10px] font-semibold text-good">
+                      <Radio size={9} /> live
+                    </span>
+                  )}
                   {l.estimated && (
                     <span className="inline-flex items-center gap-1 rounded-md bg-warn/15 px-1.5 py-0.5 text-[10px] font-semibold text-warn">
                       <Tag size={9} /> est.

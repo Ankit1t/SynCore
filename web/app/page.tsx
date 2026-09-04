@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { AlertTriangle, CheckCircle2, HelpCircle } from "lucide-react";
+import { AlertTriangle, CheckCircle2, HelpCircle, Radio, Database } from "lucide-react";
 import { Composer } from "@/components/dashboard/Composer";
 import { ActivityTimeline } from "@/components/dashboard/ActivityTimeline";
 import { BasketPanel } from "@/components/dashboard/BasketPanel";
@@ -16,6 +16,7 @@ export default function ShopPage() {
   const { selected, add } = useHistory();
   const [running, setRunning] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [live, setLive] = useState(false);
 
   // While a request is in flight we show loading states, otherwise the
   // currently selected history entry.
@@ -25,7 +26,7 @@ export default function ShopPage() {
     setError(null);
     setRunning(true);
     try {
-      const res = await askAgent(query);
+      const res = await askAgent(query, { live });
       add(query, res);
     } catch {
       setError(friendlyError("agent request failed"));
@@ -49,13 +50,45 @@ export default function ShopPage() {
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ type: "spring", stiffness: 260, damping: 26 }}
-        className="mb-6"
+        className="mb-6 flex flex-wrap items-start justify-between gap-4"
       >
-        <h2 className="text-2xl font-semibold tracking-tight">What can I get for you?</h2>
-        <p className="mt-1 text-sm text-muted">
-          Give one instruction — anything, not just groceries. Your agent understands it, builds the
-          best basket, and keeps it within budget.
-        </p>
+        <div className="min-w-0">
+          <h2 className="text-2xl font-semibold tracking-tight">What can I get for you?</h2>
+          <p className="mt-1 text-sm text-muted">
+            Give one instruction — anything, not just groceries. Your agent understands it, builds
+            the best basket, and keeps it within budget.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          role="switch"
+          aria-checked={live}
+          onClick={() => setLive((v) => !v)}
+          className={`flex shrink-0 items-center gap-2.5 rounded-xl border px-3 py-2 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
+            live ? "border-good/50 bg-good/10 text-good" : "border-line bg-surface text-muted"
+          }`}
+          title="Fetch real offers live from a public product API instead of the built-in catalog"
+        >
+          {live ? <Radio size={14} /> : <Database size={14} />}
+          <span className="flex flex-col items-start leading-tight">
+            <span>{live ? "Live data: ON" : "Live data: OFF"}</span>
+            <span className="text-[10px] font-normal opacity-70">
+              {live ? "fetching from live API" : "using curated catalog"}
+            </span>
+          </span>
+          <span
+            className={`relative ml-1 h-4 w-7 rounded-full transition-colors ${
+              live ? "bg-good" : "bg-elevated"
+            }`}
+          >
+            <motion.span
+              layout
+              transition={{ type: "spring", stiffness: 500, damping: 30 }}
+              className={`absolute top-0.5 h-3 w-3 rounded-full bg-white ${live ? "right-0.5" : "left-0.5"}`}
+            />
+          </span>
+        </button>
       </motion.div>
 
       <Composer running={running} onSubmit={run} />

@@ -192,11 +192,15 @@ const LIVE_RENDER_DECIDE_URL =
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-async function requestDecision(url: string, text: string): Promise<DecideResponse> {
+async function requestDecision(
+  url: string,
+  text: string,
+  availableOffers: string,
+): Promise<DecideResponse> {
   const res = await fetch(url, {
     method: "POST",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify({ user_request: text, available_offers: "NONE" }),
+    body: JSON.stringify({ user_request: text, available_offers: availableOffers }),
     cache: "no-store",
   });
   const contentType = res.headers.get("content-type") ?? "";
@@ -206,7 +210,11 @@ async function requestDecision(url: string, text: string): Promise<DecideRespons
   return res.json() as Promise<DecideResponse>;
 }
 
-export async function askAgent(text: string): Promise<DecideResponse> {
+export async function askAgent(
+  text: string,
+  opts: { live?: boolean } = {},
+): Promise<DecideResponse> {
+  const availableOffers = opts.live ? "LIVE" : "NONE";
   const isLocal =
     typeof window !== "undefined" &&
     (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
@@ -222,7 +230,7 @@ export async function askAgent(text: string): Promise<DecideResponse> {
   for (let i = 0; i < attempts.length; i += 1) {
     if (i > 0) await wait(i * 1_500);
     try {
-      return await requestDecision(attempts[i], text);
+      return await requestDecision(attempts[i], text, availableOffers);
     } catch (error) {
       lastError = error;
     }

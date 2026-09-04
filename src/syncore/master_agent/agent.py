@@ -401,7 +401,14 @@ def decide(user_request: str, available_offers: Any = "NONE", *, provider: Any =
             ),
         }
 
-    offers = _normalize_offers(available_offers)
+    # "LIVE" -> fetch real offers over the network for the understood items;
+    # anything else is treated as a caller-supplied offer list (or "NONE").
+    if isinstance(available_offers, str) and available_offers.upper() == "LIVE":
+        from .live_offers import fetch_offers_for_items
+
+        offers = _normalize_offers(fetch_offers_for_items(items))
+    else:
+        offers = _normalize_offers(available_offers)
     gen_counter = [0]
     lines = [_build_line(it, offers, gen_counter) for it in items]
 
