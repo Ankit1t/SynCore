@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { HistoryProvider } from "@/components/history/HistoryProvider";
+import { WalletProvider } from "@/components/wallet/WalletProvider";
 import { DashboardShell } from "@/components/dashboard/DashboardShell";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
@@ -24,7 +25,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="font-sans antialiased">
         <ThemeProvider>
           <HistoryProvider>
-            <DashboardShell>{children}</DashboardShell>
+            <WalletProvider>
+              <DashboardShell>{children}</DashboardShell>
+            </WalletProvider>
           </HistoryProvider>
         </ThemeProvider>
       </body>

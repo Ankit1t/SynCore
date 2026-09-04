@@ -24,6 +24,7 @@ from .routes import (
     payments_rzp,
     products,
     shopping,
+    wallet,
 )
 from .service import get_service
 
@@ -66,7 +67,7 @@ def create_app() -> FastAPI:
 
     for router in (health.router, shopping.router, products.router, orders.router,
                    agent_runs.router, agent.router, payments_cp.router, payments_rzp.router,
-                   marketplace.router, admin.router):
+                   wallet.router, marketplace.router, admin.router):
         app.include_router(router)
 
     if STATIC_DIR.exists():

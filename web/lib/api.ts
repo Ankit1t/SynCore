@@ -236,6 +236,57 @@ export function createOrder(amountInr: number): Promise<CreatedOrder> {
   });
 }
 
+// --- Wallet ---------------------------------------------------------------
+export interface WalletTxn {
+  id: string;
+  type: "credit" | "debit";
+  amount_inr: number;
+  note: string;
+  balance_after_inr: number;
+  at: number;
+}
+export interface WalletState {
+  balance_inr: number;
+  currency: string;
+  transactions: WalletTxn[];
+}
+
+export function getWallet(): Promise<WalletState> {
+  return paymentFetch<WalletState>("/api/v1/wallet");
+}
+
+export function walletPay(
+  amountInr: number,
+  note = "Order",
+): Promise<{ paid: boolean; balance_inr: number; reason?: string; shortfall_inr?: number; txn_id?: string }> {
+  return paymentFetch("/api/v1/wallet/pay", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ amount_inr: amountInr, note }),
+  });
+}
+
+export function walletTopupOrder(amountInr: number): Promise<CreatedOrder> {
+  return paymentFetch<CreatedOrder>("/api/v1/wallet/topup-order", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ amount_inr: amountInr }),
+  });
+}
+
+export function walletTopupConfirm(payload: {
+  amount_inr: number;
+  razorpay_order_id: string;
+  razorpay_payment_id: string;
+  razorpay_signature: string;
+}): Promise<{ ok: boolean; balance_inr?: number; reason?: string }> {
+  return paymentFetch("/api/v1/wallet/topup-confirm", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+}
+
 export function verifyPayment(payload: {
   razorpay_order_id: string;
   razorpay_payment_id: string;
