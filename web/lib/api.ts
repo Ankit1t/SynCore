@@ -187,8 +187,66 @@ export interface DecideResponse {
 }
 
 const DECIDE_PATH = "/api/v1/agent/decide";
-const LIVE_RENDER_DECIDE_URL =
-  "https://syncore-api.onrender.com/api/v1/agent/decide";
+const RENDER_ORIGIN = "https://syncore-api.onrender.com";
+const LIVE_RENDER_DECIDE_URL = `${RENDER_ORIGIN}${DECIDE_PATH}`;
+
+// --- Payments (Razorpay test mode) ---------------------------------------
+export interface PaymentConfig {
+  enabled: boolean;
+  key_id?: string;
+}
+export interface CreatedOrder {
+  enabled: boolean;
+  ok?: boolean;
+  order_id?: string;
+  amount?: number;
+  currency?: string;
+  key_id?: string;
+  reason?: string;
+  error?: string;
+}
+
+async function paymentFetch<T>(path: string, init?: RequestInit): Promise<T> {
+  const isLocal =
+    typeof window !== "undefined" &&
+    (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
+  const urls = isLocal ? [path] : [path, `${RENDER_ORIGIN}${path}`];
+  let lastError: unknown;
+  for (const url of urls) {
+    try {
+      const res = await fetch(url, { cache: "no-store", ...init });
+      if (!res.ok) throw new Error(`request failed (${res.status})`);
+      return (await res.json()) as T;
+    } catch (error) {
+      lastError = error;
+    }
+  }
+  throw lastError instanceof Error ? lastError : new Error("payment request failed");
+}
+
+export function getPaymentConfig(): Promise<PaymentConfig> {
+  return paymentFetch<PaymentConfig>("/api/v1/pay/config");
+}
+
+export function createOrder(amountInr: number): Promise<CreatedOrder> {
+  return paymentFetch<CreatedOrder>("/api/v1/pay/create-order", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ amount_inr: amountInr, receipt: "syncore-demo" }),
+  });
+}
+
+export function verifyPayment(payload: {
+  razorpay_order_id: string;
+  razorpay_payment_id: string;
+  razorpay_signature: string;
+}): Promise<{ verified: boolean }> {
+  return paymentFetch<{ verified: boolean }>("/api/v1/pay/verify", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+}
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 

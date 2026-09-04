@@ -21,6 +21,7 @@ from .routes import (
     marketplace,
     orders,
     payments_cp,
+    payments_rzp,
     products,
     shopping,
 )
@@ -64,8 +65,8 @@ def create_app() -> FastAPI:
         return JSONResponse(status_code=exc.http_status, content={"error": exc.to_dict()})
 
     for router in (health.router, shopping.router, products.router, orders.router,
-                   agent_runs.router, agent.router, payments_cp.router, marketplace.router,
-                   admin.router):
+                   agent_runs.router, agent.router, payments_cp.router, payments_rzp.router,
+                   marketplace.router, admin.router):
         app.include_router(router)
 
     if STATIC_DIR.exists():

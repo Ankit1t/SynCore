@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ShoppingCart, Tag, Info, Star, Clock, Radio } from "lucide-react";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { Skeleton } from "@/components/ui/Skeleton";
+import { CheckoutButton } from "@/components/dashboard/CheckoutButton";
 import type { DecideResponse } from "@/lib/api";
 
 const money = (n: number) => `₹${(Math.round(n * 100) / 100).toLocaleString("en-IN")}`;
@@ -204,6 +205,10 @@ function FilledBasket({ result }: { result: DecideResponse }) {
           Priced items come from the curated product catalog. Lines marked “est.” aren’t in the
           catalog yet, so the agent uses a market estimate.
         </p>
+      )}
+
+      {result.next_action === "PROCEED_TO_CHECKOUT" && b.total > 0 && (
+        <CheckoutButton amountInr={b.total} />
       )}
     </div>
   );

@@ -28,6 +28,11 @@ services:
         value: openai/gpt-oss-120b
       - key: LLM_API_KEY
         sync: false
+      # --- Payments (Razorpay TEST mode). Set both in the dashboard. ---
+      - key: RAZORPAY_KEY_ID
+        sync: false
+      - key: RAZORPAY_KEY_SECRET
+        sync: false
       # For persistent data, add a free Postgres (Render/Neon) and set:
       # - key: DATABASE_URL
       #   value: postgresql+psycopg://...   (then build with pip install -e ".[postgres]")
