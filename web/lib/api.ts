@@ -157,6 +157,7 @@ export interface DecideLine {
   reason: string;
   brand?: string | null;
   size_text?: string | null;
+  image?: string | null;
   mrp?: number | null;
   rating?: number;
   seller_rating?: number;

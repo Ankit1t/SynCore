@@ -28,3 +28,7 @@ web/out/
 # OS / editor
 .DS_Store
 Thumbs.db
+
+# Captured browser HAR files (large; product data already extracted to catalog)
+HarDocs/
+*.har

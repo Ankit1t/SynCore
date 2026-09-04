@@ -291,6 +291,7 @@ def _normalize_offers(available: Any) -> list[dict[str, Any]]:
             "brand": str(o.get("brand") or "").strip(),
             "variant": variant,
             "size_text": str(o.get("size_text") or "").strip(),
+            "image": str(o.get("image") or "").strip() or None,
             "unit_price": float(price),
             "mrp": float(o["mrp"]) if o.get("mrp") is not None else None,
             "unit": str(o.get("unit") or DEFAULT_UNIT.get(canon, "unit")),
@@ -347,6 +348,7 @@ def _build_line(item: dict[str, Any], offers: list[dict[str, Any]], gen_counter:
             "quantity": qty, "unit": o_unit, "unit_price": offer["unit_price"],
             "line_total": round(qty * offer["unit_price"], 2), "estimated": False,
             "brand": offer.get("brand") or None, "size_text": offer.get("size_text") or None,
+            "image": offer.get("image"),
             "mrp": offer.get("mrp"), "rating": offer.get("rating") or 0.0,
             "seller_rating": offer.get("seller_rating") or 0.0,
             "review_count": offer.get("review_count") or 0,
@@ -376,7 +378,7 @@ def _build_line(item: dict[str, Any], offers: list[dict[str, Any]], gen_counter:
         "offer_id": f"generated-{gen_counter[0]}", "product_name": product_name,
         "satisfies": canonical, "quantity": qty, "unit": gunit, "unit_price": price,
         "line_total": round(qty * price, 2), "estimated": True,
-        "brand": item.get("brand") or None, "size_text": None, "mrp": None,
+        "brand": item.get("brand") or None, "size_text": None, "mrp": None, "image": None,
         "rating": 0.0, "seller_rating": 0.0, "review_count": 0, "eta_minutes": 0,
         "reason": ("created; " + (", ".join(variants) if variants else "no offer available") + downgrade_note),
     }
@@ -411,13 +413,10 @@ def decide(user_request: str, available_offers: Any = "NONE", *, provider: Any =
     # anything else is treated as a caller-supplied offer list (or "NONE").
     if isinstance(available_offers, str) and available_offers.upper() == "LIVE":
         from .live_offers import fetch_offers_for_items
-        from .product_catalog import catalog_offers
 
-        # Live offers first, blended with the curated catalog so the agent
-        # always has sensible generic options (e.g. a plain Type-C charger)
-        # even when the live source only lists a pricey branded one. Cheapest
-        # suitable offer wins per item.
-        offers = _normalize_offers(fetch_offers_for_items(items) + catalog_offers())
+        # Real live offers (with images/prices) for the understood items.
+        # Items the live source doesn't return fall back to a market estimate.
+        offers = _normalize_offers(fetch_offers_for_items(items))
     else:
         offers = _normalize_offers(available_offers)
     gen_counter = [0]

@@ -112,7 +112,16 @@ function FilledBasket({
               transition={{ delay: i * 0.05, type: "spring", stiffness: 300, damping: 28 }}
               className="flex items-center justify-between gap-3 rounded-xl border border-line bg-elevated/50 px-3 py-2.5"
             >
-              <div className="min-w-0">
+              {l.image && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={l.image}
+                  alt=""
+                  loading="lazy"
+                  className="h-10 w-10 shrink-0 rounded-lg border border-line bg-white object-contain"
+                />
+              )}
+              <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2">
                   <span className="truncate text-sm font-medium">{l.product_name}</span>
                   {l.offer_id?.startsWith("live-") && (
