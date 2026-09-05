@@ -247,7 +247,7 @@ function FilledBasket({
       )}
 
       {result.next_action === "PROCEED_TO_CHECKOUT" && b.total > 0 && orderId && (
-        <CheckoutButton amountInr={b.total} orderId={orderId} autoPay={autoPay} />
+        <CheckoutButton amountInr={b.total} orderId={orderId} autoPay={autoPay} lines={b.lines} />
       )}
     </div>
   );

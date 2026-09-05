@@ -310,6 +310,42 @@ export function getProductDetail(offerId: string): Promise<ProductDetail> {
   return paymentFetch<ProductDetail>(`/api/v1/pdp/${encodeURIComponent(offerId)}`);
 }
 
+// --- Orders / receipts ----------------------------------------------------
+export interface ReceiptItem {
+  name: string;
+  quantity: number;
+  unit: string;
+  unit_price: number;
+  line_total: number;
+}
+export interface OrderReceipt {
+  order_id: string;
+  placed_at: number;
+  currency: string;
+  items: ReceiptItem[];
+  subtotal: number;
+  total: number;
+  payment_method: string;
+  payment_status: string;
+  wallet_balance_after: number;
+}
+export interface PlaceOrderResult {
+  paid: boolean;
+  order_id?: string;
+  balance_inr?: number;
+  receipt?: OrderReceipt;
+  reason?: string;
+  shortfall_inr?: number;
+}
+
+export function placeOrder(items: ReceiptItem[]): Promise<PlaceOrderResult> {
+  return paymentFetch<PlaceOrderResult>("/api/v1/wallet/order", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ items }),
+  });
+}
+
 export function verifyPayment(payload: {
   razorpay_order_id: string;
   razorpay_payment_id: string;

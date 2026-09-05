@@ -6,7 +6,10 @@ import {
   walletPay,
   walletTopupOrder,
   walletTopupConfirm,
+  placeOrder as apiPlaceOrder,
   type WalletState,
+  type ReceiptItem,
+  type PlaceOrderResult,
 } from "@/lib/api";
 import { openCheckout } from "@/lib/razorpay";
 
@@ -19,6 +22,7 @@ interface WalletContextValue {
     note?: string,
   ) => Promise<{ paid: boolean; reason?: string; shortfall_inr?: number }>;
   topUp: (amountInr: number) => Promise<{ ok: boolean; reason?: string }>;
+  placeOrder: (items: ReceiptItem[]) => Promise<PlaceOrderResult>;
   isPaid: (orderId: string) => boolean;
   markPaid: (orderId: string) => void;
 }
@@ -115,9 +119,26 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     [refresh],
   );
 
+  const placeOrder = useCallback(
+    async (items: ReceiptItem[]) => {
+      setLoading(true);
+      try {
+        const res = await apiPlaceOrder(items);
+        if (typeof res.balance_inr === "number") {
+          setWallet((w) => (w ? { ...w, balance_inr: res.balance_inr! } : w));
+        }
+        await refresh();
+        return res;
+      } finally {
+        setLoading(false);
+      }
+    },
+    [refresh],
+  );
+
   return (
     <WalletContext.Provider
-      value={{ wallet, loading, refresh, payFromWallet, topUp, isPaid, markPaid }}
+      value={{ wallet, loading, refresh, payFromWallet, topUp, placeOrder, isPaid, markPaid }}
     >
       {children}
     </WalletContext.Provider>

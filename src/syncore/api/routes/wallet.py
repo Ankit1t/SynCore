@@ -17,10 +17,23 @@ import httpx
 from fastapi import APIRouter
 from pydantic import BaseModel, Field
 
+from ... import orders_store
 from ... import wallet as wallet_store
 from .payments_rzp import _RZP_ORDERS_URL, _keys
 
 router = APIRouter(prefix="/api/v1/wallet", tags=["wallet"])
+
+
+class OrderLine(BaseModel):
+    name: str = Field(..., max_length=140)
+    quantity: float = 1
+    unit: str = Field(default="unit", max_length=20)
+    unit_price: float = 0
+    line_total: float = 0
+
+
+class PlaceOrderRequest(BaseModel):
+    items: list[OrderLine] = Field(..., min_length=1)
 
 
 class PayRequest(BaseModel):
@@ -55,6 +68,34 @@ def wallet_pay(body: PayRequest) -> dict:
         "shortfall_inr": result.get("shortfall_inr"),
         "txn_id": result.get("txn", {}).get("id") if result["ok"] else None,
     }
+
+
+@router.post("/order")
+def place_order(body: PlaceOrderRequest) -> dict:
+    """Settle an itemized order from the wallet and mint a downloadable receipt."""
+    total = round(sum(max(0.0, li.line_total) for li in body.items), 2)
+    if total <= 0:
+        return {"paid": False, "reason": "empty order"}
+    result = wallet_store.debit(wallet_store.DEMO_USER, total, note="SynCore order")
+    if not result["ok"]:
+        return {
+            "paid": False,
+            "reason": result.get("reason"),
+            "balance_inr": result["balance_inr"],
+            "shortfall_inr": result.get("shortfall_inr"),
+        }
+    order = orders_store.create_order(
+        items=[li.model_dump() for li in body.items],
+        total=total,
+        wallet_balance_after=result["balance_inr"],
+    )
+    return {"paid": True, "order_id": order["order_id"], "balance_inr": result["balance_inr"], "receipt": order}
+
+
+@router.get("/order/{order_id}")
+def get_order(order_id: str) -> dict:
+    o = orders_store.get_order(order_id)
+    return o if o else {"found": False, "order_id": order_id}
 
 
 @router.post("/topup-order")
