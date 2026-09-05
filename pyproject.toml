@@ -19,6 +19,7 @@ dependencies = [
     "python-dotenv>=1.0",
     "httpx>=0.26",
     "sse-starlette>=1.8",
+    "cryptography>=43,<46",
 ]
 
 [project.optional-dependencies]

@@ -30,7 +30,9 @@ from .mandates import (
     cart_mandate_from_cart,
     intent_mandate_from_delegation,
     payment_mandate_from_txn,
+    verify_mandate_payload,
 )
+from .signing import get_key_manager, signing_alg
 
 __all__ = [
     "IntentMandate",
@@ -41,4 +43,7 @@ __all__ = [
     "cart_mandate_from_cart",
     "payment_mandate_from_txn",
     "build_mandate_chain",
+    "verify_mandate_payload",
+    "get_key_manager",
+    "signing_alg",
 ]

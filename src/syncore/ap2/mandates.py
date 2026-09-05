@@ -25,6 +25,7 @@ from ..payments.models import (
     PaymentTransaction,
     PolicyDecision,
 )
+from .signing import KeyManager, get_key_manager, signing_alg
 
 
 def _utcnow_iso() -> str:
@@ -47,6 +48,35 @@ def _digest(payload: dict[str, Any]) -> str:
 # --------------------------------------------------------------------------- #
 class MandateBase(BaseModel):
     model_config = {"use_enum_values": True}
+
+    # Content hash (set by each mandate's compute_digest) + Ed25519 signature.
+    content_digest: str = ""
+    signature_alg: str = ""
+    signer_id: str = ""
+    signer_pubkey: str = ""
+    signature: str = ""
+
+    def compute_digest(self) -> str:  # overridden by each mandate
+        raise NotImplementedError
+
+    def sign_with(self, km: KeyManager, signer_id: str) -> MandateBase:
+        """Sign this mandate's content digest with the party's Ed25519 key."""
+        if not self.content_digest:
+            self.content_digest = self.compute_digest()
+        self.signer_id = signer_id
+        self.signer_pubkey = km.public_key_hex(signer_id)
+        self.signature_alg = signing_alg()
+        self.signature = km.sign(signer_id, self.content_digest)
+        return self
+
+    def signature_valid(self) -> bool:
+        """True if the stored signature verifies against the recomputed digest."""
+        if not self.signature or not self.signer_pubkey:
+            return False
+        expected = self.compute_digest()
+        if self.content_digest != expected:
+            return False  # content was tampered after signing
+        return KeyManager.verify(self.signer_pubkey, self.content_digest, self.signature)
 
 
 class IntentMandate(MandateBase):
@@ -201,27 +231,46 @@ class PaymentMandate(MandateBase):
         })
 
 
-class MandateChain(MandateBase):
+class MandateChain(BaseModel):
     """The full AP2 evidence chain: intent -> cart -> payment."""
+
+    model_config = {"use_enum_values": True}
 
     intent_mandate: IntentMandate
     cart_mandate: CartMandate
     payment_mandate: PaymentMandate | None = None
 
+    def verify_report(self) -> dict[str, Any]:
+        """Per-mandate evidence check: digest integrity, chain link, signature."""
+        im, cm, pm = self.intent_mandate, self.cart_mandate, self.payment_mandate
+        report: dict[str, Any] = {
+            "intent_mandate": {
+                "digest_ok": im.content_digest == im.compute_digest(),
+                "link_ok": True,  # top of the chain
+                "signature_ok": im.signature_valid(),
+                "signer_id": im.signer_id,
+            },
+            "cart_mandate": {
+                "digest_ok": cm.content_digest == cm.compute_digest(),
+                "link_ok": cm.intent_mandate_ref == im.content_digest,
+                "signature_ok": cm.signature_valid(),
+                "signer_id": cm.signer_id,
+            },
+        }
+        if pm is not None:
+            report["payment_mandate"] = {
+                "digest_ok": pm.content_digest == pm.compute_digest(),
+                "link_ok": pm.cart_mandate_ref == cm.content_digest,
+                "signature_ok": pm.signature_valid(),
+                "signer_id": pm.signer_id,
+            }
+        ok = all(all(v is True for v in m.values() if isinstance(v, bool)) for m in report.values())
+        report["chain_valid"] = ok
+        return report
+
     def verify(self) -> bool:
-        """Recompute digests and confirm the chain links are intact."""
-        if self.intent_mandate.content_digest != self.intent_mandate.compute_digest():
-            return False
-        if self.cart_mandate.content_digest != self.cart_mandate.compute_digest():
-            return False
-        if self.cart_mandate.intent_mandate_ref != self.intent_mandate.content_digest:
-            return False
-        if self.payment_mandate is not None:
-            if self.payment_mandate.content_digest != self.payment_mandate.compute_digest():
-                return False
-            if self.payment_mandate.cart_mandate_ref != self.cart_mandate.content_digest:
-                return False
-        return True
+        """True only if every mandate's digest, chain link and signature hold."""
+        return bool(self.verify_report()["chain_valid"])
 
 
 # --------------------------------------------------------------------------- #
@@ -332,6 +381,45 @@ def payment_mandate_from_txn(
     return pm
 
 
+def verify_mandate_payload(payload: dict[str, Any]) -> dict[str, Any]:
+    """Verify a posted AP2 mandate (full chain or a single CartMandate).
+
+    Used by the merchant SDK / endpoint: reconstruct the signed models and
+    re-check digest integrity, chain links and Ed25519 signatures. No secrets
+    are needed — verification uses only the public keys embedded in the mandate.
+    """
+    try:
+        if "cart_mandate" in payload and "intent_mandate" in payload:
+            chain = MandateChain.model_validate(payload)
+            report = chain.verify_report()
+            return {
+                "ok": bool(report["chain_valid"]),
+                "kind": "chain",
+                "report": report,
+                "cart_hash": chain.cart_mandate.cart_hash,
+                "total_amount": chain.cart_mandate.total_amount,
+            }
+        # Single CartMandate case (merchant received only the cart).
+        cm = CartMandate.model_validate(payload)
+        digest_ok = cm.content_digest == cm.compute_digest()
+        sig_ok = cm.signature_valid()
+        return {
+            "ok": bool(digest_ok and sig_ok),
+            "kind": "cart_mandate",
+            "report": {
+                "cart_mandate": {
+                    "digest_ok": digest_ok,
+                    "signature_ok": sig_ok,
+                    "signer_id": cm.signer_id,
+                },
+            },
+            "cart_hash": cm.cart_hash,
+            "total_amount": cm.total_amount,
+        }
+    except Exception as exc:  # noqa: BLE001 - any malformed input => not verified
+        return {"ok": False, "kind": "invalid", "error": str(exc)}
+
+
 def build_mandate_chain(
     *,
     delegation: Delegation,
@@ -345,15 +433,25 @@ def build_mandate_chain(
     payment_processor: str = "razorpay",
 ) -> MandateChain:
     """Build the full intent -> cart -> payment AP2 chain from Syncore objects."""
+    km = get_key_manager()
     im = intent_mandate_from_delegation(
         delegation, natural_language_intent=natural_language_intent, human_present=human_present
     )
+    # IntentMandate is authorized by the USER (their delegation signature).
+    im.sign_with(km, delegation.user_id)
+
     cm = cart_mandate_from_cart(
         cart, intent, intent_mandate=im,
         user_cart_confirmation_required=not human_present,
     )
+    # CartMandate is asserted by the AGENT (exact items + price it will pay).
+    cm.sign_with(km, delegation.agent_id)
+
     pm = payment_mandate_from_txn(
         intent, decision, cart_mandate=cm, txn=txn,
         payment_method=payment_method, payment_processor=payment_processor,
     )
+    # PaymentMandate is signed by the AGENT binding the method to the cart.
+    pm.sign_with(km, delegation.agent_id)
+
     return MandateChain(intent_mandate=im, cart_mandate=cm, payment_mandate=pm)

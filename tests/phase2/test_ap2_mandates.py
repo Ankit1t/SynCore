@@ -70,3 +70,44 @@ def test_intent_mandate_carries_limits_from_delegation():
     assert im.per_txn_paise == d.limits.per_txn_paise
     assert "GROCERY" in im.allowed_categories
     assert im.currency == "INR"
+
+
+# --- Ed25519 signing ---------------------------------------------------------
+def test_mandates_are_ed25519_signed():
+    _, d, cart, intent, res = _harness()
+    chain = build_mandate_chain(delegation=d, cart=cart, intent=intent, decision=res.decision)
+    assert chain.intent_mandate.signature_alg == "Ed25519"
+    assert len(chain.intent_mandate.signature) == 128  # 64-byte sig hex-encoded
+    assert chain.intent_mandate.signature_valid() is True
+    assert chain.cart_mandate.signature_valid() is True
+    assert chain.payment_mandate.signature_valid() is True
+
+
+def test_signature_breaks_when_amount_tampered():
+    _, d, cart, intent, res = _harness()
+    chain = build_mandate_chain(delegation=d, cart=cart, intent=intent, decision=res.decision)
+    chain.cart_mandate.total_paise += 1
+    assert chain.cart_mandate.signature_valid() is False
+    assert chain.verify() is False
+
+
+def test_verify_report_shape():
+    _, d, cart, intent, res = _harness()
+    chain = build_mandate_chain(delegation=d, cart=cart, intent=intent, decision=res.decision)
+    rep = chain.verify_report()
+    assert rep["chain_valid"] is True
+    for key in ("intent_mandate", "cart_mandate", "payment_mandate"):
+        assert rep[key]["digest_ok"] and rep[key]["link_ok"] and rep[key]["signature_ok"]
+
+
+def test_verify_mandate_payload_accepts_good_chain_rejects_tampered():
+    from syncore.ap2 import verify_mandate_payload
+
+    _, d, cart, intent, res = _harness()
+    chain = build_mandate_chain(delegation=d, cart=cart, intent=intent, decision=res.decision)
+    good = chain.model_dump(mode="json")
+    assert verify_mandate_payload(good)["ok"] is True
+
+    bad = chain.model_dump(mode="json")
+    bad["cart_mandate"]["total_paise"] += 500
+    assert verify_mandate_payload(bad)["ok"] is False

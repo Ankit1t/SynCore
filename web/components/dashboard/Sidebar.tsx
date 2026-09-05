@@ -12,12 +12,18 @@ import {
   Trash2,
   Sparkles,
   ShieldCheck,
+  SlidersVertical,
+  ScrollText,
+  Store,
 } from "lucide-react";
 import { useHistory } from "@/components/history/HistoryProvider";
 
 const NAV = [
   { href: "/", label: "Shop", icon: ShoppingBag },
   { href: "/agentguard", label: "AgentGuard", icon: ShieldCheck },
+  { href: "/control", label: "Control Panel", icon: SlidersVertical },
+  { href: "/audit", label: "Audit & Dispute", icon: ScrollText },
+  { href: "/merchant-demo", label: "Merchant SDK", icon: Store },
   { href: "/orders", label: "Orders", icon: Package },
   { href: "/preferences", label: "Preferences", icon: SlidersHorizontal },
 ];

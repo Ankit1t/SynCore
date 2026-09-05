@@ -12,6 +12,7 @@ from typing import Any
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 
+from ...ap2 import verify_mandate_payload
 from ...config import get_settings
 from ...payments.agentic_checkout import AgenticCheckoutError, get_agentic_checkout
 
@@ -34,6 +35,14 @@ class ConfirmRequest(BaseModel):
     razorpay_order_id: str
     razorpay_payment_id: str
     razorpay_signature: str
+
+
+@router.get("/me")
+def agentic_me() -> dict[str, Any]:
+    """Return the current (demo) user id so the control panel scopes correctly."""
+    from ...api.service import get_service
+
+    return {"user_id": get_service().demo_user.id}
 
 
 @router.get("/config")
@@ -77,3 +86,30 @@ def agentic_confirm(body: ConfirmRequest) -> dict[str, Any]:
         )
     except AgenticCheckoutError as exc:
         raise HTTPException(422, str(exc)) from exc
+
+
+# ---------------------------------------------------------------- audit ------
+@router.get("/audit")
+def agentic_audit(user_id: str | None = None) -> list[dict[str, Any]]:
+    """Non-repudiable audit trail: every gate decision + payment, newest first."""
+    return get_agentic_checkout().list_audit(user_id=user_id)
+
+
+@router.get("/audit/{intent_id}")
+def agentic_audit_detail(intent_id: str) -> dict[str, Any]:
+    """Full signed AP2 mandate chain + CAN_PAY verdict for one transaction."""
+    entry = get_agentic_checkout().get_audit(intent_id)
+    if entry is None:
+        raise HTTPException(404, "no audit record for this intent")
+    return entry
+
+
+@router.post("/verify-mandate")
+def agentic_verify_mandate(body: dict[str, Any]) -> dict[str, Any]:
+    """Merchant-facing: verify a signed AP2 CartMandate (chain intact + signatures).
+
+    A merchant (or their agent) posts the mandate chain they received before
+    fulfilling an order. Returns per-mandate digest/link/signature checks so the
+    merchant only ships when the cart is provably the one the user authorized.
+    """
+    return verify_mandate_payload(body)
