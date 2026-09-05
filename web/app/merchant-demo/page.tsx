@@ -6,6 +6,7 @@ import { agenticCheckout, type Ap2Chain } from "@/lib/api";
 import { verifyMandate, type MerchantVerifyResult } from "@/lib/merchant-sdk";
 
 export default function MerchantDemoPage() {
+  const [text, setText] = useState("1kg aloo, 100g mirch aur 2 Maggi under 500");
   const [chain, setChain] = useState<Ap2Chain | null>(null);
   const [cartTotal, setCartTotal] = useState<string>("");
   const [tamper, setTamper] = useState(false);
@@ -19,8 +20,15 @@ export default function MerchantDemoPage() {
     setResult(null);
     setChain(null);
     try {
-      const r = await agenticCheckout({ text: "2 litre milk, 1 dozen eggs, 1 bread under 300" });
-      if (!r.ap2_mandates) throw new Error(`agent returned stage ${r.stage}, no mandate`);
+      const r = await agenticCheckout({ text });
+      if (!r.ap2_mandates) {
+        setError(
+          `Agent couldn't build a payable cart for this request (stage: ${r.stage}` +
+            `${r.reason ? ` — ${r.reason}` : ""}). Try a grocery request like the default.`,
+        );
+        setPhase("idle");
+        return;
+      }
       setChain(r.ap2_mandates);
       setCartTotal((r.ap2_mandates.cart_mandate.total_amount as string) ?? "");
       setPhase("idle");
@@ -72,10 +80,16 @@ export default function MerchantDemoPage() {
       {/* Step 1 */}
       <section className="rounded-2xl border border-line bg-surface/60 p-4">
         <p className="mb-2 text-sm font-semibold">1 · Receive a signed cart mandate from the agent</p>
+        <input
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          className="mb-2 w-full rounded-lg border border-line bg-elevated px-3 py-2 text-sm text-primary outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          placeholder="grocery request, e.g. 1kg aloo, 2 Maggi under 500"
+        />
         <button
           type="button"
           onClick={getMandate}
-          disabled={phase === "getting"}
+          disabled={phase === "getting" || !text.trim()}
           className="inline-flex items-center gap-2 rounded-xl bg-accent px-4 py-2.5 text-sm font-medium text-white shadow-glow disabled:opacity-50"
         >
           {phase === "getting" ? <Loader2 size={16} className="animate-spin" /> : <Sparkles size={16} />}

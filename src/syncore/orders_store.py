@@ -10,7 +10,7 @@ from __future__ import annotations
 import threading
 import time
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 _LOCK = threading.Lock()
@@ -19,10 +19,12 @@ _MAX = 200
 
 
 def _new_id() -> str:
-    return "SYN-" + datetime.now(timezone.utc).strftime("%Y%m%d") + "-" + uuid.uuid4().hex[:6].upper()
+    return "SYN-" + datetime.now(UTC).strftime("%Y%m%d") + "-" + uuid.uuid4().hex[:6].upper()
 
 
-def create_order(items: list[dict[str, Any]], total: float, wallet_balance_after: float) -> dict[str, Any]:
+def create_order(
+    items: list[dict[str, Any]], total: float, wallet_balance_after: float
+) -> dict[str, Any]:
     with _LOCK:
         order_id = _new_id()
         order = {
@@ -46,3 +48,11 @@ def create_order(items: list[dict[str, Any]], total: float, wallet_balance_after
 def get_order(order_id: str) -> dict[str, Any] | None:
     with _LOCK:
         return _orders.get(order_id)
+
+
+def list_orders(limit: int = 50) -> list[dict[str, Any]]:
+    """All wallet orders, newest first."""
+    with _LOCK:
+        vals = list(_orders.values())
+    vals.sort(key=lambda o: o.get("placed_at", 0), reverse=True)
+    return vals[:limit]
