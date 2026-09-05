@@ -23,6 +23,7 @@ from .routes import (
     orders,
     payments_cp,
     payments_rzp,
+    pdp,
     products,
     shopping,
     wallet,
@@ -68,7 +69,7 @@ def create_app() -> FastAPI:
 
     for router in (health.router, shopping.router, products.router, orders.router,
                    agent_runs.router, agent.router, agentic.router, payments_cp.router,
-                   payments_rzp.router, wallet.router, marketplace.router, admin.router):
+                   payments_rzp.router, wallet.router, pdp.router, marketplace.router, admin.router):
         app.include_router(router)
 
     if STATIC_DIR.exists():

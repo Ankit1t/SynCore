@@ -30,3 +30,13 @@ def load_catalog() -> list[dict[str, Any]]:
 def catalog_offers() -> list[dict[str, Any]]:
     """A fresh shallow copy of the catalog offers (safe for callers to mutate)."""
     return [dict(p) for p in load_catalog()]
+
+
+@lru_cache(maxsize=1)
+def _by_offer_id() -> dict[str, dict[str, Any]]:
+    return {str(p.get("offer_id")): p for p in load_catalog()}
+
+
+def get_detail(offer_id: str) -> dict[str, Any] | None:
+    """Full product record (images, highlights, specifications, ...) by id."""
+    return _by_offer_id().get(offer_id)

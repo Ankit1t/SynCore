@@ -288,6 +288,28 @@ export function walletTopupConfirm(payload: {
   });
 }
 
+// --- Product detail (view-only) ------------------------------------------
+export interface ProductDetail {
+  found: boolean;
+  offer_id: string;
+  product_name?: string;
+  brand?: string | null;
+  category?: string;
+  unit_price?: number;
+  mrp?: number | null;
+  rating?: number;
+  review_count?: number;
+  in_stock?: boolean;
+  image?: string | null;
+  images?: string[];
+  highlights?: string[];
+  specifications?: Record<string, string>;
+}
+
+export function getProductDetail(offerId: string): Promise<ProductDetail> {
+  return paymentFetch<ProductDetail>(`/api/v1/pdp/${encodeURIComponent(offerId)}`);
+}
+
 export function verifyPayment(payload: {
   razorpay_order_id: string;
   razorpay_payment_id: string;
@@ -458,5 +480,138 @@ export function agenticConfirm(body: {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify(body),
+  });
+}
+
+// --- Agent Control Panel: delegations + kill switch -----------------------
+
+export interface DelegationLimits {
+  per_txn_paise: number;
+  daily_paise: number;
+  monthly_paise: number;
+}
+
+export interface Delegation {
+  id: string;
+  user_id: string;
+  agent_id: string;
+  purpose: string;
+  allowed_categories: string[];
+  allowed_merchants: string[];
+  currency: string;
+  limits: DelegationLimits;
+  status: string;
+  version: number;
+  created_at: string;
+  expires_at: string | null;
+}
+
+export function getAgenticMe(): Promise<{ user_id: string }> {
+  return paymentFetch<{ user_id: string }>("/api/v1/agentic/me");
+}
+
+export function listDelegations(userId: string): Promise<Delegation[]> {
+  return paymentFetch<Delegation[]>(`/api/v1/delegations?user_id=${encodeURIComponent(userId)}`);
+}
+
+export function createDelegation(body: {
+  user_id: string;
+  agent_id?: string;
+  per_txn_paise: number;
+  daily_paise: number;
+  monthly_paise: number;
+  allowed_categories: string[];
+  allowed_merchants: string[];
+  currency?: string;
+}): Promise<Delegation> {
+  return paymentFetch<Delegation>("/api/v1/delegations", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(body),
+  });
+}
+
+export function delegationAction(
+  id: string,
+  action: "revoke" | "pause" | "resume",
+): Promise<Delegation> {
+  return paymentFetch<Delegation>(`/api/v1/delegations/${id}/${action}`, { method: "POST" });
+}
+
+export function killSwitch(
+  userId: string,
+  mode: "pause-payments" | "resume-payments",
+): Promise<{ paused?: number; resumed?: number; user_id: string }> {
+  return paymentFetch(`/api/v1/agent/${mode}`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ user_id: userId }),
+  });
+}
+
+// --- Audit + Dispute ------------------------------------------------------
+
+export interface AuditRow {
+  intent_id: string;
+  user_id: string;
+  created_at: string;
+  text: string;
+  stage: string;
+  decision_outcome: string | null;
+  blocked_by: string | null;
+  amount_paise: number | null;
+  merchant_id: string | null;
+}
+
+export interface MandateCheck {
+  digest_ok: boolean;
+  link_ok: boolean;
+  signature_ok: boolean;
+  signer_id: string;
+}
+
+export interface AuditDetail {
+  intent_id: string;
+  user_id: string;
+  created_at: string;
+  text: string;
+  stage: string;
+  decision: PolicyDecisionView | null;
+  ap2_mandates: Ap2Chain | null;
+  verify_report: {
+    chain_valid: boolean;
+    intent_mandate?: MandateCheck;
+    cart_mandate?: MandateCheck;
+    payment_mandate?: MandateCheck;
+  };
+  txn: Record<string, unknown> | null;
+  receipt: Record<string, unknown> | null;
+}
+
+export function listAudit(userId?: string): Promise<AuditRow[]> {
+  const q = userId ? `?user_id=${encodeURIComponent(userId)}` : "";
+  return paymentFetch<AuditRow[]>(`/api/v1/agentic/audit${q}`);
+}
+
+export function getAuditDetail(intentId: string): Promise<AuditDetail> {
+  return paymentFetch<AuditDetail>(`/api/v1/agentic/audit/${intentId}`);
+}
+
+// --- Merchant SDK verify --------------------------------------------------
+
+export interface VerifyResult {
+  ok: boolean;
+  kind: string;
+  report?: Record<string, unknown>;
+  cart_hash?: string;
+  total_amount?: string;
+  error?: string;
+}
+
+export function verifyMandate(payload: unknown): Promise<VerifyResult> {
+  return paymentFetch<VerifyResult>("/api/v1/agentic/verify-mandate", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(payload),
   });
 }

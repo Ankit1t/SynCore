@@ -1,11 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ShoppingCart, Tag, Info, Star, Clock, Radio } from "lucide-react";
+import { ShoppingCart, Tag, Info, Star, Clock, Radio, ChevronRight } from "lucide-react";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { CheckoutButton } from "@/components/dashboard/CheckoutButton";
-import type { DecideResponse } from "@/lib/api";
+import { ProductModal } from "@/components/dashboard/ProductModal";
+import type { DecideResponse, DecideLine } from "@/lib/api";
 
 const money = (n: number) => `₹${(Math.round(n * 100) / 100).toLocaleString("en-IN")}`;
 
@@ -35,6 +37,7 @@ export function BasketPanel({
   orderId: string | null;
   autoPay: boolean;
 }) {
+  const [selected, setSelected] = useState<DecideLine | null>(null);
   return (
     <section aria-labelledby="basket-heading" className="flex h-full flex-col">
       <div className="mb-4 flex items-center gap-2">
@@ -57,8 +60,15 @@ export function BasketPanel({
       ) : !result || result.basket.lines.length === 0 ? (
         <EmptyBasket />
       ) : (
-        <FilledBasket result={result} orderId={orderId} autoPay={autoPay} />
+        <FilledBasket
+          result={result}
+          orderId={orderId}
+          autoPay={autoPay}
+          onSelectLine={setSelected}
+        />
       )}
+
+      <ProductModal line={selected} onClose={() => setSelected(null)} />
     </section>
   );
 }
@@ -84,10 +94,12 @@ function FilledBasket({
   result,
   orderId,
   autoPay,
+  onSelectLine,
 }: {
   result: DecideResponse;
   orderId: string | null;
   autoPay: boolean;
+  onSelectLine: (line: DecideLine) => void;
 }) {
   const b = result.basket;
   const bc = result.budget_check;
@@ -110,7 +122,12 @@ function FilledBasket({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ delay: i * 0.05, type: "spring", stiffness: 300, damping: 28 }}
-              className="flex items-center justify-between gap-3 rounded-xl border border-line bg-elevated/50 px-3 py-2.5"
+              onClick={() => onSelectLine(l)}
+              onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && onSelectLine(l)}
+              role="button"
+              tabIndex={0}
+              title="View product details"
+              className="flex cursor-pointer items-center justify-between gap-3 rounded-xl border border-line bg-elevated/50 px-3 py-2.5 transition-colors hover:border-accent/50 hover:bg-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
               {l.image && (
                 // eslint-disable-next-line @next/next/no-img-element
@@ -161,6 +178,7 @@ function FilledBasket({
                   </div>
                 )}
               </div>
+              <ChevronRight size={15} className="shrink-0 text-muted" aria-hidden="true" />
             </motion.li>
           ))}
         </AnimatePresence>

@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "source": "curated + real products captured from Amazon (HAR)",
+    "source": "curated + real Amazon products (HAR) with detail",
     "currency": "INR"
   },
   "products": [
@@ -2136,46 +2136,46 @@
     },
     {
       "offer_id": "har-1",
-      "canonical": "barilla",
-      "product_name": "Barilla Fusilli Durum Wheat Pasta",
-      "brand": "Barilla",
+      "canonical": "urban",
+      "product_name": "Urban Platter Japanese-Style Ramen Broth Powder, 150g (Plant-Based | Instant Soup Base | MSG-free | Umami-Rich)",
+      "brand": "Urban",
       "variant": [],
       "size_text": "",
       "unit": "pack",
       "pack_size": 1,
-      "unit_price": 296.0,
+      "unit_price": 266.0,
       "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
+      "rating": 4.1,
+      "review_count": 213,
       "seller_rating": 0.0,
       "eta_minutes": 0,
       "in_stock": true,
       "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/51LJbOXBN2L._SL1000_.jpg"
+      "image": "https://m.media-amazon.com/images/I/81ovcg5va6L._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/81ovcg5va6L._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/81cwp5VIRfL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/810a-Ne0zSL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71TZGdUSi0L._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71zwxr0jRNL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/81ET3jL4tVL._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B0CBGX1DM9",
+        "Net Quantity": "150 g"
+      },
+      "highlights": [
+        "Brand: Urban",
+        "Rated 4.1★ by 213 buyers",
+        "Net Quantity: 150 g",
+        "Priced at ₹266",
+        "In stock — fast delivery"
+      ]
     },
     {
       "offer_id": "har-2",
       "canonical": "barilla",
-      "product_name": "Barilla Pasta Fettuccine Durum Wheat, 500 Grams, Italy",
-      "brand": "Barilla",
-      "variant": [],
-      "size_text": "",
-      "unit": "pack",
-      "pack_size": 1,
-      "unit_price": 539.0,
-      "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
-      "seller_rating": 0.0,
-      "eta_minutes": 0,
-      "in_stock": true,
-      "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/61DD9vewepL._SL1000_.jpg"
-    },
-    {
-      "offer_id": "har-3",
-      "canonical": "barilla",
-      "product_name": "Barilla Farfalle Durum Wheat Pasta",
+      "product_name": "Barilla Pasta Angel Hair Durum Wheat, 500 Grams, Italy",
       "brand": "Barilla",
       "variant": [],
       "size_text": "",
@@ -2183,18 +2183,75 @@
       "pack_size": 1,
       "unit_price": 296.0,
       "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
+      "rating": 4.3,
+      "review_count": 457,
       "seller_rating": 0.0,
       "eta_minutes": 0,
       "in_stock": true,
       "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/51JzCD4SGSL._SL1000_.jpg"
+      "image": "https://m.media-amazon.com/images/I/519oXYhG4OL._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/519oXYhG4OL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/614MymMo0bL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61FcBRBIslL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/6155kOEtvWL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61M0HGoz3tL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61riKiJXL1L._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B06ZY89NJG",
+        "Net Quantity": "500 g"
+      },
+      "highlights": [
+        "Brand: Barilla",
+        "Rated 4.3★ by 457 buyers",
+        "Net Quantity: 500 g",
+        "Priced at ₹296",
+        "In stock — fast delivery"
+      ]
+    },
+    {
+      "offer_id": "har-3",
+      "canonical": "urban",
+      "product_name": "Urban Platter Shirataki Noodles",
+      "brand": "Urban",
+      "variant": [],
+      "size_text": "",
+      "unit": "pack",
+      "pack_size": 1,
+      "unit_price": 445.0,
+      "mrp": null,
+      "rating": 3.8,
+      "review_count": 2118,
+      "seller_rating": 0.0,
+      "eta_minutes": 0,
+      "in_stock": true,
+      "category": "grocery",
+      "image": "https://m.media-amazon.com/images/I/71mstR6-vDL._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/71mstR6-vDL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71iegj8zpbL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/81b7kYnBJLL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/715M6UKgAnL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71ZzxemEpAL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71epy4vQjML._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B09Q1B16RW",
+        "Net Quantity": "270 g"
+      },
+      "highlights": [
+        "Brand: Urban",
+        "Rated 3.8★ by 2,118 buyers",
+        "Net Quantity: 270 g",
+        "Priced at ₹445",
+        "In stock — fast delivery"
+      ]
     },
     {
       "offer_id": "har-4",
       "canonical": "barilla",
-      "product_name": "Barilla Penne Rigate Pasta",
+      "product_name": "Barilla Rigatoni Durum Wheat Pasta",
       "brand": "Barilla",
       "variant": [],
       "size_text": "",
@@ -2202,13 +2259,25 @@
       "pack_size": 1,
       "unit_price": 296.0,
       "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
+      "rating": 4.4,
+      "review_count": 1217,
       "seller_rating": 0.0,
       "eta_minutes": 0,
       "in_stock": true,
       "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/41-oHlCuwBL._SL1000_.jpg"
+      "image": "https://m.media-amazon.com/images/I/41WT6Jwy5BL._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/41WT6Jwy5BL._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B003UMCU2G",
+        "Net Quantity": "500 g"
+      },
+      "highlights": [
+        "FEATURE: Made with 100% HIGH QUALITY DURUM WHEAT Semolina. NO MAIDA. CREATE DELICIOUS PASTA MEALS: Pairs well with just about any type of pasta sauce to make a vegetarian and authentic Italian meal for you and your family.",
+        "NUTRIENTS: Excellent SOURCE OF ENERGY, naturally low in fat with low glycemic index that KEEP YOU FULLER FOR LONGER.",
+        "NON-GMO PASTA: No artificial ingredients, artificial colors, flavors, or preservatives."
+      ]
     },
     {
       "offer_id": "har-5",
@@ -2221,18 +2290,35 @@
       "pack_size": 1,
       "unit_price": 275.0,
       "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
+      "rating": 4.3,
+      "review_count": 319,
       "seller_rating": 0.0,
       "eta_minutes": 0,
       "in_stock": true,
       "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/61cs2y1qErL._SL1000_.jpg"
+      "image": "https://m.media-amazon.com/images/I/61cs2y1qErL._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/61cs2y1qErL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71FjZsP+fgL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/516NgX1RR+L._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/519pxBxrGyL._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B07QL496G4",
+        "Net Quantity": "300 g (Pack of 2)"
+      },
+      "highlights": [
+        "Brand: Sakura",
+        "Rated 4.3★ by 319 buyers",
+        "Net Quantity: 300 g (Pack of 2)",
+        "Priced at ₹275",
+        "In stock — fast delivery"
+      ]
     },
     {
       "offer_id": "har-6",
       "canonical": "barilla",
-      "product_name": "Barilla Rigatoni Durum Wheat Pasta",
+      "product_name": "Barilla Penne Rigate Pasta",
       "brand": "Barilla",
       "variant": [],
       "size_text": "",
@@ -2240,168 +2326,147 @@
       "pack_size": 1,
       "unit_price": 296.0,
       "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
+      "rating": 4.2,
+      "review_count": 289,
       "seller_rating": 0.0,
       "eta_minutes": 0,
       "in_stock": true,
       "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/41WT6Jwy5BL._SL1000_.jpg"
+      "image": "https://m.media-amazon.com/images/I/41-oHlCuwBL._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/41-oHlCuwBL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/818MeqHufmS._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71a58rvJksS._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/6155kOEtvWL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61M0HGoz3tL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61riKiJXL1L._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B097DKTLL3",
+        "Net Quantity": "500 g"
+      },
+      "highlights": [
+        "Brand: Barilla",
+        "Rated 4.2★ by 289 buyers",
+        "Net Quantity: 500 g",
+        "Priced at ₹296",
+        "In stock — fast delivery"
+      ]
     },
     {
       "offer_id": "har-7",
-      "canonical": "urban",
-      "product_name": "Urban Platter Shirataki Noodles",
-      "brand": "Urban",
+      "canonical": "barilla",
+      "product_name": "Barilla Farfalle Durum Wheat Pasta",
+      "brand": "Barilla",
       "variant": [],
       "size_text": "",
       "unit": "pack",
       "pack_size": 1,
-      "unit_price": 445.0,
+      "unit_price": 296.0,
       "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
+      "rating": 4.4,
+      "review_count": 350,
       "seller_rating": 0.0,
       "eta_minutes": 0,
       "in_stock": true,
       "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/71mstR6-vDL._SL1000_.jpg"
+      "image": "https://m.media-amazon.com/images/I/51JzCD4SGSL._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/51JzCD4SGSL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/51WKdWPU3tL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/51YaV0actQL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71gKtRg87wL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/6155kOEtvWL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61M0HGoz3tL._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B09D3DHH9D",
+        "Net Quantity": "500 g"
+      },
+      "highlights": [
+        "Brand: Barilla",
+        "Rated 4.4★ by 350 buyers",
+        "Net Quantity: 500 g",
+        "Priced at ₹296",
+        "In stock — fast delivery"
+      ]
     },
     {
       "offer_id": "har-8",
       "canonical": "barilla",
-      "product_name": "Barilla Pasta Angel Hair Durum Wheat, 500 Grams, Italy",
+      "product_name": "Barilla Pasta Fettuccine Durum Wheat, 500 Grams, Italy",
       "brand": "Barilla",
       "variant": [],
       "size_text": "",
       "unit": "pack",
       "pack_size": 1,
-      "unit_price": 296.0,
+      "unit_price": 539.0,
       "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
+      "rating": 4.3,
+      "review_count": 169,
       "seller_rating": 0.0,
       "eta_minutes": 0,
       "in_stock": true,
       "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/519oXYhG4OL._SL1000_.jpg"
+      "image": "https://m.media-amazon.com/images/I/61DD9vewepL._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/61DD9vewepL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61noyPoJi-L._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/51Os3sOsy7L._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61nKAgXwK+L._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B09BVFS8NH",
+        "Net Quantity": "500 g"
+      },
+      "highlights": [
+        "Brand: Barilla",
+        "Rated 4.3★ by 169 buyers",
+        "Net Quantity: 500 g",
+        "Priced at ₹539",
+        "In stock — fast delivery"
+      ]
     },
     {
       "offer_id": "har-9",
-      "canonical": "urban",
-      "product_name": "Urban Platter Japanese-Style Ramen Broth Powder, 150g (Plant-Based | Instant Soup Base | MSG-free | Umami-Rich)",
-      "brand": "Urban",
+      "canonical": "barilla",
+      "product_name": "Barilla Fusilli Durum Wheat Pasta",
+      "brand": "Barilla",
       "variant": [],
       "size_text": "",
       "unit": "pack",
       "pack_size": 1,
-      "unit_price": 266.0,
+      "unit_price": 296.0,
       "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
+      "rating": 4.1,
+      "review_count": 167,
       "seller_rating": 0.0,
       "eta_minutes": 0,
       "in_stock": true,
       "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/81ovcg5va6L._SL1000_.jpg"
+      "image": "https://m.media-amazon.com/images/I/51LJbOXBN2L._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/51LJbOXBN2L._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/51DWG60iTPL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61kmqHxA9VL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/6155kOEtvWL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61M0HGoz3tL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61riKiJXL1L._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B09D3GBDS7",
+        "Net Quantity": "500 g"
+      },
+      "highlights": [
+        "Brand: Barilla",
+        "Rated 4.1★ by 167 buyers",
+        "Net Quantity: 500 g",
+        "Priced at ₹296",
+        "In stock — fast delivery"
+      ]
     },
     {
       "offer_id": "har-10",
-      "canonical": "barilla",
-      "product_name": "Barilla Pasta Penne Rigate Durum Wheat, 500 Gram, Italy (Pack Of 12)",
-      "brand": "Barilla",
-      "variant": [],
-      "size_text": "",
-      "unit": "pack",
-      "pack_size": 1,
-      "unit_price": 3553.0,
-      "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
-      "seller_rating": 0.0,
-      "eta_minutes": 0,
-      "in_stock": true,
-      "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/519rS5Ulr6L._SL1000_.jpg"
-    },
-    {
-      "offer_id": "har-11",
-      "canonical": "barilla",
-      "product_name": "Barilla Pasta Whole Wheat Penne Rigate Integrali Durum Wheat - 500G, Italy",
-      "brand": "Barilla",
-      "variant": [],
-      "size_text": "",
-      "unit": "pack",
-      "pack_size": 1,
-      "unit_price": 359.0,
-      "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
-      "seller_rating": 0.0,
-      "eta_minutes": 0,
-      "in_stock": true,
-      "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/71lxcvJdm9L._SL1000_.jpg"
-    },
-    {
-      "offer_id": "har-12",
-      "canonical": "barilla",
-      "product_name": "Barilla Pasta Collezione Tricolor Italy Mezze Penne Durum Wheat - 500Gram",
-      "brand": "Barilla",
-      "variant": [],
-      "size_text": "",
-      "unit": "pack",
-      "pack_size": 1,
-      "unit_price": 349.0,
-      "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
-      "seller_rating": 0.0,
-      "eta_minutes": 0,
-      "in_stock": true,
-      "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/611SytFtDfL._SL1000_.jpg"
-    },
-    {
-      "offer_id": "har-13",
-      "canonical": "barilla",
-      "product_name": "Barilla Pasta Chifferi Elbows Durum Wheat, 500G, Italy",
-      "brand": "Barilla",
-      "variant": [],
-      "size_text": "",
-      "unit": "pack",
-      "pack_size": 1,
-      "unit_price": 296.0,
-      "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
-      "seller_rating": 0.0,
-      "eta_minutes": 0,
-      "in_stock": true,
-      "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/71aYhoy8koL._SL1000_.jpg"
-    },
-    {
-      "offer_id": "har-14",
-      "canonical": "barilla",
-      "product_name": "Barilla Pasta Linguine Durum Wheat, 500G",
-      "brand": "Barilla",
-      "variant": [],
-      "size_text": "",
-      "unit": "pack",
-      "pack_size": 1,
-      "unit_price": 296.0,
-      "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
-      "seller_rating": 0.0,
-      "eta_minutes": 0,
-      "in_stock": true,
-      "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/61rd1tZ7G+L._SL1000_.jpg"
-    },
-    {
-      "offer_id": "har-15",
       "canonical": "blue",
       "product_name": "Blue Elephant Thai Pad Rice Noodles | No Artificial Color, Preservative Free | 500 grams",
       "brand": "Blue",
@@ -2411,13 +2476,219 @@
       "pack_size": 1,
       "unit_price": 274.0,
       "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
+      "rating": 4.3,
+      "review_count": 1353,
       "seller_rating": 0.0,
       "eta_minutes": 0,
       "in_stock": true,
       "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/51AEHv3gAkL._SL1000_.jpg"
+      "image": "https://m.media-amazon.com/images/I/51AEHv3gAkL._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/51AEHv3gAkL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/81L9Az8w8TL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/91BgONb+5XL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/81cVOTyDhhL._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B00MIJXBOI",
+        "Net Quantity": "500 g"
+      },
+      "highlights": [
+        "Brand: Blue",
+        "Rated 4.3★ by 1,353 buyers",
+        "Net Quantity: 500 g",
+        "Priced at ₹274",
+        "In stock — fast delivery"
+      ]
+    },
+    {
+      "offer_id": "har-11",
+      "canonical": "barilla",
+      "product_name": "Barilla Pasta Linguine Durum Wheat, 500G",
+      "brand": "Barilla",
+      "variant": [],
+      "size_text": "",
+      "unit": "pack",
+      "pack_size": 1,
+      "unit_price": 296.0,
+      "mrp": null,
+      "rating": 4.4,
+      "review_count": 444,
+      "seller_rating": 0.0,
+      "eta_minutes": 0,
+      "in_stock": true,
+      "category": "grocery",
+      "image": "https://m.media-amazon.com/images/I/61rd1tZ7G+L._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/61rd1tZ7G+L._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71Voplt+-6L._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71xn6sgPqEL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/717GvjJyVvL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61SDezX3tVL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71pPkfgRO7L._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B01B49P49M",
+        "Net Quantity": "500 g"
+      },
+      "highlights": [
+        "Brand: Barilla",
+        "Rated 4.4★ by 444 buyers",
+        "Net Quantity: 500 g",
+        "Priced at ₹296",
+        "In stock — fast delivery"
+      ]
+    },
+    {
+      "offer_id": "har-12",
+      "canonical": "barilla",
+      "product_name": "Barilla Pasta Chifferi Elbows Durum Wheat, 500G, Italy",
+      "brand": "Barilla",
+      "variant": [],
+      "size_text": "",
+      "unit": "pack",
+      "pack_size": 1,
+      "unit_price": 296.0,
+      "mrp": null,
+      "rating": 4.4,
+      "review_count": 566,
+      "seller_rating": 0.0,
+      "eta_minutes": 0,
+      "in_stock": true,
+      "category": "grocery",
+      "image": "https://m.media-amazon.com/images/I/71aYhoy8koL._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/71aYhoy8koL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/91JWmf6H3fL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71qHz8DZM2L._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/715yfaqZ5yL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71DWol1XbqL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/81ktiuAHuJL._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B0154LDVNM",
+        "Net Quantity": "500 g"
+      },
+      "highlights": [
+        "Brand: Barilla",
+        "Rated 4.4★ by 566 buyers",
+        "Net Quantity: 500 g",
+        "Priced at ₹296",
+        "In stock — fast delivery"
+      ]
+    },
+    {
+      "offer_id": "har-13",
+      "canonical": "barilla",
+      "product_name": "Barilla Pasta Collezione Tricolor Italy Mezze Penne Durum Wheat - 500Gram",
+      "brand": "Barilla",
+      "variant": [],
+      "size_text": "",
+      "unit": "pack",
+      "pack_size": 1,
+      "unit_price": 349.0,
+      "mrp": null,
+      "rating": 4.2,
+      "review_count": 93,
+      "seller_rating": 0.0,
+      "eta_minutes": 0,
+      "in_stock": true,
+      "category": "grocery",
+      "image": "https://m.media-amazon.com/images/I/611SytFtDfL._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/611SytFtDfL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/510wRPRKwML._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/51Os3sOsy7L._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/51qg+PUQJZL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/51ln+RBxjjL._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B09D3DHWV1",
+        "Net Quantity": "500 g"
+      },
+      "highlights": [
+        "Brand: Barilla",
+        "Rated 4.2★ by 93 buyers",
+        "Net Quantity: 500 g",
+        "Priced at ₹349",
+        "In stock — fast delivery"
+      ]
+    },
+    {
+      "offer_id": "har-14",
+      "canonical": "barilla",
+      "product_name": "Barilla Pasta Whole Wheat Penne Rigate Integrali Durum Wheat - 500G, Italy",
+      "brand": "Barilla",
+      "variant": [],
+      "size_text": "",
+      "unit": "pack",
+      "pack_size": 1,
+      "unit_price": 359.0,
+      "mrp": null,
+      "rating": 4.2,
+      "review_count": 65,
+      "seller_rating": 0.0,
+      "eta_minutes": 0,
+      "in_stock": true,
+      "category": "grocery",
+      "image": "https://m.media-amazon.com/images/I/71lxcvJdm9L._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/71lxcvJdm9L._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71Vl2MmtW7L._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71FSgPX+FwL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71JIn4NV2sL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71L3E29D3gL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/813Qbo3LWRL._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B0140EYOOE",
+        "Net Quantity": "500 g"
+      },
+      "highlights": [
+        "Brand: Barilla",
+        "Rated 4.2★ by 65 buyers",
+        "Net Quantity: 500 g",
+        "Priced at ₹359",
+        "In stock — fast delivery"
+      ]
+    },
+    {
+      "offer_id": "har-15",
+      "canonical": "barilla",
+      "product_name": "Barilla Pasta Penne Rigate Durum Wheat, 500 Gram, Italy (Pack Of 12)",
+      "brand": "Barilla",
+      "variant": [],
+      "size_text": "",
+      "unit": "pack",
+      "pack_size": 1,
+      "unit_price": 3553.0,
+      "mrp": null,
+      "rating": 5.0,
+      "review_count": 1,
+      "seller_rating": 0.0,
+      "eta_minutes": 0,
+      "in_stock": true,
+      "category": "grocery",
+      "image": "https://m.media-amazon.com/images/I/519rS5Ulr6L._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/519rS5Ulr6L._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/41gJInZLTwL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71gTk96gLhL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/81fddbhJW3L._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61t19Rm0g4L._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61WxpTvYymL._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B0BPCNL5WQ",
+        "Net Quantity": "500 g"
+      },
+      "highlights": [
+        "Brand: Barilla",
+        "Rated 5.0★ by 1 buyers",
+        "Net Quantity: 500 g",
+        "Priced at ₹3553",
+        "In stock — fast delivery"
+      ]
     },
     {
       "offer_id": "har-16",
@@ -2430,70 +2701,141 @@
       "pack_size": 1,
       "unit_price": 549.0,
       "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
+      "rating": 4.3,
+      "review_count": 16546,
       "seller_rating": 0.0,
       "eta_minutes": 0,
       "in_stock": true,
       "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/71Uko-ncB5L._SL1000_.jpg"
+      "image": "https://m.media-amazon.com/images/I/71Uko-ncB5L._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/71Uko-ncB5L._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71NWesiJVqL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/51tvtKlx9bL._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B07CF49TMD",
+        "Net Quantity": "650 g"
+      },
+      "highlights": [
+        "Brand: Samyang",
+        "Rated 4.3★ by 16,546 buyers",
+        "Net Quantity: 650 g",
+        "Priced at ₹549",
+        "In stock — fast delivery"
+      ]
     },
     {
       "offer_id": "har-17",
-      "canonical": "minimal",
-      "product_name": "Minimal Ready to Fry Dry Golgappa(Oval Papad),1Kg",
-      "brand": "Minimal",
+      "canonical": "kitchen",
+      "product_name": "Kitchen Jungle Pachak Delicious Anardana Goli (350 Grams) Churan Diegestive Mouth Freshner Mukhwas, Pomegranate",
+      "brand": "Kitchen",
       "variant": [],
       "size_text": "",
       "unit": "pack",
       "pack_size": 1,
-      "unit_price": 304.0,
+      "unit_price": 164.0,
       "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
+      "rating": 4.1,
+      "review_count": 509,
       "seller_rating": 0.0,
       "eta_minutes": 0,
       "in_stock": true,
       "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/71v6Yh4w1gL._SL1000_.jpg"
+      "image": "https://m.media-amazon.com/images/I/71kMxbYz-jL._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/71kMxbYz-jL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61HLKqFjMXL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71ZkWAm9BQL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71V2Ai90sEL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71cMZrl8yPL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/81m+kJP+SrL._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B0DG58H9T9"
+      },
+      "highlights": [
+        "Brand: Kitchen",
+        "Rated 4.1★ by 509 buyers",
+        "Priced at ₹164",
+        "In stock — fast delivery"
+      ]
     },
     {
       "offer_id": "har-18",
-      "canonical": "flavors",
-      "product_name": "FLAVORS OF KERALA (FOK) | Premium Kerala Jackfruit Chips | Crispy, Tasty, Namkeen Snack Wafers | 400 Grams",
-      "brand": "FLAVORS",
+      "canonical": "merchant",
+      "product_name": "Mr. Merchant Banarasi Meetha Paan Mukhwas, [Mouth Freshener, Digestive, After-Meal Snack] [Jar Pack], 300g",
+      "brand": "Mr.",
       "variant": [],
       "size_text": "",
       "unit": "pack",
       "pack_size": 1,
-      "unit_price": 599.0,
+      "unit_price": 244.0,
       "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
+      "rating": 4.1,
+      "review_count": 1660,
       "seller_rating": 0.0,
       "eta_minutes": 0,
       "in_stock": true,
       "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/81lrYOrw1NL._SL1000_.jpg"
+      "image": "https://m.media-amazon.com/images/I/71IlqIhk3rL._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/71IlqIhk3rL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71el3zw5R-L._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71px+IxN2iL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61pouMRElYL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61b47jqw8YL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61ym959ObPL._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B08YQN6JBF",
+        "Net Quantity": "300 g"
+      },
+      "highlights": [
+        "Brand: Mr.",
+        "Rated 4.1★ by 1,660 buyers",
+        "Net Quantity: 300 g",
+        "Priced at ₹244",
+        "In stock — fast delivery"
+      ]
     },
     {
       "offer_id": "har-19",
-      "canonical": "flavors",
-      "product_name": "FLAVORS OF KERALA (FOK) | Premium Kerala Jackfruit Chips | Crispy, Tasty, Namkeen Snack Wafers | 600 Grams |",
-      "brand": "FLAVORS",
+      "canonical": "merchant",
+      "product_name": "Mr. Merchant Rajasthani Mukhwas, Traditional Mouth Freshener Mukhwas Mix (300 g (Pack of 1))",
+      "brand": "Mr.",
       "variant": [],
       "size_text": "",
       "unit": "pack",
       "pack_size": 1,
-      "unit_price": 799.0,
+      "unit_price": 244.0,
       "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
+      "rating": 4.1,
+      "review_count": 2228,
       "seller_rating": 0.0,
       "eta_minutes": 0,
       "in_stock": true,
       "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/81T3239TaWL._SL1000_.jpg"
+      "image": "https://m.media-amazon.com/images/I/71yoTceA4oL._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/71yoTceA4oL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71KGnmhedkL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71zgeh6Vl6L._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61ym959ObPL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/510B+a6d4VL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61S0vpy7uZL._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B0927WRPZG",
+        "Net Quantity": "300 g"
+      },
+      "highlights": [
+        "Brand: Mr.",
+        "Rated 4.1★ by 2,228 buyers",
+        "Net Quantity: 300 g",
+        "Priced at ₹244",
+        "In stock — fast delivery"
+      ]
     },
     {
       "offer_id": "har-20",
@@ -2506,225 +2848,111 @@
       "pack_size": 1,
       "unit_price": 254.0,
       "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
+      "rating": 3.9,
+      "review_count": 577,
       "seller_rating": 0.0,
       "eta_minutes": 0,
       "in_stock": true,
       "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/615hpELrJDS._SL1000_.jpg"
+      "image": "https://m.media-amazon.com/images/I/615hpELrJDS._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/615hpELrJDS._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61OSDK9uJnL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/719tibJVDkL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61fGdMtb0HL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61lsmdDkolL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/510B+a6d4VL._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B09425SY42",
+        "Net Quantity": "300 g"
+      },
+      "highlights": [
+        "Brand: Mr.",
+        "Rated 3.9★ by 577 buyers",
+        "Net Quantity: 300 g",
+        "Priced at ₹254",
+        "In stock — fast delivery"
+      ]
     },
     {
       "offer_id": "har-21",
-      "canonical": "merchant",
-      "product_name": "Mr. Merchant Rajasthani Mukhwas, Traditional Mouth Freshener Mukhwas Mix (300 g (Pack of 1))",
-      "brand": "Mr.",
-      "variant": [],
-      "size_text": "",
-      "unit": "pack",
-      "pack_size": 1,
-      "unit_price": 244.0,
-      "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
-      "seller_rating": 0.0,
-      "eta_minutes": 0,
-      "in_stock": true,
-      "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/71yoTceA4oL._SL1000_.jpg"
-    },
-    {
-      "offer_id": "har-22",
-      "canonical": "merchant",
-      "product_name": "Mr. Merchant Banarasi Meetha Paan Mukhwas, [Mouth Freshener, Digestive, After-Meal Snack] [Jar Pack], 300g",
-      "brand": "Mr.",
-      "variant": [],
-      "size_text": "",
-      "unit": "pack",
-      "pack_size": 1,
-      "unit_price": 244.0,
-      "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
-      "seller_rating": 0.0,
-      "eta_minutes": 0,
-      "in_stock": true,
-      "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/71IlqIhk3rL._SL1000_.jpg"
-    },
-    {
-      "offer_id": "har-23",
-      "canonical": "kitchen",
-      "product_name": "Kitchen Jungle Pachak Delicious Anardana Goli (350 Grams) Churan Diegestive Mouth Freshner Mukhwas, Pomegranate",
-      "brand": "Kitchen",
-      "variant": [],
-      "size_text": "",
-      "unit": "pack",
-      "pack_size": 1,
-      "unit_price": 164.0,
-      "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
-      "seller_rating": 0.0,
-      "eta_minutes": 0,
-      "in_stock": true,
-      "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/71kMxbYz-jL._SL1000_.jpg"
-    },
-    {
-      "offer_id": "har-24",
       "canonical": "flavors",
-      "product_name": "FLAVORS OF KERALA | Premium Kerala Tapioca Chips, 200g | Crispy, Fresh, Gluten-Free Snack with Irresistible Crunch",
+      "product_name": "FLAVORS OF KERALA (FOK) | Premium Kerala Jackfruit Chips | Crispy, Tasty, Namkeen Snack Wafers | 400 Grams",
       "brand": "FLAVORS",
       "variant": [],
       "size_text": "",
       "unit": "pack",
       "pack_size": 1,
-      "unit_price": 399.0,
+      "unit_price": 599.0,
       "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
+      "rating": 3.7,
+      "review_count": 213,
       "seller_rating": 0.0,
       "eta_minutes": 0,
       "in_stock": true,
       "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/81TPGrqc+5L._SL1000_.jpg"
+      "image": "https://m.media-amazon.com/images/I/81lrYOrw1NL._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/81lrYOrw1NL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61lAw9yeOJL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71PrMEk5AZL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/81s2hwPclZL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61kFmqIYx3L._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71GcI0WLmrL._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B0CLPFJFMR",
+        "Net Quantity": "400 g"
+      },
+      "highlights": [
+        "Brand: FLAVORS",
+        "Rated 3.7★ by 213 buyers",
+        "Net Quantity: 400 g",
+        "Priced at ₹599",
+        "In stock — fast delivery"
+      ]
     },
     {
-      "offer_id": "har-25",
-      "canonical": "urban",
-      "product_name": "Urban Platter Ready-to-Fry Dry GOL Gappa (Pani Puris), 200g",
-      "brand": "Urban",
-      "variant": [],
-      "size_text": "",
-      "unit": "pack",
-      "pack_size": 1,
-      "unit_price": 128.0,
-      "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
-      "seller_rating": 0.0,
-      "eta_minutes": 0,
-      "in_stock": true,
-      "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/81yoJ1E6BmL._SL1000_.jpg"
-    },
-    {
-      "offer_id": "har-26",
-      "canonical": "urban",
-      "product_name": "Urban Platter Traditional Gujarati Everyday Mukhwas, 250g (Mouth Freshener | Digestive | After-Meal Snack)",
-      "brand": "Urban",
-      "variant": [],
-      "size_text": "",
-      "unit": "pack",
-      "pack_size": 1,
-      "unit_price": 245.0,
-      "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
-      "seller_rating": 0.0,
-      "eta_minutes": 0,
-      "in_stock": true,
-      "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/81utq+bAAIL._SL1000_.jpg"
-    },
-    {
-      "offer_id": "har-27",
-      "canonical": "merchant",
-      "product_name": "Mr. Merchant Mumbai mix Mukhwas [Mouth Freshener Mix for eating] (300 gm)",
-      "brand": "Mr.",
-      "variant": [],
-      "size_text": "",
-      "unit": "pack",
-      "pack_size": 1,
-      "unit_price": 240.0,
-      "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
-      "seller_rating": 0.0,
-      "eta_minutes": 0,
-      "in_stock": true,
-      "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/71-t-kN1PJL._SL1000_.jpg"
-    },
-    {
-      "offer_id": "har-28",
+      "offer_id": "har-22",
       "canonical": "minimal",
-      "product_name": "Minimal Arecanut Bite/Diamond Cutting Supari Tukda(Plain Supari Tukda),500 Gram",
+      "product_name": "Minimal Ready to Fry Dry Golgappa(Oval Papad),1Kg",
       "brand": "Minimal",
       "variant": [],
       "size_text": "",
       "unit": "pack",
       "pack_size": 1,
-      "unit_price": 499.0,
+      "unit_price": 304.0,
       "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
+      "rating": 4.3,
+      "review_count": 1538,
       "seller_rating": 0.0,
       "eta_minutes": 0,
       "in_stock": true,
       "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/81U7pQuyT8L._SL1000_.jpg"
+      "image": "https://m.media-amazon.com/images/I/71v6Yh4w1gL._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/71v6Yh4w1gL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/81zeN0awROL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61T9eLLrxjL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/81HUWf1qsNL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/81KTVB9MHOL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71+HM-mOGbL._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B07T31M15L",
+        "Net Quantity": "1 kg"
+      },
+      "highlights": [
+        "Brand: Minimal",
+        "Rated 4.3★ by 1,538 buyers",
+        "Net Quantity: 1 kg",
+        "Priced at ₹304",
+        "In stock — fast delivery"
+      ]
     },
     {
-      "offer_id": "har-29",
-      "canonical": "urban",
-      "product_name": "Urban Platter Masala Mango Slice Mukhwas, 350 g",
-      "brand": "Urban",
-      "variant": [],
-      "size_text": "",
-      "unit": "pack",
-      "pack_size": 1,
-      "unit_price": 318.0,
-      "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
-      "seller_rating": 0.0,
-      "eta_minutes": 0,
-      "in_stock": true,
-      "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/81w4rj+iZUL._SL1000_.jpg"
-    },
-    {
-      "offer_id": "har-30",
-      "canonical": "merchant",
-      "product_name": "Mr. Merchant Gulab Mukhwas, Traditional Mouth Freshener Mukhwas Mix (Pack of 1 (300g Jar Pack))",
-      "brand": "Mr.",
-      "variant": [],
-      "size_text": "",
-      "unit": "pack",
-      "pack_size": 1,
-      "unit_price": 240.0,
-      "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
-      "seller_rating": 0.0,
-      "eta_minutes": 0,
-      "in_stock": true,
-      "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/61cJHkCsFMS._SL1000_.jpg"
-    },
-    {
-      "offer_id": "har-31",
-      "canonical": "merchant",
-      "product_name": "Mr. Merchant Roasted Dhana Dal, 300g (Roasted Split Coriander Seeds, Mildly Salted)",
-      "brand": "Mr.",
-      "variant": [],
-      "size_text": "",
-      "unit": "pack",
-      "pack_size": 1,
-      "unit_price": 375.0,
-      "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
-      "seller_rating": 0.0,
-      "eta_minutes": 0,
-      "in_stock": true,
-      "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/61uagH8nATL._SL1000_.jpg"
-    },
-    {
-      "offer_id": "har-32",
+      "offer_id": "har-23",
       "canonical": "merchant",
       "product_name": "Mr. Merchant Calcutta Meetha Paan Mukhwas, [Mouth Freshener, Digestive, After-Meal Snack] [Jar Pack], 300g",
       "brand": "Mr.",
@@ -2734,16 +2962,334 @@
       "pack_size": 1,
       "unit_price": 248.0,
       "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
+      "rating": 4.0,
+      "review_count": 586,
       "seller_rating": 0.0,
       "eta_minutes": 0,
       "in_stock": true,
       "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/71hE9LshdsL._SL1000_.jpg"
+      "image": "https://m.media-amazon.com/images/I/71hE9LshdsL._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/71hE9LshdsL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61cCNKDkgJL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/710UH5r-sLL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71hswa7qDCL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71M1MpZ6fHL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61iMMM6I+ML._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B08YR7MCV6",
+        "Net Quantity": "300 g"
+      },
+      "highlights": [
+        "Brand: Mr.",
+        "Rated 4.0★ by 586 buyers",
+        "Net Quantity: 300 g",
+        "Priced at ₹248",
+        "In stock — fast delivery"
+      ]
     },
     {
-      "offer_id": "har-33",
+      "offer_id": "har-24",
+      "canonical": "merchant",
+      "product_name": "Mr. Merchant Roasted Dhana Dal, 300g (Roasted Split Coriander Seeds, Mildly Salted)",
+      "brand": "Mr.",
+      "variant": [],
+      "size_text": "",
+      "unit": "pack",
+      "pack_size": 1,
+      "unit_price": 375.0,
+      "mrp": null,
+      "rating": 4.3,
+      "review_count": 51,
+      "seller_rating": 0.0,
+      "eta_minutes": 0,
+      "in_stock": true,
+      "category": "grocery",
+      "image": "https://m.media-amazon.com/images/I/61uagH8nATL._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/61uagH8nATL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71pzFtAWHqL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71H7N-SRieL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61BsyHyHt9L._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/510B+a6d4VL._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B0CDGBY3QT"
+      },
+      "highlights": [
+        "Brand: Mr.",
+        "Rated 4.3★ by 51 buyers",
+        "Priced at ₹375",
+        "In stock — fast delivery"
+      ]
+    },
+    {
+      "offer_id": "har-25",
+      "canonical": "merchant",
+      "product_name": "Mr. Merchant Gulab Mukhwas, Traditional Mouth Freshener Mukhwas Mix (Pack of 1 (300g Jar Pack))",
+      "brand": "Mr.",
+      "variant": [],
+      "size_text": "",
+      "unit": "pack",
+      "pack_size": 1,
+      "unit_price": 240.0,
+      "mrp": null,
+      "rating": 3.5,
+      "review_count": 55,
+      "seller_rating": 0.0,
+      "eta_minutes": 0,
+      "in_stock": true,
+      "category": "grocery",
+      "image": "https://m.media-amazon.com/images/I/61cJHkCsFMS._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/61cJHkCsFMS._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61sfrVxqHFL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61SU3I4WPmL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61k7D-2ZPbS._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61opoIQtjOS._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/510B+a6d4VL._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B0993LDCJ7",
+        "Net Quantity": "300 g"
+      },
+      "highlights": [
+        "Brand: Mr.",
+        "Rated 3.5★ by 55 buyers",
+        "Net Quantity: 300 g",
+        "Priced at ₹240",
+        "In stock — fast delivery"
+      ]
+    },
+    {
+      "offer_id": "har-26",
+      "canonical": "urban",
+      "product_name": "Urban Platter Masala Mango Slice Mukhwas, 350 g",
+      "brand": "Urban",
+      "variant": [],
+      "size_text": "",
+      "unit": "pack",
+      "pack_size": 1,
+      "unit_price": 318.0,
+      "mrp": null,
+      "rating": 3.9,
+      "review_count": 54,
+      "seller_rating": 0.0,
+      "eta_minutes": 0,
+      "in_stock": true,
+      "category": "grocery",
+      "image": "https://m.media-amazon.com/images/I/81w4rj+iZUL._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/81w4rj+iZUL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/81TzXM6WtqL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/81avofoPL5L._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/811pdWf4cLL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/91fiADyCbHL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71s7JuhOlQL._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B07KKJV8WG",
+        "Net Quantity": "350 g"
+      },
+      "highlights": [
+        "Brand: Urban",
+        "Rated 3.9★ by 54 buyers",
+        "Net Quantity: 350 g",
+        "Priced at ₹318",
+        "In stock — fast delivery"
+      ]
+    },
+    {
+      "offer_id": "har-27",
+      "canonical": "minimal",
+      "product_name": "Minimal Arecanut Bite/Diamond Cutting Supari Tukda(Plain Supari Tukda),500 Gram",
+      "brand": "Minimal",
+      "variant": [],
+      "size_text": "",
+      "unit": "pack",
+      "pack_size": 1,
+      "unit_price": 499.0,
+      "mrp": null,
+      "rating": 3.8,
+      "review_count": 283,
+      "seller_rating": 0.0,
+      "eta_minutes": 0,
+      "in_stock": true,
+      "category": "grocery",
+      "image": "https://m.media-amazon.com/images/I/81U7pQuyT8L._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/81U7pQuyT8L._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/81yu+-Ti6ZL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71uaLIJC3nL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71rBjQ+sWFL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71BpKIhQPlL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/81EUB5ParPL._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B07SCP4FH7",
+        "Net Quantity": "500 g (Pack of 2)"
+      },
+      "highlights": [
+        "Brand: Minimal",
+        "Rated 3.8★ by 283 buyers",
+        "Net Quantity: 500 g (Pack of 2)",
+        "Priced at ₹499",
+        "In stock — fast delivery"
+      ]
+    },
+    {
+      "offer_id": "har-28",
+      "canonical": "merchant",
+      "product_name": "Mr. Merchant Mumbai mix Mukhwas [Mouth Freshener Mix for eating] (300 gm)",
+      "brand": "Mr.",
+      "variant": [],
+      "size_text": "",
+      "unit": "pack",
+      "pack_size": 1,
+      "unit_price": 240.0,
+      "mrp": null,
+      "rating": 4.3,
+      "review_count": 117,
+      "seller_rating": 0.0,
+      "eta_minutes": 0,
+      "in_stock": true,
+      "category": "grocery",
+      "image": "https://m.media-amazon.com/images/I/71-t-kN1PJL._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/71-t-kN1PJL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/81hSbpuD7TL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71zsH-knDbL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61opoIQtjOS._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/510B+a6d4VL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61D51Q9W1gL._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B0993HVGLZ",
+        "Net Quantity": "300 g"
+      },
+      "highlights": [
+        "Brand: Mr.",
+        "Rated 4.3★ by 117 buyers",
+        "Net Quantity: 300 g",
+        "Priced at ₹240",
+        "In stock — fast delivery"
+      ]
+    },
+    {
+      "offer_id": "har-29",
+      "canonical": "urban",
+      "product_name": "Urban Platter Traditional Gujarati Everyday Mukhwas, 250g (Mouth Freshener | Digestive | After-Meal Snack)",
+      "brand": "Urban",
+      "variant": [],
+      "size_text": "",
+      "unit": "pack",
+      "pack_size": 1,
+      "unit_price": 245.0,
+      "mrp": null,
+      "rating": 3.6,
+      "review_count": 37,
+      "seller_rating": 0.0,
+      "eta_minutes": 0,
+      "in_stock": true,
+      "category": "grocery",
+      "image": "https://m.media-amazon.com/images/I/81utq+bAAIL._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/81utq+bAAIL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/81hLw23GtwL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/81bPhrzW7EL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/81IqIfqR0bL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/81s9QsGkLUL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/91l1OSGQvpL._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B0B618HPSZ"
+      },
+      "highlights": [
+        "Brand: Urban",
+        "Rated 3.6★ by 37 buyers",
+        "Priced at ₹245",
+        "In stock — fast delivery"
+      ]
+    },
+    {
+      "offer_id": "har-30",
+      "canonical": "urban",
+      "product_name": "Urban Platter Ready-to-Fry Dry GOL Gappa (Pani Puris), 200g",
+      "brand": "Urban",
+      "variant": [],
+      "size_text": "",
+      "unit": "pack",
+      "pack_size": 1,
+      "unit_price": 128.0,
+      "mrp": null,
+      "rating": 4.0,
+      "review_count": 978,
+      "seller_rating": 0.0,
+      "eta_minutes": 0,
+      "in_stock": true,
+      "category": "grocery",
+      "image": "https://m.media-amazon.com/images/I/81yoJ1E6BmL._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/81yoJ1E6BmL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71gjqFKlrUL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/81KcFOy6-AL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/715Wef6xbAL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61RWTuSQyGL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71PNnxlR5mL._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B014V6IIMA",
+        "Net Quantity": "200 g"
+      },
+      "highlights": [
+        "Brand: Urban",
+        "Rated 4.0★ by 978 buyers",
+        "Net Quantity: 200 g",
+        "Priced at ₹128",
+        "In stock — fast delivery"
+      ]
+    },
+    {
+      "offer_id": "har-31",
+      "canonical": "flavors",
+      "product_name": "FLAVORS OF KERALA | Premium Kerala Tapioca Chips, 200g | Crispy, Fresh, Gluten-Free Snack with Irresistible Crunch",
+      "brand": "FLAVORS",
+      "variant": [],
+      "size_text": "",
+      "unit": "pack",
+      "pack_size": 1,
+      "unit_price": 399.0,
+      "mrp": null,
+      "rating": 4.2,
+      "review_count": 118,
+      "seller_rating": 0.0,
+      "eta_minutes": 0,
+      "in_stock": true,
+      "category": "grocery",
+      "image": "https://m.media-amazon.com/images/I/81TPGrqc+5L._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/81TPGrqc+5L._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/712XsxhFv8L._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71rzfVMM3sL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61CGzH7IAIL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/81tSBJzb6ML._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/51XJxeyEfwL._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B09MRTD7P1",
+        "Net Quantity": "200 g"
+      },
+      "highlights": [
+        "Brand: FLAVORS",
+        "Rated 4.2★ by 118 buyers",
+        "Net Quantity: 200 g",
+        "Priced at ₹399",
+        "In stock — fast delivery"
+      ]
+    },
+    {
+      "offer_id": "har-32",
       "canonical": "flavors",
       "product_name": "FLAVORS OF KERALA (FOK) | Sharkara Varatti | Premium Kerala Jaggery Banana Chips | (Sharkara Varatti | Upperi) 200g",
       "brand": "FLAVORS",
@@ -2753,35 +3299,35 @@
       "pack_size": 1,
       "unit_price": 299.0,
       "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
+      "rating": 4.2,
+      "review_count": 162,
       "seller_rating": 0.0,
       "eta_minutes": 0,
       "in_stock": true,
       "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/81+Eg+2GqcL._SL1000_.jpg"
+      "image": "https://m.media-amazon.com/images/I/81+Eg+2GqcL._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/81+Eg+2GqcL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61tNM1QGOVL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/710S0gecqGL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/711yftyy8QL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71drBcVAnJL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61SSu7gMYgL._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B09KZHX4MR",
+        "Net Quantity": "200 g"
+      },
+      "highlights": [
+        "Brand: FLAVORS",
+        "Rated 4.2★ by 162 buyers",
+        "Net Quantity: 200 g",
+        "Priced at ₹299",
+        "In stock — fast delivery"
+      ]
     },
     {
-      "offer_id": "har-34",
-      "canonical": "flavors",
-      "product_name": "FLAVORS OF KERALA (FOK) | Sharkara Varatti | Kerala Jaggery Banana Chips | Onam Sadya Special Upperi | 700g",
-      "brand": "FLAVORS",
-      "variant": [],
-      "size_text": "",
-      "unit": "pack",
-      "pack_size": 1,
-      "unit_price": 599.0,
-      "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
-      "seller_rating": 0.0,
-      "eta_minutes": 0,
-      "in_stock": true,
-      "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/81+Eg+2GqcL._SL1000_.jpg"
-    },
-    {
-      "offer_id": "har-35",
+      "offer_id": "har-33",
       "canonical": "flavors",
       "product_name": "FLAVORS OF KERALA | Premium Kerala Banana Chips in Coconut Oil, 1200g | Crispy, Thin-Cut, Preservative-Free Wafers",
       "brand": "FLAVORS",
@@ -2791,32 +3337,146 @@
       "pack_size": 1,
       "unit_price": 999.0,
       "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
+      "rating": 4.3,
+      "review_count": 586,
       "seller_rating": 0.0,
       "eta_minutes": 0,
       "in_stock": true,
       "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/918+jde8YXL._SL1000_.jpg"
+      "image": "https://m.media-amazon.com/images/I/918+jde8YXL._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/918+jde8YXL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71YW5h++DYL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71b9Kc1P8HL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/910Z83kiRvL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/81HWNBXrZTL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/8177M0pJv1L._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B09H3J7D1G",
+        "Net Quantity": "1.2 kg"
+      },
+      "highlights": [
+        "Brand: FLAVORS",
+        "Rated 4.3★ by 586 buyers",
+        "Net Quantity: 1.2 kg",
+        "Priced at ₹999",
+        "In stock — fast delivery"
+      ]
     },
     {
-      "offer_id": "har-36",
-      "canonical": "cookieman",
-      "product_name": "CookieMan Choco Chunk Cookies",
-      "brand": "CookieMan",
+      "offer_id": "har-34",
+      "canonical": "coconut",
+      "product_name": "Mo's Coconut Cookies, 200 G| Vegan | Tasty and Nutritious cookies |100% Natural & Preservatives Free",
+      "brand": "Mo's",
       "variant": [],
       "size_text": "",
       "unit": "pack",
       "pack_size": 1,
-      "unit_price": 314.0,
+      "unit_price": 258.0,
       "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
+      "rating": 3.9,
+      "review_count": 125,
       "seller_rating": 0.0,
       "eta_minutes": 0,
       "in_stock": true,
       "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/71K8GzRUcXL._SL1000_.jpg"
+      "image": "https://m.media-amazon.com/images/I/81Dl52sxVGL._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/81Dl52sxVGL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/51apa4kLfyL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/41FvlE7g4WL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/51obyEpa34L._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/417VdQe-UAL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/41CDFJagy3L._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B092ZRBG64",
+        "Net Quantity": "200g"
+      },
+      "highlights": [
+        "Brand: Mo's",
+        "Rated 3.9★ by 125 buyers",
+        "Net Quantity: 200g",
+        "Priced at ₹258",
+        "In stock — fast delivery"
+      ]
+    },
+    {
+      "offer_id": "har-35",
+      "canonical": "loacker",
+      "product_name": "Loacker Vanilla Quadratini Wafers",
+      "brand": "Loacker",
+      "variant": [],
+      "size_text": "",
+      "unit": "pack",
+      "pack_size": 1,
+      "unit_price": 210.0,
+      "mrp": null,
+      "rating": 4.3,
+      "review_count": 934,
+      "seller_rating": 0.0,
+      "eta_minutes": 0,
+      "in_stock": true,
+      "category": "grocery",
+      "image": "https://m.media-amazon.com/images/I/51dJxSuPMmL._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/51dJxSuPMmL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61Pc+Ks7wnS._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71YgdpQ+CNS._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/716638hk2rS._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61zOE1DYwCS._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/610i3ndcIlS._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B001PPPJ78",
+        "Net Quantity": "125 g"
+      },
+      "highlights": [
+        "Brand: Loacker",
+        "Rated 4.3★ by 934 buyers",
+        "Net Quantity: 125 g",
+        "Priced at ₹210",
+        "In stock — fast delivery"
+      ]
+    },
+    {
+      "offer_id": "har-36",
+      "canonical": "loacker",
+      "product_name": "Loacker Quadratini Napolitaner(Milk, Hazelnut)250G,Italy, 0.25 Kg",
+      "brand": "Loacker",
+      "variant": [],
+      "size_text": "",
+      "unit": "pack",
+      "pack_size": 1,
+      "unit_price": 337.0,
+      "mrp": null,
+      "rating": 4.2,
+      "review_count": 1489,
+      "seller_rating": 0.0,
+      "eta_minutes": 0,
+      "in_stock": true,
+      "category": "grocery",
+      "image": "https://m.media-amazon.com/images/I/61usuhh94aS._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/61usuhh94aS._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71qPT5lXTaS._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71YgdpQ+CNS._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/716638hk2rS._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/612Ehz26mmS._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61C-IOIrc6L._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B099NKMMSX",
+        "Net Quantity": "250 g (Pack of 1)"
+      },
+      "highlights": [
+        "Brand: Loacker",
+        "Rated 4.2★ by 1,489 buyers",
+        "Net Quantity: 250 g (Pack of 1)",
+        "Priced at ₹337",
+        "In stock — fast delivery"
+      ]
     },
     {
       "offer_id": "har-37",
@@ -2829,187 +3489,73 @@
       "pack_size": 1,
       "unit_price": 289.0,
       "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
+      "rating": 3.9,
+      "review_count": 296,
       "seller_rating": 0.0,
       "eta_minutes": 0,
       "in_stock": true,
       "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/612I1O0XvBL._SL1000_.jpg"
+      "image": "https://m.media-amazon.com/images/I/612I1O0XvBL._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/612I1O0XvBL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/81Xk9mv3TPL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61nk1VsnuQL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/711p5rkLGIL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71fcsZP4oCL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61iTfbbP0hL._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B09TW6JPBC",
+        "Net Quantity": "200g"
+      },
+      "highlights": [
+        "Brand: CookieMan",
+        "Rated 3.9★ by 296 buyers",
+        "Net Quantity: 200g",
+        "Priced at ₹289",
+        "In stock — fast delivery"
+      ]
     },
     {
       "offer_id": "har-38",
-      "canonical": "loacker",
-      "product_name": "Loacker Quadratini Napolitaner(Milk, Hazelnut)250G,Italy, 0.25 Kg",
-      "brand": "Loacker",
+      "canonical": "cookieman",
+      "product_name": "CookieMan Choco Chunk Cookies",
+      "brand": "CookieMan",
       "variant": [],
       "size_text": "",
       "unit": "pack",
       "pack_size": 1,
-      "unit_price": 337.0,
+      "unit_price": 314.0,
       "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
+      "rating": 3.9,
+      "review_count": 188,
       "seller_rating": 0.0,
       "eta_minutes": 0,
       "in_stock": true,
       "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/61usuhh94aS._SL1000_.jpg"
+      "image": "https://m.media-amazon.com/images/I/71K8GzRUcXL._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/71K8GzRUcXL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/81+3pTiogLL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/713N3ov+bwL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71f3PfJ+gxL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71qZMfWPDdL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71uOO7D0kpL._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B0C1NJNRBX",
+        "Net Quantity": "250 g"
+      },
+      "highlights": [
+        "Rich & Chewy Chocolate Chunk Flavor – Indulge in the deliciously chewy texture and generous chunks of premium chocolate in each bite. These cookies are the perfect balance of sweetness and rich cocoa flavor.",
+        "Baked to Perfection for Ultimate Indulgence – Each cookie is carefully baked to create a perfectly chewy interior with a lightly crispy exterior, providing an irresistible texture that chocolate lovers will adore.",
+        "Generous Chocolate Chunks in Every Bite – With large, decadent chunks of high-quality chocolate, each CookieMan Choco Chunk Cookie is a rich, indulgent treat that satisfies even the most intense chocolate cravings.",
+        "Perfect for Sharing and Gifting – Whether it’s for family, friends, or colleagues, these 250g of mouthwatering cookies make the ideal gift for birthdays, holidays, or just a sweet gesture to show you care.",
+        "Crafted for Cookie Lovers – If you're a fan of thick, chewy cookies packed with chocolate, these cookies are made just for you. Perfectly balanced with a melt-in-your-mouth experience, they’re truly irresistible."
+      ]
     },
     {
       "offer_id": "har-39",
-      "canonical": "loacker",
-      "product_name": "Loacker Vanilla Quadratini Wafers",
-      "brand": "Loacker",
-      "variant": [],
-      "size_text": "",
-      "unit": "pack",
-      "pack_size": 1,
-      "unit_price": 210.0,
-      "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
-      "seller_rating": 0.0,
-      "eta_minutes": 0,
-      "in_stock": true,
-      "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/51dJxSuPMmL._SL1000_.jpg"
-    },
-    {
-      "offer_id": "har-40",
-      "canonical": "coconut",
-      "product_name": "Mo's Coconut Cookies, 200 G| Vegan | Tasty and Nutritious cookies |100% Natural & Preservatives Free",
-      "brand": "Mo's",
-      "variant": [],
-      "size_text": "",
-      "unit": "pack",
-      "pack_size": 1,
-      "unit_price": 258.0,
-      "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
-      "seller_rating": 0.0,
-      "eta_minutes": 0,
-      "in_stock": true,
-      "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/81Dl52sxVGL._SL1000_.jpg"
-    },
-    {
-      "offer_id": "har-41",
-      "canonical": "loacker",
-      "product_name": "Loacker Quadratini Vanilla 125 Gram (Pack of 18)",
-      "brand": "Loacker",
-      "variant": [],
-      "size_text": "",
-      "unit": "pack",
-      "pack_size": 1,
-      "unit_price": 3362.0,
-      "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
-      "seller_rating": 0.0,
-      "eta_minutes": 0,
-      "in_stock": true,
-      "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/61oFstk1ipL._SL1000_.jpg"
-    },
-    {
-      "offer_id": "har-42",
-      "canonical": "loacker",
-      "product_name": "Loacker Classic Wafer Chocolate 90g - Italy",
-      "brand": "Loacker",
-      "variant": [],
-      "size_text": "",
-      "unit": "pack",
-      "pack_size": 1,
-      "unit_price": 187.0,
-      "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
-      "seller_rating": 0.0,
-      "eta_minutes": 0,
-      "in_stock": true,
-      "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/51AodpYuTMS._SL1000_.jpg"
-    },
-    {
-      "offer_id": "har-43",
-      "canonical": "cookieman",
-      "product_name": "CookieMan Almond Biscotti Cookies",
-      "brand": "CookieMan",
-      "variant": [],
-      "size_text": "",
-      "unit": "pack",
-      "pack_size": 1,
-      "unit_price": 242.0,
-      "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
-      "seller_rating": 0.0,
-      "eta_minutes": 0,
-      "in_stock": true,
-      "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/71+viiUSl+L._SL1000_.jpg"
-    },
-    {
-      "offer_id": "har-44",
-      "canonical": "cookieman",
-      "product_name": "CookieMan Assorted Gourmet Cookies Gift Box",
-      "brand": "CookieMan",
-      "variant": [],
-      "size_text": "",
-      "unit": "pack",
-      "pack_size": 1,
-      "unit_price": 396.0,
-      "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
-      "seller_rating": 0.0,
-      "eta_minutes": 0,
-      "in_stock": true,
-      "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/71rqKgtb0KL._SL1000_.jpg"
-    },
-    {
-      "offer_id": "har-45",
-      "canonical": "loacker",
-      "product_name": "Loacker Quadratini Peanut Butter Wafer - 125gms (Pack of 1)",
-      "brand": "Loacker",
-      "variant": [],
-      "size_text": "",
-      "unit": "pack",
-      "pack_size": 1,
-      "unit_price": 187.0,
-      "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
-      "seller_rating": 0.0,
-      "eta_minutes": 0,
-      "in_stock": true,
-      "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/61ULht8S6TL._SL1000_.jpg"
-    },
-    {
-      "offer_id": "har-46",
-      "canonical": "apple",
-      "product_name": "Mo's Apple Cinnamon & Oatmeal Cookies, 300gms | Healthy Snacks for Kids & Adults | 100% Natural & Preservatives Free",
-      "brand": "Mo's",
-      "variant": [],
-      "size_text": "",
-      "unit": "pack",
-      "pack_size": 1,
-      "unit_price": 306.0,
-      "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
-      "seller_rating": 0.0,
-      "eta_minutes": 0,
-      "in_stock": true,
-      "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/61kbCtmM8RL._SL1000_.jpg"
-    },
-    {
-      "offer_id": "har-47",
       "canonical": "loacker",
       "product_name": "Loacker Tiramisu Quadratini Wafers",
       "brand": "Loacker",
@@ -3019,13 +3565,218 @@
       "pack_size": 1,
       "unit_price": 374.0,
       "mrp": null,
-      "rating": 0.0,
-      "review_count": 0,
+      "rating": 4.1,
+      "review_count": 466,
       "seller_rating": 0.0,
       "eta_minutes": 0,
       "in_stock": true,
       "category": "grocery",
-      "image": "https://m.media-amazon.com/images/I/6116bcmUFKL._SL1000_.jpg"
+      "image": "https://m.media-amazon.com/images/I/6116bcmUFKL._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/6116bcmUFKL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/7143K+-DJbL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71X94DOezbL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/613dSqy78sL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61vvf5W8aBL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71-v9fb5hTL._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B003CJ8XYG",
+        "Net Quantity": "220 g"
+      },
+      "highlights": [
+        "Brand: Loacker",
+        "Rated 4.1★ by 466 buyers",
+        "Net Quantity: 220 g",
+        "Priced at ₹374",
+        "In stock — fast delivery"
+      ]
+    },
+    {
+      "offer_id": "har-40",
+      "canonical": "loacker",
+      "product_name": "Loacker Quadratini Peanut Butter Wafer - 125gms (Pack of 1)",
+      "brand": "Loacker",
+      "variant": [],
+      "size_text": "",
+      "unit": "pack",
+      "pack_size": 1,
+      "unit_price": 187.0,
+      "mrp": null,
+      "rating": 4.2,
+      "review_count": 162,
+      "seller_rating": 0.0,
+      "eta_minutes": 0,
+      "in_stock": true,
+      "category": "grocery",
+      "image": "https://m.media-amazon.com/images/I/61ULht8S6TL._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/61ULht8S6TL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/6110Uc93zsL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71RiUG6g-2L._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/81pJAlSQJcL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/81n2c1T3aTL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/81iI34V+XFL._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B09WJKV8PV"
+      },
+      "highlights": [
+        "Brand: Loacker",
+        "Rated 4.2★ by 162 buyers",
+        "Priced at ₹187",
+        "In stock — fast delivery"
+      ]
+    },
+    {
+      "offer_id": "har-41",
+      "canonical": "cookieman",
+      "product_name": "CookieMan Assorted Gourmet Cookies Gift Box",
+      "brand": "CookieMan",
+      "variant": [],
+      "size_text": "",
+      "unit": "pack",
+      "pack_size": 1,
+      "unit_price": 396.0,
+      "mrp": null,
+      "rating": 4.0,
+      "review_count": 28,
+      "seller_rating": 0.0,
+      "eta_minutes": 0,
+      "in_stock": true,
+      "category": "grocery",
+      "image": "https://m.media-amazon.com/images/I/71rqKgtb0KL._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/71rqKgtb0KL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/91NFYHnNf7L._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71ZTXgKgoOL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71yUy5Xw6lL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71II0P51eqL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71kaO+PoZjL._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B0B31QHBBS",
+        "Net Quantity": "300 g"
+      },
+      "highlights": [
+        "Brand: CookieMan",
+        "Rated 4.0★ by 28 buyers",
+        "Net Quantity: 300 g",
+        "Priced at ₹396",
+        "In stock — fast delivery"
+      ]
+    },
+    {
+      "offer_id": "har-42",
+      "canonical": "cookieman",
+      "product_name": "CookieMan Almond Biscotti Cookies",
+      "brand": "CookieMan",
+      "variant": [],
+      "size_text": "",
+      "unit": "pack",
+      "pack_size": 1,
+      "unit_price": 242.0,
+      "mrp": null,
+      "rating": 3.7,
+      "review_count": 44,
+      "seller_rating": 0.0,
+      "eta_minutes": 0,
+      "in_stock": true,
+      "category": "grocery",
+      "image": "https://m.media-amazon.com/images/I/71+viiUSl+L._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/71+viiUSl+L._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/81C1HnRwFNL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71JDsKV90hL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71Zkt5Q-UXL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/810jy5cWIKL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71GNRT3sTPL._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B0CW5WR2R1",
+        "Net Quantity": "150 g"
+      },
+      "highlights": [
+        "Brand: CookieMan",
+        "Rated 3.7★ by 44 buyers",
+        "Net Quantity: 150 g",
+        "Priced at ₹242",
+        "In stock — fast delivery"
+      ]
+    },
+    {
+      "offer_id": "har-43",
+      "canonical": "loacker",
+      "product_name": "Loacker Classic Wafer Chocolate 90g - Italy",
+      "brand": "Loacker",
+      "variant": [],
+      "size_text": "",
+      "unit": "pack",
+      "pack_size": 1,
+      "unit_price": 187.0,
+      "mrp": null,
+      "rating": 4.2,
+      "review_count": 80,
+      "seller_rating": 0.0,
+      "eta_minutes": 0,
+      "in_stock": true,
+      "category": "grocery",
+      "image": "https://m.media-amazon.com/images/I/51AodpYuTMS._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/51AodpYuTMS._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/619IXjk6I4S._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71YgdpQ+CNS._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/716638hk2rS._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61hfmYDGypS._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61mQIbxUn1S._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B00I1HKXTM",
+        "Net Quantity": "90 g"
+      },
+      "highlights": [
+        "Brand: Loacker",
+        "Rated 4.2★ by 80 buyers",
+        "Net Quantity: 90 g",
+        "Priced at ₹187",
+        "In stock — fast delivery"
+      ]
+    },
+    {
+      "offer_id": "har-44",
+      "canonical": "loacker",
+      "product_name": "Loacker Quadratini Vanilla 125 Gram (Pack of 18)",
+      "brand": "Loacker",
+      "variant": [],
+      "size_text": "",
+      "unit": "pack",
+      "pack_size": 1,
+      "unit_price": 3362.0,
+      "mrp": null,
+      "rating": 3.8,
+      "review_count": 6,
+      "seller_rating": 0.0,
+      "eta_minutes": 0,
+      "in_stock": true,
+      "category": "grocery",
+      "image": "https://m.media-amazon.com/images/I/61oFstk1ipL._SL1000_.jpg",
+      "images": [
+        "https://m.media-amazon.com/images/I/61oFstk1ipL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61fkLcSPC9L._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/518idB8oFKL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71Xx4rkr6SL._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/71i617RWj-L._SL1000_.jpg",
+        "https://m.media-amazon.com/images/I/61pkBIZSJAL._SL1000_.jpg"
+      ],
+      "specifications": {
+        "Asin": "B0B97XL3PR"
+      },
+      "highlights": [
+        "Brand: Loacker",
+        "Rated 3.8★ by 6 buyers",
+        "Priced at ₹3362",
+        "In stock — fast delivery"
+      ]
     }
   ]
 }
